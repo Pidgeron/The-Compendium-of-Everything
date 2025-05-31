@@ -1,5 +1,5 @@
 Instructions for usage:
-  Copy full code into https://editor.p5.js
+  Copy full code into https://editor.p5js.org
   Click 'run'
 
 
