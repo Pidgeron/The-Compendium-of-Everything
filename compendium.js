@@ -147,7 +147,7 @@
       overflow-wrap: break-word;
     }
     
-    <style>
+    <style> //removing this would cause tab icons to vertically stack
       header {
       display: flex;
       flex-direction: column;
