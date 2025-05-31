@@ -557,7 +557,7 @@ function updateClock() {
   document.getElementById("date").textContent = date;
 }
 
-//Copyright 2025 by L. Smalley
-
 setInterval(updateClock, 1000);
 updateClock(); // Call immediately to avoid delay
+
+//Copyright 2025 by L. Smalley
