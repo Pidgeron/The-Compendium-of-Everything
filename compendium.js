@@ -1,6 +1,8 @@
 (() => {
   const existing = document.getElementById("wiki-dic-thes-sett-app");
   if (existing) existing.remove();
+  
+  
 
   const style = document.createElement("style");
   style.textContent = `
@@ -33,9 +35,8 @@
       text-align: right;
       font-family: 'EB Garamond', serif;
       font-size: 16px;
-      font-style: italic;
       font-weight: bold;
-      color: var(--text-color);
+      color: #000;
       text-shadow:
       -1px -1px 0 white,
       1px -1px 0 white,
@@ -173,6 +174,7 @@
       bottom: 5px;
       left: 20px;
       font-size: 16px;
+      font-style: italic;
       font-family: 'EB Garamond', serif;
       color: #808080;  
       user-select: none; /* so they can’t accidentally highlight it */
@@ -262,20 +264,22 @@
 
   app.innerHTML = `
 
-    <header>
-      <div class="tab selected" data-tab="wiki" title="Wikipedia">
-        <span class="material-symbols-outlined">language<span>
-      </div>
-      <div class="tab" data-tab="dic" title="Dictionary">
-        <span class="material-symbols-outlined">dictionary</span>
-      </div>
-      <div class="tab" data-tab="thes" title="Thesaurus">
-        <span class="material-symbols-outlined">library_books</span>
-      </div>
-      <div class="tab" data-tab="sett" title="Settings">
-        <span class="material-symbols-outlined">settings</span>
-      </div>
-    </header>
+   <header>
+  <div class="tab selected" data-tab="wiki" title="Wikipedia">
+    <span class="material-symbols-outlined">language</span>
+  </div>
+  <div class="tab" data-tab="dic" title="Dictionary">
+    <span class="material-symbols-outlined">dictionary</span>
+  </div>
+  <div class="tab" data-tab="thes" title="Thesaurus">
+    <span class="material-symbols-outlined">library_books</span>
+  </div>
+  </div>
+  <div class="tab" data-tab="sett" title="Settings">
+    <span class="material-symbols-outlined">settings</span>
+  </div>
+</header>
+
     <main>
       <div class="compendium-title">The Compendium of Everything</div>
       <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
@@ -285,9 +289,11 @@
       <div id="clock-container">
       <div id="time"></div>
       <div id="date"></div>
-     
+      <div id="calc-display"></div>
+    </div>
+
       </div>
-      <div class="version-label">v. Beta 1.0</div>
+      <div class="version-label">v. Beta 1.2</div>
     </main>
   `;
 
@@ -302,7 +308,7 @@
   let currentTab = "wiki";
 
   let darkMode = false;
-  let fontSize = 16; // px
+  let fontSize = 14; // px
 
   function switchTab(tab) {
     currentTab = tab;
@@ -385,8 +391,7 @@
       contentDiv.innerHTML = `
         <h2>${articleData.title}</h2>
         ${
-          articleData.thumbnail
-            ? `<img src="${articleData.thumbnail.source}" alt="${articleData.title} thumbnail"/>`
+          articleData.thumbnail? `<img src="${articleData.thumbnail.source}" alt="${articleData.title} thumbnail"/>`
             : ""
         }
         <p>${articleData.extract}</p>
