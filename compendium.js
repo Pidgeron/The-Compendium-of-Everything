@@ -169,6 +169,7 @@
   }
 
    .version-details {
+  user-select: none;
   position: absolute;
   bottom: 30px;   
   left: 20px;
