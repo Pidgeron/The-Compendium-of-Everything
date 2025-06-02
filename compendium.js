@@ -148,10 +148,9 @@
       overflow-wrap: break-word;
     }
     
-    <style> //removing this would cause tab icons to vertically stack
       header {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       gap: 10px;
   }
@@ -169,20 +168,40 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-      .version-label {
-      position: absolute;
-      bottom: 5px;
-      left: 20px;
-      font-size: 16px;
-      font-style: italic;
-      font-family: 'EB Garamond', serif;
-      color: #808080;  
-      user-select: none; /* so they can’t accidentally highlight it */
-      opacity: 0.6; /* slightly ghostly, like the beta's soul */
-      pointer-events: none; /* clicks pass through, no annoying blocking */
-  }
+   .version-details {
+  position: absolute;
+  bottom: 30px;   
+  left: 20px;
+  max-width: 200px;
+  padding: 10px 15px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: #444;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  z-index: 100;
+  white-space: normal;
+}
+.version-label {
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  bottom: 5px;
+  left: 20px;
+  font-size: 16px;
+  font-style: italic;
+  opacity: 0.6;
+  font-family: 'EB Garamond', serif;
+  color: #808080;
+ text-shadow:
+      -1px -1px 0 white,
+      1px -1px 0 white,
+      -1px 1px 0 white,
+      1px 1px 0 white;
+}
 
-</style>
 
       .result-item {
       padding: 8px 10px;
@@ -254,6 +273,8 @@
     input[type="range"] {
       width: 140px;
     }
+
+
   `;
 
   document.head.appendChild(style);
@@ -292,8 +313,9 @@
       <div id="calc-display"></div>
     </div>
 
-      </div>
-      <div class="version-label">v. Beta 1.2</div>
+      <div class="version-label" id="versionLabel">v. Beta 1.3</div>
+<div id="versionDetails" class="version-details" style="display:none;"></div>
+
     </main>
   `;
 
@@ -377,33 +399,30 @@
   }
 
   async function wikiLoadArticle(title) {
-    resultsDiv.innerHTML = "Loading article...";
-    contentDiv.innerHTML = "";
-    try {
-      const articleRes = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
-          title
-        )}`
-      );
-      const articleData = await articleRes.json();
+  resultsDiv.innerHTML = "";  // clear search results
+  contentDiv.innerHTML = "Loading article...";
+  try {
+    const articleRes = await fetch(`https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(title)}&prop=text`);
+    const data = await articleRes.json();
+    let html = data && data.parse && data.parse.text && data.parse.text["*"] ? data.parse.text["*"] : "<i>Could not load content.</i>";
 
-      resultsDiv.innerHTML = "";
-      contentDiv.innerHTML = `
-        <h2>${articleData.title}</h2>
-        ${
-          articleData.thumbnail? `<img src="${articleData.thumbnail.source}" alt="${articleData.title} thumbnail"/>`
-            : ""
-        }
-        <p>${articleData.extract}</p>
-        <p><a href="https://en.wikipedia.org/wiki/${encodeURIComponent(
-          articleData.title
-        )}" target="_blank" rel="noopener">Read more on Wikipedia</a></p>
-      `;
-    } catch (e) {
-      contentDiv.innerHTML = `<i>Error loading article.</i>`;
-    }
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    doc.querySelectorAll('a').forEach(a => {
+      a.removeAttribute('href');
+      a.style.cursor = 'default';
+      a.style.color = 'inherit';
+      a.style.textDecoration = 'none';
+    });
+
+    contentDiv.innerHTML = doc.body.innerHTML;
+  } catch (e) {
+    contentDiv.innerHTML = "<i>Error loading article.</i>";
   }
+}
 
+ 
   // Dictionary API (Free Dictionary API)
   async function dicSearch(query) {
     if (!query) {
@@ -456,35 +475,52 @@
     contentDiv.innerHTML = html;
   }
 
-  // Thesaurus API (Datamuse API)
-  async function thesSearch(query) {
-    if (!query) {
-      resultsDiv.innerHTML = "";
-      contentDiv.innerHTML = "";
-      return;
-    }
-    resultsDiv.innerHTML = "Searching...";
+ // Thesaurus API (Datamuse API)
+async function thesSearch(query) {
+  if (!query) {
+    resultsDiv.innerHTML = "";
     contentDiv.innerHTML = "";
-    try {
-      const res = await fetch(
-        `https://api.datamuse.com/words?rel_syn=${encodeURIComponent(
-          query
-        )}&max=20`
-      );
-      const data = await res.json();
-      if (!data.length) {
-        resultsDiv.innerHTML = "<i>No synonyms found.</i>";
-        return;
-      }
-      resultsDiv.innerHTML = "";
-      contentDiv.innerHTML =
-        `<h2>Synonyms for "${query}"</h2><ul>` +
-        data.map((w) => `<li>${w.word}</li>`).join("") +
-        `</ul>`;
-    } catch (e) {
-      resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
-    }
+    return;
   }
+
+  resultsDiv.innerHTML = "Searching...";
+  contentDiv.innerHTML = "";
+
+  try {
+    const [synRes, antRes] = await Promise.all([
+      fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(query)}&max=20`),
+      fetch(`https://api.datamuse.com/words?rel_ant=${encodeURIComponent(query)}&max=20`)
+    ]);
+
+    const synData = await synRes.json();
+    const antData = await antRes.json();
+
+    resultsDiv.innerHTML = "";
+
+    let html = `<h2>Thesaurus for "${query}"</h2>`;
+
+    if (synData.length) {
+      html += `<h3>Synonyms</h3><ul>` +
+              synData.map(w => `<li>${w.word}</li>`).join("") +
+              `</ul>`;
+    } else {
+      html += `<h3>Synonyms</h3><p><i>No synonyms found.</i></p>`;
+    }
+
+    if (antData.length) {
+      html += `<h3>Antonyms</h3><ul>` +
+              antData.map(w => `<li>${w.word}</li>`).join("") +
+              `</ul>`;
+    } else {
+      html += `<h3>Antonyms</h3><p><i>No antonyms found.</i></p>`;
+    }
+
+    contentDiv.innerHTML = html;
+  } catch (e) {
+    resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
+  }
+}
+
 
   function loadSettings() {
     settingsDiv.innerHTML = `
@@ -564,5 +600,27 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 updateClock(); // Call immediately to avoid delay
+
+const versionLabel = document.getElementById('versionLabel');
+const versionDetails = document.getElementById('versionDetails');
+
+const updates = `
+  <strong>v.Beta 1.3 Updates:</strong>
+  <ul>
+    <li>Added more detailed results to Wikipedia queries
+    <li>Added Update Info panel
+    <li>Added Antonym searching to Thesaurus
+  </ul>
+`;
+
+versionLabel.addEventListener('click', () => {
+  if (versionDetails.style.display === 'none') {
+    versionDetails.innerHTML = updates;
+    versionDetails.style.display = 'block';
+  } else {
+    versionDetails.style.display = 'none';
+  }
+});
+
 
 //Copyright 2025 by L. Smalley
