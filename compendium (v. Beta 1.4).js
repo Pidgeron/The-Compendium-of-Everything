@@ -9,15 +9,16 @@
     @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
  
-    #wiki-dic-thes-sett-app {
+      #wiki-dic-thes-sett-app {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.25);
       width: 400px;
       height: 600px;
       background-color: var(--bg-color, #fff);
       color: var(--text-color, #000);
-      border-radius: 20px;
+      border-radius: 30px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
@@ -27,7 +28,7 @@
       overflow-x: hidden;
       box-sizing: border-box;
       font-size: var(--font-size, 16px);
-  } 
+}
       #clock-container {
       position: absolute;
       bottom: 10px;
@@ -43,8 +44,6 @@
       -1px 1px 0 white,
       1px 1px 0 white;
   }  
-
-
 
       .compendium-title {
       font-size: 1.4em;
@@ -62,6 +61,20 @@
       accent-color: royalblue;
     }
 
+      .author-title {
+      font-size: 16px;
+      position: absolute;
+      bottom: 5px;
+      left: 20px;
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      color: #808080;
+      text-shadow:
+      -1px -1px 0 white,
+      1px -1px 0 white,
+      -1px 1px 0 white,
+      1px 1px 0 white;
+}
 
     #wiki-dic-thes-sett-app.light {
       --bg-color: #fff;
@@ -168,35 +181,34 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
 
-   .version-details {
-  user-select: none;
-  position: absolute;
-  bottom: 30px;   
-  left: 20px;
-  max-width: 200px;
-  padding: 10px 15px;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
-  font-family: 'EB Garamond', serif;
-  font-size: 14px;
-  color: #444;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  border-radius: 6px;
-  z-index: 100;
-  white-space: normal;
+     .version-details {
+      user-select: none;
+      position: absolute;
+      bottom: 50px;   
+      left: 20px;
+      max-width: 200px;
+      padding: 10px 15px;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      font-family: 'EB Garamond', serif;
+      font-size: 14px;
+      color: #444;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      border-radius: 6px;
+      z-index: 100;
+      white-space: normal;
 }
-.version-label {
-  cursor: pointer;
-  user-select: none;
-  position: absolute;
-  bottom: 5px;
-  left: 20px;
-  font-size: 16px;
-  font-style: italic;
-  opacity: 0.6;
-  font-family: 'EB Garamond', serif;
-  color: #808080;
- text-shadow:
+      .version-label {
+      cursor: pointer;
+      user-select: none;
+      position: absolute;
+      bottom: 24px;
+      left: 20px;
+      font-size: 16px;
+      font-style: italic;
+      font-family: 'EB Garamond', serif;
+      color: #808080;
+      text-shadow:
       -1px -1px 0 white,
       1px -1px 0 white,
       -1px 1px 0 white,
@@ -221,7 +233,9 @@
     .content img {
       max-width: 100%;
       height: auto;
-      border-radius: 8px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       margin: 10px 0;
       display: block;
     }
@@ -314,9 +328,9 @@
       <div id="calc-display"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v. Beta 1.3</div>
-<div id="versionDetails" class="version-details" style="display:none;"></div>
-
+      <div class="version-label" id="versionLabel">v. Beta 1.4</div>
+      <div id="versionDetails" class="version-details" style="display:none;"></div>
+      <div class="author-title">Made by L. Smalley</div>
     </main>
   `;
 
@@ -606,11 +620,10 @@ const versionLabel = document.getElementById('versionLabel');
 const versionDetails = document.getElementById('versionDetails');
 
 const updates = `
-  <strong>v.Beta 1.3 Updates:</strong>
+  <strong>v.Beta 1.4 Updates:</strong>
   <ul>
-    <li>Added more detailed results to Wikipedia queries
-    <li>Added Update Info panel
-    <li>Added Antonym searching to Thesaurus
+    <li>Added Author Name in corner
+    <li>Minor Style changes
   </ul>
 `;
 
