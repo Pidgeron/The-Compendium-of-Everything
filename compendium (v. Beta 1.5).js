@@ -599,8 +599,7 @@
       );
       const data = await articleRes.json();
       let html =
-        data && data.parse && data.parse.text && data.parse.text["*"]
-          ? data.parse.text["*"]
+        data && data.parse && data.parse.text && data.parse.text["*"]? data.parse.text["*"]
           : "<i>Could not load content.</i>";
 
       const parser = new DOMParser();
@@ -619,7 +618,8 @@
     }
   }
 
-  // Dictionary API (Free Dictionary API)
+  
+  //Dictionary API (Free Dictionary API)
   async function dicSearch(query) {
     if (!query) {
       resultsDiv.innerHTML = "";
@@ -727,7 +727,6 @@
     }
   }
 
-  // At the top of your program (once), add the Material Symbols font link if not already in your HTML:
   if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
     const link = document.createElement("link");
     link.href =
@@ -778,7 +777,6 @@
       NNW: 337.5,
     };
 
-    // Maps some common weatherDesc to Material Symbols icons (add more as needed)
     const weatherIcons = {
       Sunny: "wb_sunny",
       Clear: "nightlight_round",
@@ -886,6 +884,7 @@
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") fetchWeather(input.value);
     });
+
   }
 
   function loadSettings() {
