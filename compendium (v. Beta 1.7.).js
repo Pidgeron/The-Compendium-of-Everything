@@ -4,7 +4,7 @@
 
   const style = document.createElement("style");
   style.textContent = `
-      @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400..800;1,400..800&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
 
       #wiki-dic-thes-sett-app {
@@ -21,19 +21,20 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       z-index: 999999999;
       overflow-y: auto;
       overflow-x: hidden;
       box-sizing: border-box;
       font-size: var(--font-size, 16px);
     }
+
       #clock-container {
       position: absolute;
       bottom: 10px;
       right: 15px;
       text-align: right;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 16px;
       font-weight: bold;
       color: #000;
@@ -50,10 +51,11 @@
       font-style: italic;
       text-align: center;
       margin: 10px 0;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       color: var(--text-color);
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
+
       #wiki-dic-thes-sett-app.dark {
       --bg-color: #121212;
       --text-color: #eee;
@@ -65,9 +67,8 @@
       position: absolute;
       bottom: 5px;
       left: 20px;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       font-style: italic;
-      opacity: 0.6;
       color: #808080;
     }
 
@@ -134,7 +135,7 @@
       border-radius: 24px;
       border: 1px solid #ccc;
       font-size: 1em;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       box-sizing: border-box;
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -154,6 +155,7 @@
       box-sizing: border-box;
       word-wrap: break-word;
       overflow-wrap: break-word;
+      font-family: 'Roboto', sans-serif;
     }
     
       header {
@@ -185,7 +187,7 @@
       padding: 10px 15px;
       background: #f9f9f9;
       border: 1px solid #ccc;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 14px;
       color: #444;
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
@@ -193,6 +195,7 @@
       z-index: 100;
       white-space: normal;
     }
+
       .version-label {
       cursor: pointer;
       user-select: none;
@@ -201,8 +204,7 @@
       left: 20px;
       font-size: 16px;
       font-style: italic;
-      font-family: 'EB Garamond', serif;
-      opacity: 0.6;
+      font-family: 'Roboto', sans-serif;
       color: #808080;
     }
 
@@ -279,8 +281,6 @@
       width: 140px;
     }
 
-
-
     #content.weather-content {
       max-width: 400px;
       margin: 2rem auto;
@@ -289,7 +289,7 @@
       background: linear-gradient(to bottom, #ffffff, #f0f8ff);
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
   }
 
     #content.weather-content h3 {
@@ -319,7 +319,7 @@
       border: 1px solid black;
       border-radius: 12px 0 0 12px;
       padding: 0 8px;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       box-sizing: border-box;
       line-height: normal;|
@@ -330,11 +330,11 @@
       border: 1px solid black;
       border-left: none;
       border-radius: 0 12px 12px 0;
-      background-color: var(--accent-color);
+      background-color: royalblue;
       color: white;
       margin: 0;
       padding: 0 10px;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       font-style: italic;
       font-weight: bold;
       cursor: pointer;
@@ -342,26 +342,29 @@
       box-sizing: border-box;
       line-height: normal;
   }
+
      .input-group {
       text-align: center;
       margin-bottom: 1em;
   }
+
      .input-group input {
       padding: 0.5em 1em;
       font-size: 1rem;
       width: 250px;
       max-width: 90vw;
       margin-right: 0.5em;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       border: 1px solid #ccc;
       border-radius: 4px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
+
      .input-group button {
       padding: 0.5em 1.2em;
       font-size: 1rem;
       cursor: pointer;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       background-color: var(--accent-color);
       color: #fff;
       border: none;
@@ -374,7 +377,7 @@
       margin-bottom: 1em;
       font-size: 0.9rem;
       user-select: none;
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
       color: var(--accent-color);
     }
      .unit-toggle input[type="checkbox"] {
@@ -383,16 +386,15 @@
       cursor: pointer;
   }
 
-
      .weather-card {
-      background: #f9f9f9;
+      background: var(--bg-color);
       border-radius: 8px;
       max-width: 320px;
       margin: 0 auto;
       padding: 1.2em 1.5em;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-family: 'EB Garamond', serif;
-      color: #222;
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
   }
 
      .weather-header {
@@ -431,7 +433,7 @@
       font-size: 1.3rem;
       margin-bottom: 0.2em;
       color: var(--accent-color);
-      font-family: 'EB Garamond', serif;
+      font-family: 'Roboto', sans-serif;
  }
 
      wind-compass {
@@ -448,10 +450,7 @@
       box-shadow: 0 0 5px var(--accent-color);
   }
 
-      button:hover {
-      background-color: #2743c6; /* darker royal blue */
-      transition: background-color 0.3s;
-  }
+
 
 
   `;
@@ -475,7 +474,7 @@
     <span class="material-symbols-outlined">library_books</span>
   </div>
   <div class="tab" data-tab="weather" title="Weather">
-  <span class="material-symbols-outlined">cloud</span>
+  <span class="material-symbols-outlined">partly_cloudy_day</span>
 </div>
 
   </div>
@@ -496,7 +495,7 @@
       <div id="calc-display"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v. Beta 1.5</div>
+      <div class="version-label" id="versionLabel">v. Beta 1.6</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
     </main>
@@ -618,7 +617,6 @@
     }
   }
 
-  
   //Dictionary API (Free Dictionary API)
   async function dicSearch(query) {
     if (!query) {
@@ -735,6 +733,14 @@
     document.head.appendChild(link);
   }
 
+  if (!document.querySelector('link[href*="Material+Symbols+Outlined"]')) {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+  }
+
   async function loadWeather() {
     contentDiv.innerHTML = `
     <div class="input-group">
@@ -757,7 +763,6 @@
     const output = document.getElementById("weather-output");
     const unitToggle = document.getElementById("unit-toggle");
 
-    // Maps wind compass points to degrees for rotation (N=0°, E=90°, etc)
     const windDirDegrees = {
       N: 0,
       NNE: 22.5,
@@ -789,12 +794,10 @@
       "Heavy rain": "rainy",
       Thunderstorm: "thunderstorm",
       Snow: "snowing",
-      // fallback icon
       default: "wb_cloudy",
     };
 
     function getWeatherIcon(desc) {
-      // Basic lookup ignoring case, fallback to default
       for (const key in weatherIcons) {
         if (desc.toLowerCase().includes(key.toLowerCase()))
           return weatherIcons[key];
@@ -809,20 +812,23 @@
       }
 
       const isZip = /^[0-9]+$/.test(query.trim());
-      const location = isZip ? `${query.trim()},US` : query.trim();
+      let location;
+      if (isZip) {
+        location = `${query.trim()},US`;
+      } else {
+        location = encodeURIComponent(query.trim());
+      }
 
       output.innerHTML = `
       <span class="material-symbols-outlined loading-spinner">autorenew</span>
       <div>Loading weather...</div>`;
 
       try {
-        const res = await fetch(
-          `https://wttr.in/${encodeURIComponent(location)}?format=j1`
-        );
+        const res = await fetch(`https://wttr.in/${location}?format=j1`);
         if (!res.ok) throw new Error("Request failed");
 
         const data = await res.json();
-        const area = data.nearest_area?.[0]?.areaName?.[0]?.value || location;
+        const area = data.nearest_area?.[0]?.areaName?.[0]?.value || query;
         const cc = data.current_condition?.[0];
         if (!cc) throw new Error("No weather data");
 
@@ -834,7 +840,6 @@
         const windDir = cc.winddir16Point;
 
         const useImperial = unitToggle.checked;
-
         const temp = useImperial? `${((tempC * 9) / 5 + 32).toFixed(1)}°F`
           : `${tempC}°C`;
         const feelsLike = useImperial? `${((feelsLikeC * 9) / 5 + 32).toFixed(1)}°F`
@@ -843,22 +848,41 @@
           : windKmph.toFixed(1);
         const windUnit = useImperial ? "mph" : "km/h";
 
-        // Calculate wind arrow rotation
         const rotation = windDirDegrees[windDir] ?? 0;
-
-        // Get icon name
         const iconName = getWeatherIcon(desc);
+
+        let forecastHTML =
+          '<h4>3-Day Forecast</h4><div class="forecast-container">';
+        const days = data.weather.slice(0, 3);
+
+        for (const day of days) {
+          const avgTempC = parseFloat(day.avgtempC);
+          const avgTemp = useImperial? `${((avgTempC * 9) / 5 + 32).toFixed(1)}°F`
+            : `${avgTempC.toFixed(1)}°C`;
+          const weatherDesc = day.hourly?.[4]?.weatherDesc?.[0]?.value || "N/A";
+          const dayIcon = getWeatherIcon(weatherDesc);
+
+          forecastHTML += `
+          <div class="forecast-day" style="display:inline-block; margin:10px;">
+            <strong>${day.date}</strong><br>
+            <span class="material-symbols-outlined weather-icon">${dayIcon}</span><br>
+            ${weatherDesc}<br>
+            Avg: ${avgTemp}
+          </div>
+        `;
+        }
+
+        forecastHTML += "</div>";
 
         output.innerHTML = `
         <div class="weather-header">
           <h3>Weather in ${area}</h3>
         </div>
         <p><strong>${desc}</strong></p>
-          <span class="material-symbols-outlined weather-icon">${iconName}</span>
+        <span class="material-symbols-outlined weather-icon">${iconName}</span>
         <p>Temperature: ${temp}</p>
         <p>Feels like: ${feelsLike}</p>
         <p>Humidity: ${humidity}%</p>
-
         <div class="wind-container">
           <div class="wind-speed">${windSpeed} ${windUnit}</div>
           <svg class="wind-compass" viewBox="0 0 100 100" width="100" height="100" aria-label="Wind direction compass" role="img">
@@ -871,9 +895,10 @@
             <circle cx="50" cy="50" r="5" fill="#d33"/>
           </svg>
         </div>
+        <div class="forecast">${forecastHTML}</div>
       `;
       } catch (err) {
-        output.innerHTML = `<i>Could not load weather. Please try again.</i>`;
+        output.innerHTML = `<i>Could not load weather. Please try again. If City, State input isn't working, please input a ZIP code.</i>`;
       }
     }
 
@@ -884,7 +909,6 @@
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") fetchWeather(input.value);
     });
-
   }
 
   function loadSettings() {
@@ -900,7 +924,7 @@
       </div>
       <div class="setting-item">
         <label for="font-size-range">Text Size (${fontSize}px)</label>
-        <input type="range" id="font-size-range" min="12" max="24" value="${fontSize}">
+        <input type="range" id="font-size-range" min="10" max="25" value="${fontSize}">
 
     `;
 
@@ -970,9 +994,14 @@ const versionLabel = document.getElementById("versionLabel");
 const versionDetails = document.getElementById("versionDetails");
 
 const updates = `
-  <strong>v.Beta 1.5 Updates:</strong>
+  <strong>v.Beta 1.6 Updates:</strong>
   <ul>
-    <li> Added Weather tab
+    <li> Fixed Weather tab data not loading.</li>
+    <li>Changed font from EB Garamond to Roboto</li>
+</ul>
+  <strong>Planned updates for v.Beta 1.7:</strong>
+<ul>
+    <li>Add a Calculator tab</li>
   </ul>
 `;
 
