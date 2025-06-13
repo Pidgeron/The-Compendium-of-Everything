@@ -1124,38 +1124,47 @@ setInterval(updateClock, 1000);
 updateClock();
 
 
-const versionLabel = document.getElementById("versionLabel");
-const versionDetails = document.getElementById("versionDetails");
+document.addEventListener("DOMContentLoaded", () => {
+  const versionLabel = document.getElementById("versionLabel");
+  const versionDetails = document.getElementById("versionDetails");
 
-const updates = `
-  <div id="updateHeader" style="position: relative; padding-right: 24px;">
-    <strong>v.Beta 1.6 Bug Fixes:</strong>
-    <button id="closeUpdates" 
-      style="position: absolute; top: 0; right: 0; background: none; border: none; font-weight: bold; font-size: 18px; cursor: pointer;">×</button>
-  </div>
-  <ul>
-    <li>Fixed Weather tab data not loading.</li>
-    <li>Changed font from EB Garamond to Roboto.</li>
-  </ul>
-  <strong>Planned updates for v.Beta 1.7:</strong>
-  <ul>
-    <li>Add a Calculator tab.</li>
-  </ul>
-`;
+  const updates = `
+    <div style="position: relative;">
+      <strong>v.Beta 1.6 Updates:</strong>
+      <ul>
+        <li>Fixed Weather tab data not loading.</li>
+        <li>Changed font from EB Garamond to Roboto</li>
+      </ul>
+      <strong>Planned updates for v.Beta 1.7:</strong>
+      <ul>
+        <li>Add a Calculator tab</li>
+      </ul>
+      <div style="margin-top: 10px; font-size: 12px;">
+        <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">
+          View project on GitHub
+        </a>
+      </div>
+      <span id="closeUpdates" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-weight: bold;">×</span>
+    </div>
+  `;
 
-versionLabel.addEventListener("click", () => {
-  if (versionDetails.style.display === "none" || !versionDetails.style.display) {
-    versionDetails.innerHTML = updates;
-    versionDetails.style.display = "block";
+  versionLabel.addEventListener("click", () => {
+    if (versionDetails.style.display === "none" || !versionDetails.style.display) {
+      versionDetails.innerHTML = updates;
+      versionDetails.style.display = "block";
 
-    const closeBtn = document.getElementById("closeUpdates");
-    closeBtn.addEventListener("click", () => {
+      const closeBtn = document.getElementById("closeUpdates");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+          versionDetails.style.display = "none";
+        });
+      }
+    } else {
       versionDetails.style.display = "none";
-    });
-  } else {
-    versionDetails.style.display = "none";
-  }
+    }
+  });
 });
+
 
 
 //Copyright 2025 by L. Smalley
