@@ -118,6 +118,26 @@
       @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Recursive:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Mononoki&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
      .font-selector {
       width: 100%;
@@ -822,6 +842,34 @@
      .about-close:hover {
       color: var(--accent-color, royalblue);
   }
+
+    .notepad-header button {
+     background: #f5f5f7;
+     border: none;
+     border-radius: 12px;
+     margin-left: 6px;
+     padding: 6px 10px;
+     cursor: pointer;
+     font-size: 1.1em;
+     color: #333;
+     transition: background 0.2s, box-shadow 0.2s;
+     vertical-align: middle;
+     display: inline-flex;
+     align-items: center;
+  }
+
+    .notepad-header button:hover {
+     background: #e0e0e7;
+     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+    .notepad-header button:active {
+     background: #d0d0d7;
+  }
+
+    .notepad-header .material-symbols-rounded {
+     font-size: 1.3em;
+     margin-right: 2px;
   `;
 
   document.head.appendChild(style);
@@ -832,24 +880,23 @@
 
   app.innerHTML = `
 
-   <header>
+  <header>
   <div class="tab selected" data-tab="wiki" title="Wikipedia">
-    <span class="material-symbols-rounded">language</span>
+    <span class="material-symbols-rounded" aria-label="Wikipedia">language</span>
   </div>
   <div class="tab" data-tab="dic" title="Dictionary">
-    <span class="material-symbols-rounded">dictionary</span>
+    <span class="material-symbols-rounded" aria-label="Dictionary">dictionary</span>
   </div>
   <div class="tab" data-tab="thes" title="Thesaurus">
-    <span class="material-symbols-rounded">library_books</span>
+    <span class="material-symbols-rounded" aria-label="Thesaurus">library_books</span>
   </div>
   <div class="tab" data-tab="weather" title="Weather">
-  <span class="material-symbols-rounded">partly_cloudy_day</span>
-</div>
+    <span class="material-symbols-rounded" aria-label="Weather">partly_cloudy_day</span>
+  </div>
   <div class="tab" data-tab="sett" title="Settings">
-    <span class="material-symbols-rounded">settings</span>
+    <span class="material-symbols-rounded" aria-label="Settings">settings</span>
   </div>
 </header>
-
     <main>
       <div class="compendium-title">The Compendium of Everything</div>
       <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
@@ -878,13 +925,22 @@ app.appendChild(notepadBtn);
 const notepadPanel = document.createElement("div");
 notepadPanel.id = "notepad-panel";
 notepadPanel.innerHTML = `
-  <div class="notepad-header">
-    <span>Notepad</span>
+<div class="notepad-header">
+  <span>Notepad</span>
+  <div>
+    <button id="export-notes" title="Export Notes"><span class="material-symbols-rounded">download</span></button>
+    <button id="import-notes" title="Import Notes"><span class="material-symbols-rounded">upload</span></button>
     <button id="close-notepad" title="Close"><span class="material-symbols-rounded">close</span></button>
   </div>
-  <textarea id="notepad-text" placeholder="Type your notes here..."></textarea>
+</div>
+<textarea id="notepad-text" placeholder="Type your notes here..."></textarea>
+
 `;
 app.appendChild(notepadPanel);
+
+
+notepadPanel.querySelector("#export-notes").addEventListener("click", exportNotes);
+notepadPanel.querySelector("#import-notes").addEventListener("click", importNotes);
 
 
 // Notepad logic
@@ -906,6 +962,41 @@ notepadBtn.addEventListener("click", () => {
 closeNotepad.addEventListener("click", () => {
   notepadPanel.style.display = "none";
 });
+
+// Export notes as .txt file
+function exportNotes() {
+  const text = localStorage.getItem("compendium-notepad") || "";
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "compendium-notes.txt";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 0);
+}
+
+// Import notes from .txt file
+function importNotes() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".txt,text/plain";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const text = evt.target.result;
+      localStorage.setItem("compendium-notepad", text);
+      notepadText.value = text;
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
 
 const tabs = app.querySelectorAll(".tab");
 const searchInput = app.querySelector("#search-input");
@@ -983,6 +1074,8 @@ tabs.forEach((tab) => {
 
 
 // Wikipedia API
+// Find your wikiSearch function and replace it with this version:
+
 async function wikiSearch(query) {
   if (!query) {
     resultsDiv.innerHTML = "";
@@ -999,17 +1092,44 @@ async function wikiSearch(query) {
     );
     const searchData = await searchRes.json();
 
-    if (!searchData.query.search.length) {
+    // Start with an empty results array
+    let resultsArr = [];
+
+    // Inject the easter egg if the query matches (case-insensitive, partial match allowed)
+    if (
+      query.trim().toLowerCase().includes("compendium of everything") ||
+      query.trim().toLowerCase() === "compendium"
+    ) {
+      resultsArr.push({
+        title: "The Compendium of Everything",
+        isEasterEgg: true
+      });
+    }
+
+    // Add Wikipedia results
+    if (searchData.query.search.length) {
+      resultsArr = resultsArr.concat(
+        searchData.query.search.map(item => ({
+          title: item.title,
+          isEasterEgg: false
+        }))
+      );
+    }
+
+    if (!resultsArr.length) {
       resultsDiv.innerHTML = "<i>No results found.</i>";
       return;
     }
 
     resultsDiv.innerHTML = "";
-    searchData.query.search.forEach((item) => {
+    resultsArr.forEach((item) => {
       const div = document.createElement("div");
       div.className = "result-item";
       div.textContent = item.title;
       div.addEventListener("click", () => wikiLoadArticle(item.title));
+      // Optionally, style the easter egg result differently:
+      if (item.isEasterEgg) {
+      }
       resultsDiv.appendChild(div);
     });
   } catch (e) {
@@ -1018,6 +1138,55 @@ async function wikiSearch(query) {
 }
 
 async function wikiLoadArticle(title) {
+
+
+  resultsDiv.innerHTML = ""; // clear search results immediately
+
+
+  if (title.trim().toLowerCase() === "the compendium of everything") {
+    contentDiv.innerHTML = `
+      <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
+      <h1>The Compendium of Everything</h1>
+      <p>
+        <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
+      </p>
+      <h2>History</h2>
+      <p>
+        The project began in late May 2025, when Smalley released version Beta 1.0 as a modest side project. The initial version was built using <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding. The first GitHub repository was minimal, containing only basic usage instructions, a logo (which has since evolved), and a single JavaScript file.
+      </p>
+      <p>
+        Upon its release, The Compendium of Everything received no publicity and was largely overlooked. Smalley briefly considered abandoning the project, but ultimately decided to continue development, believing that its utility would eventually be recognized.
+      </p>
+      <h2>Development and Features</h2>
+      <p>
+        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app.
+      </p>
+      <p>
+        Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
+      </p>
+      <h2>Author and Pseudonym</h2>
+      <p>
+        The creator, Liam C. Smalley, is also known online by the pseudonym <b>Pidgeron</b>, which serves as his GitHub username and digital moniker for his programming projects.
+      </p>
+      <h2>Design Philosophy</h2>
+      <p>
+        The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
+      </p>
+     
+      <h2>See Also</h2>
+      <ul>
+        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
+        <li><a href="https://editor.p5js.org/L_Smalley/full/o1UZH4J8M" target="_blank">Original Beta Version</a></li>
+      </ul>
+      <hr>
+      <p style="font-size:0.9em;color:#888;">
+        This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
+      </p>
+
+       `;
+    return;
+  }
+  
   resultsDiv.innerHTML = ""; // clear search results
   contentDiv.innerHTML = "Loading article...";
   try {
@@ -1038,6 +1207,19 @@ async function wikiLoadArticle(title) {
     // Remove all [edit] links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
+    // Fix image URLs
+    doc.querySelectorAll("img").forEach((img) => {
+      let src = img.getAttribute("src");
+      if (!src) return;
+      if (src.startsWith("//")) {
+        img.setAttribute("src", "https:" + src);
+      } else if (src.startsWith("/")) {
+        img.setAttribute("src", "https://en.wikipedia.org" + src);
+      } else if (!src.startsWith("http")) {
+        img.setAttribute("src", "https://en.wikipedia.org/" + src.replace(/^\/*/, ""));
+      }
+    });
+
     // Disable all links
     doc.querySelectorAll("a").forEach((a) => {
       a.removeAttribute("href");
@@ -1046,22 +1228,12 @@ async function wikiLoadArticle(title) {
       a.style.textDecoration = "none";
     });
 
-    doc.querySelectorAll("img").forEach((img) => {
-      let src = img.getAttribute("src");
-      if (src) {
-        if (src.startsWith("//")) {
-          img.src = "https:" + src;
-        } else if (src.startsWith("/")) {
-          img.src = "https://en.wikipedia.org" + src;
-        }
-      }
-    });
-
     contentDiv.innerHTML = doc.body.innerHTML;
   } catch (e) {
     contentDiv.innerHTML = "<i>Error loading article.</i>";
   }
-}  //Dictionary API (Free Dictionary API)
+}
+  //Dictionary API (Free Dictionary API)
   async function dicSearch(query) {
     if (!query) {
       resultsDiv.innerHTML = "";
@@ -1398,7 +1570,6 @@ function formatDate(dateStr) {
     }
   });
 }
-
   
 function loadSettings() {
     settingsDiv.innerHTML = `
@@ -1414,104 +1585,106 @@ function loadSettings() {
     <input type="range" id="font-size-range" min="10" max="25" value="${fontSize}">
   </div>
   <div class="setting-item">
-    <label for="font-family-select">Font</label>
-    <select id="font-family-select" class="font-selector">
-      <optgroup label="Sans-Serif" style="font-weight:bold; color:#2a3cff; background:#e8eaff; font-size:1.2em;">
-        <option value="Roboto" ${fontFamily === "Roboto" ? "selected" : ""}>Roboto</option>
-        <option value="'Open Sans', sans-serif" ${fontFamily === "'Open Sans', sans-serif" ? "selected" : ""}>Open Sans</option>
-        <option value="'Montserrat', sans-serif" ${fontFamily === "'Montserrat', sans-serif" ? "selected" : ""}>Montserrat</option>
-        <option value="'Lato', sans-serif" ${fontFamily === "'Lato', sans-serif" ? "selected" : ""}>Lato</option>
-        <option value="'Nunito', sans-serif" ${fontFamily === "'Nunito', sans-serif" ? "selected" : ""}>Nunito</option>
-        <option value="'Quicksand', sans-serif" ${fontFamily === "'Quicksand', sans-serif" ? "selected" : ""}>Quicksand</option>
-        <option value="'Raleway', sans-serif" ${fontFamily === "'Raleway', sans-serif" ? "selected" : ""}>Raleway</option>
-        <option value="'Work Sans', sans-serif" ${fontFamily === "'Work Sans', sans-serif" ? "selected" : ""}>Work Sans</option>
-        <option value="'Source Sans 3', sans-serif" ${fontFamily === "'Source Sans 3', sans-serif" ? "selected" : ""}>Source Sans 3</option>
-        <option value="'Ubuntu', sans-serif" ${fontFamily === "'Ubuntu', sans-serif" ? "selected" : ""}>Ubuntu</option>
-        <option value="'Inter', sans-serif" ${fontFamily === "'Inter', sans-serif" ? "selected" : ""}>Inter</option>
-        <option value="'Mulish', sans-serif" ${fontFamily === "'Mulish', sans-serif" ? "selected" : ""}>Mulish</option>
-        <option value="'Cabin', sans-serif" ${fontFamily === "'Cabin', sans-serif" ? "selected" : ""}>Cabin</option>
-        <option value="'Barlow', sans-serif" ${fontFamily === "'Barlow', sans-serif" ? "selected" : ""}>Barlow</option>
-        <option value="'Asap', sans-serif" ${fontFamily === "'Asap', sans-serif" ? "selected" : ""}>Asap</option>
-        <option value="'Karla', sans-serif" ${fontFamily === "'Karla', sans-serif" ? "selected" : ""}>Karla</option>
-        <option value="'Manrope', sans-serif" ${fontFamily === "'Manrope', sans-serif" ? "selected" : ""}>Manrope</option>
-        <option value="'Titillium Web', sans-serif" ${fontFamily === "'Titillium Web', sans-serif" ? "selected" : ""}>Titillium Web</option>
-        <option value="'Exo 2', sans-serif" ${fontFamily === "'Exo 2', sans-serif" ? "selected" : ""}>Exo 2</option>
-        <option value="'Signika', sans-serif" ${fontFamily === "'Signika', sans-serif" ? "selected" : ""}>Signika</option>
-        <option value="'Hind', sans-serif" ${fontFamily === "'Hind', sans-serif" ? "selected" : ""}>Hind</option>
-        <option value="'Archivo', sans-serif" ${fontFamily === "'Archivo', sans-serif" ? "selected" : ""}>Archivo</option>
-        <option value="'Questrial', sans-serif" ${fontFamily === "'Questrial', sans-serif" ? "selected" : ""}>Questrial</option>
-        <option value="'Heebo', sans-serif" ${fontFamily === "'Heebo', sans-serif" ? "selected" : ""}>Heebo</option>
-        <option value="'Fira Sans', sans-serif" ${fontFamily === "'Fira Sans', sans-serif" ? "selected" : ""}>Fira Sans</option>
-        <option value="'Assistant', sans-serif" ${fontFamily === "'Assistant', sans-serif" ? "selected" : ""}>Assistant</option>
-        <option value="'Lexend', sans-serif" ${fontFamily === "'Lexend', sans-serif" ? "selected" : ""}>Lexend</option>
-        <option value="'Public Sans', sans-serif" ${fontFamily === "'Public Sans', sans-serif" ? "selected" : ""}>Public Sans</option>
-        <option value="'DM Sans', sans-serif" ${fontFamily === "'DM Sans', sans-serif" ? "selected" : ""}>DM Sans</option>
-        <option value="'Jost', sans-serif" ${fontFamily === "'Jost', sans-serif" ? "selected" : ""}>Jost</option>
-      </optgroup>
-      <optgroup label="Serif" style="font-weight:bold; color:#c43c00; background:#fff3e6; font-size:1.2em;">
-        <option value="'EB Garamond', serif" ${fontFamily === "'EB Garamond', serif" ? "selected" : ""}>EB Garamond</option>
-        <option value="'Merriweather', serif" ${fontFamily === "'Merriweather', serif" ? "selected" : ""}>Merriweather</option>
-        <option value="'Playfair Display', serif" ${fontFamily === "'Playfair Display', serif" ? "selected" : ""}>Playfair Display</option>
-        <option value="'Roboto Serif', serif" ${fontFamily === "'Roboto Serif', serif" ? "selected" : ""}>Roboto Serif</option>
-        <option value="'PT Serif', serif" ${fontFamily === "'PT Serif', serif" ? "selected" : ""}>PT Serif</option>
-        <option value="'Crimson Text', serif" ${fontFamily === "'Crimson Text', serif" ? "selected" : ""}>Crimson Text</option>
-        <option value="'Libre Baskerville', serif" ${fontFamily === "'Libre Baskerville', serif" ? "selected" : ""}>Libre Baskerville</option>
-        <option value="'Source Serif 4', serif" ${fontFamily === "'Source Serif 4', serif" ? "selected" : ""}>Source Serif 4</option>
-        <option value="'Domine', serif" ${fontFamily === "'Domine', serif" ? "selected" : ""}>Domine</option>
-        <option value="'Spectral', serif" ${fontFamily === "'Spectral', serif" ? "selected" : ""}>Spectral</option>
-        <option value="'Cardo', serif" ${fontFamily === "'Cardo', serif" ? "selected" : ""}>Cardo</option>
-        <option value="'Vollkorn', serif" ${fontFamily === "'Vollkorn', serif" ? "selected" : ""}>Vollkorn</option>
-        <option value="'Crete Round', serif" ${fontFamily === "'Crete Round', serif" ? "selected" : ""}>Crete Round</option>
-        <option value="'Arvo', serif" ${fontFamily === "'Arvo', serif" ? "selected" : ""}>Arvo</option>
-        <option value="'Old Standard TT', serif" ${fontFamily === "'Old Standard TT', serif" ? "selected" : ""}>Old Standard TT</option>
-        <option value="'Prata', serif" ${fontFamily === "'Prata', serif" ? "selected" : ""}>Prata</option>
-        <option value="'Zilla Slab', serif" ${fontFamily === "'Zilla Slab', serif" ? "selected" : ""}>Zilla Slab</option>
-        <option value="'Literata', serif" ${fontFamily === "'Literata', serif" ? "selected" : ""}>Literata</option>
-        <option value="'Georgia Pro', serif" ${fontFamily === "'Georgia Pro', serif" ? "selected" : ""}>Georgia Pro</option>
-        <option value="'Faustina', serif" ${fontFamily === "'Faustina', serif" ? "selected" : ""}>Faustina</option>
-        <option value="'PT Mono', serif" ${fontFamily === "'PT Mono', serif" ? "selected" : ""}>PT Mono</option>
-        <option value="'Neuton', serif" ${fontFamily === "'Neuton', serif" ? "selected" : ""}>Neuton</option>
-        <option value="'Sorts Mill Goudy', serif" ${fontFamily === "'Sorts Mill Goudy', serif" ? "selected" : ""}>Sorts Mill Goudy</option>
-        <option value="'Alice', serif" ${fontFamily === "'Alice', serif" ? "selected" : ""}>Alice</option>
-        <option value="'Gloock', serif" ${fontFamily === "'Gloock', serif" ? "selected" : ""}>Gloock</option>
-        <option value="'Trirong', serif" ${fontFamily === "'Trirong', serif" ? "selected" : ""}>Trirong</option>
-        <option value="'Noticia Text', serif" ${fontFamily === "'Noticia Text', serif" ? "selected" : ""}>Noticia Text</option>
-        <option value="'Abhaya Libre', serif" ${fontFamily === "'Abhaya Libre', serif" ? "selected" : ""}>Abhaya Libre</option>
-        <option value="'Libre Caslon Text', serif" ${fontFamily === "'Libre Caslon Text', serif" ? "selected" : ""}>Libre Caslon Text</option>
-        <option value="'Martel', serif" ${fontFamily === "'Martel', serif" ? "selected" : ""}>Martel</option>
-      </optgroup>
-      <optgroup label="Monospaced" style="font-weight:bold; color:#008c4a; background:#e6fff3; font-size:1.2em;">
-        <option value="'Courier Prime', monospace" ${fontFamily === "'Courier Prime', monospace" ? "selected" : ""}>Courier Prime</option>
-        <option value="'Fira Mono', monospace" ${fontFamily === "'Fira Mono', monospace" ? "selected" : ""}>Fira Mono</option>
-        <option value="'Roboto Mono', monospace" ${fontFamily === "'Roboto Mono', monospace" ? "selected" : ""}>Roboto Mono</option>
-        <option value="'JetBrains Mono', monospace" ${fontFamily === "'JetBrains Mono', monospace" ? "selected" : ""}>JetBrains Mono</option>
-        <option value="'Source Code Pro', monospace" ${fontFamily === "'Source Code Pro', monospace" ? "selected" : ""}>Source Code Pro</option>
-        <option value="'Inconsolata', monospace" ${fontFamily === "'Inconsolata', monospace" ? "selected" : ""}>Inconsolata</option>
-        <option value="'Space Mono', monospace" ${fontFamily === "'Space Mono', monospace" ? "selected" : ""}>Space Mono</option>
-        <option value="'IBM Plex Mono', monospace" ${fontFamily === "'IBM Plex Mono', monospace" ? "selected" : ""}>IBM Plex Mono</option>
-        <option value="'Share Tech Mono', monospace" ${fontFamily === "'Share Tech Mono', monospace" ? "selected" : ""}>Share Tech Mono</option>
-        <option value="'Cutive Mono', monospace" ${fontFamily === "'Cutive Mono', monospace" ? "selected" : ""}>Cutive Mono</option>
-        <option value="'Anonymous Pro', monospace" ${fontFamily === "'Anonymous Pro', monospace" ? "selected" : ""}>Anonymous Pro</option>
-        <option value="'Oxygen Mono', monospace" ${fontFamily === "'Oxygen Mono', monospace" ? "selected" : ""}>Oxygen Mono</option>
-        <option value="'Ubuntu Mono', monospace" ${fontFamily === "'Ubuntu Mono', monospace" ? "selected" : ""}>Ubuntu Mono</option>
-        <option value="'Overpass Mono', monospace" ${fontFamily === "'Overpass Mono', monospace" ? "selected" : ""}>Overpass Mono</option>
-        <option value="'Major Mono Display', monospace" ${fontFamily === "'Major Mono Display', monospace" ? "selected" : ""}>Major Mono Display</option>
-        <option value="'Nanum Gothic Coding', monospace" ${fontFamily === "'Nanum Gothic Coding', monospace" ? "selected" : ""}>Nanum Gothic Coding</option>
-        <option value="'Red Hat Mono', monospace" ${fontFamily === "'Red Hat Mono', monospace" ? "selected" : ""}>Red Hat Mono</option>
-        <option value="'VT323', monospace" ${fontFamily === "'VT323', monospace" ? "selected" : ""}>VT323</option>
-        <option value="'Syne Mono', monospace" ${fontFamily === "'Syne Mono', monospace" ? "selected" : ""}>Syne Mono</option>
-        <option value="'Recursive', monospace" ${fontFamily === "'Recursive', monospace" ? "selected" : ""}>Recursive</option>
-        <option value="'PT Mono', monospace" ${fontFamily === "'PT Mono', monospace" ? "selected" : ""}>PT Mono</option>
-        <option value="'Fira Code', monospace" ${fontFamily === "'Fira Code', monospace" ? "selected" : ""}>Fira Code</option>
-        <option value="'Mononoki', monospace" ${fontFamily === "'Mononoki', monospace" ? "selected" : ""}>Mononoki</option>
-        <option value="'Share Tech Mono', monospace" ${fontFamily === "'Share Tech Mono', monospace" ? "selected" : ""}>Share Tech Mono</option>
-        <option value="'Nova Mono', monospace" ${fontFamily === "'Nova Mono', monospace" ? "selected" : ""}>Nova Mono</option>
-        <option value="'Enriqueta', monospace" ${fontFamily === "'Enriqueta', monospace" ? "selected" : ""}>Enriqueta</option>
-        <option value="'Special Elite', monospace" ${fontFamily === "'Special Elite', monospace" ? "selected" : ""}>Special Elite</option>
-        <option value="'Press Start 2P', monospace" ${fontFamily === "'Press Start 2P', monospace" ? "selected" : ""}>Press Start 2P</option>
-        <option value="'Roboto Mono', monospace" ${fontFamily === "'Roboto Mono', monospace" ? "selected" : ""}>Roboto Mono</option>
-      </optgroup>
-    </select>
+   <!-- Font Family Selector for Settings Menu -->
+<label for="font-family-select">Font Family:</label>
+<select id="font-family-select" class="font-selector">
+  <optgroup label="Sans-Serif">
+    <option value="Roboto" style="font-family:Roboto, sans-serif;">Roboto</option>
+    <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif;">Open Sans</option>
+    <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif;">Montserrat</option>
+    <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif;">Lato</option>
+    <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif;">Nunito</option>
+    <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif;">Quicksand</option>
+    <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif;">Raleway</option>
+    <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif;">Work Sans</option>
+    <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif;">Source Sans 3</option>
+    <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif;">Ubuntu</option>
+    <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif;">Inter</option>
+    <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif;">Mulish</option>
+    <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif;">Cabin</option>
+    <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif;">Barlow</option>
+    <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif;">Asap</option>
+    <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif;">Karla</option>
+    <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif;">Manrope</option>
+    <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif;">Titillium Web</option>
+    <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif;">Exo 2</option>
+    <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif;">Signika</option>
+    <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif;">Hind</option>
+    <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif;">Archivo</option>
+    <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif;">Questrial</option>
+    <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif;">Heebo</option>
+    <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif;">Fira Sans</option>
+    <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif;">Assistant</option>
+    <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif;">Lexend</option>
+    <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif;">Public Sans</option>
+    <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif;">DM Sans</option>
+    <option value="'Jost', sans-serif" style="font-family:'Jost', sans-serif;">Jost</option>
+  </optgroup>
+  <optgroup label="Serif">
+    <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif;">EB Garamond</option>
+    <option value="'Merriweather', serif" style="font-family:'Merriweather', serif;">Merriweather</option>
+    <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif;">Playfair Display</option>
+    <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif;">Roboto Serif</option>
+    <option value="'PT Serif', serif" style="font-family:'PT Serif', serif;">PT Serif</option>
+    <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif;">Crimson Text</option>
+    <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif;">Libre Baskerville</option>
+    <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif;">Source Serif 4</option>
+    <option value="'Domine', serif" style="font-family:'Domine', serif;">Domine</option>
+    <option value="'Spectral', serif" style="font-family:'Spectral', serif;">Spectral</option>
+    <option value="'Cardo', serif" style="font-family:'Cardo', serif;">Cardo</option>
+    <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif;">Vollkorn</option>
+    <option value="'Crete Round', serif" style="font-family:'Crete Round', serif;">Crete Round</option>
+    <option value="'Arvo', serif" style="font-family:'Arvo', serif;">Arvo</option>
+    <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif;">Old Standard TT</option>
+    <option value="'Prata', serif" style="font-family:'Prata', serif;">Prata</option>
+    <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif;">Zilla Slab</option>
+    <option value="'Literata', serif" style="font-family:'Literata', serif;">Literata</option>
+    <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif;">Georgia Pro</option>
+    <option value="'Faustina', serif" style="font-family:'Faustina', serif;">Faustina</option>
+    <option value="'PT Mono', serif" style="font-family:'PT Mono', serif;">PT Mono</option>
+    <option value="'Neuton', serif" style="font-family:'Neuton', serif;">Neuton</option>
+    <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif;">Sorts Mill Goudy</option>
+    <option value="'Alice', serif" style="font-family:'Alice', serif;">Alice</option>
+    <option value="'Gloock', serif" style="font-family:'Gloock', serif;">Gloock</option>
+    <option value="'Trirong', serif" style="font-family:'Trirong', serif;">Trirong</option>
+    <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif;">Noticia Text</option>
+    <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif;">Abhaya Libre</option>
+    <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif;">Libre Caslon Text</option>
+    <option value="'Martel', serif" style="font-family:'Martel', serif;">Martel</option>
+  </optgroup>
+  <optgroup label="Monospace">
+    <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace;">Fira Mono</option>
+    <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace;">JetBrains Mono</option>
+    <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace;">Roboto Mono</option>
+    <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace;">Source Code Pro</option>
+    <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
+    <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace;">Space Mono</option>
+    <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace;">Cascadia Code</option>
+    <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace;">Inconsolata</option>
+    <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace;">Ubuntu Mono</option>
+    <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
+    <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace;">Share Tech Mono</option>
+    <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace;">Cutive Mono</option>
+    <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace;">Oxygen Mono</option>
+    <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace;">Overpass Mono</option>
+    <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace;">Major Mono Display</option>
+    <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace;">Nanum Gothic Coding</option>
+    <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace;">Red Hat Mono</option>
+    <option value="'VT323', monospace" style="font-family:'VT323', monospace;">VT323</option>
+    <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace;">Syne Mono</option>
+    <option value="'Recursive', monospace" style="font-family:'Recursive', monospace;">Recursive</option>
+    <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace;">Nova Mono</option>
+    <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace;">Enriqueta</option>
+    <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace;">Special Elite</option>
+    <option value="'Press Start 2P', monospace" style="font-family:'Press Start 2P', monospace;">Press Start 2P</option>
+    <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace;">Mononoki</option>
+    <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
+    <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace;">PT Mono</option>
+    <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace;">Fira Code</option>
+    <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
+    <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace;">Courier Prime</option>
+  </optgroup>
+</select>
   </div>
 `;
 
@@ -1696,7 +1869,5 @@ aboutPanel.querySelector("#closeAbout").addEventListener("click", () => {
 document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
-
 //Copyright 2025 by L. Smalley
-
     </script>
