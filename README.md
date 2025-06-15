@@ -31,15 +31,7 @@ It’s fast, simple, and knows more than your uncle who never stops talking.
 ## Features
 
 - Modular tabbed UI
-- Clean, responsive design (inspired by Android 15)
+- Clean, responsive design
 - Instant access to multiple knowledge sources
 - Customisable settings interface
 - Minimal dependencies, fully client-side
-
-## Installation
-
-To run locally:
-
-```bash
-git clone https://github.com/your-username/compendium-of-everything.git
-cd compendium-of-everything
