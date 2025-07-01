@@ -885,9 +885,9 @@
       .font-family-settings {
       display: flex;
       flex-direction: column;
-      max-width: 300px; /* or whatever fits your UI */
+      max-width: 300px;
       margin-bottom: 1em;
-      font-family: Arial, sans-serif; /* scoped to only this container */
+      font-family: Arial, sans-serif;
   }
 
      .font-family-settings #font-family-search {
@@ -938,7 +938,7 @@
       left: 0;
       right: 16px;
       bottom: 0;
-      height: 120px; /* Adjust as needed */
+      height: 120px;
       background: linear-gradient(
         to top,
         var(--bg-color) 0%,
@@ -1035,7 +1035,7 @@
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.1</div>
+      <div class="version-label" id="versionLabel">v.2.1.1</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
@@ -1199,7 +1199,7 @@ function switchTab(tab) {
         if (unitToggle && typeof lastWeatherUnit !== "undefined") {
           unitToggle.checked = lastWeatherUnit;
         }
-        fetchWeather(lastWeatherLocation);
+        fetchWeather(lastWeatherLocation, true);
       }
     }, 120000); // 2 minutes
   } else if (tab === "sett") {
@@ -1279,11 +1279,10 @@ async function wikiSearch(query) {
 }
 
 async function wikiLoadArticle(title) {
+  resultsDiv.innerHTML = ""; // clear search results
+  contentDiv.innerHTML = "Loading article...";
 
-
-  resultsDiv.innerHTML = ""; // clear search results immediately
-
-
+  // Easter egg article
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
       <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
@@ -1313,7 +1312,6 @@ async function wikiLoadArticle(title) {
       <p>
         The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
       </p>
-     
       <h2>See Also</h2>
       <ul>
         <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
@@ -1323,60 +1321,38 @@ async function wikiLoadArticle(title) {
       <p style="font-size:0.9em;color:#888;">
         This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
       </p>
-
-       `;
+    `;
     return;
   }
-  
-  resultsDiv.innerHTML = ""; // clear search results
-  contentDiv.innerHTML = "Loading article...";
+
   try {
     const articleRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(
-        title
-      )}&prop=text`
+      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(title)}&prop=text`
     );
     const data = await articleRes.json();
-    let html =
-      data && data.parse && data.parse.text && data.parse.text["*"]
-        ? data.parse.text["*"]
-        : "<i>Could not load content.</i>";
+    let html = data?.parse?.text?.["*"] || "<i>Could not load content.</i>";
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
-    // Remove all [edit] links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
-doc.querySelectorAll("img").forEach((img) => {
-  let src = img.getAttribute("src");
-  if (!src) return;
+    doc.querySelectorAll("img").forEach((img) => {
+      let src = img.getAttribute("src");
+      if (!src) return;
 
-  // Fix scheme if needed
-  if (src.startsWith("//")) {
-    src = "https:" + src;
-  } else if (src.startsWith("/")) {
-    src = "https://en.wikipedia.org" + src;
-  } else if (!src.startsWith("http")) {
-    src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
-  }
+      if (src.startsWith("//")) src = "https:" + src;
+      else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+      else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
 
-  if (
-    src.includes("/thumb/") &&
-    (src.includes("wikimedia.org") || src.includes("wikipedia.org"))
-  ) {
+      const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+      if (thumbMatch) {
+        src = `${thumbMatch[1]}/${thumbMatch[2]}`;
+      }
 
-    const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
-    if (thumbMatch) {
-      src = `${thumbMatch[1]}/${thumbMatch[2]}`;
-    }
-  }
+      img.setAttribute("src", src);
+    });
 
-  img.setAttribute("src", src);
-});
-
-
-    // Disable all links
     doc.querySelectorAll("a").forEach((a) => {
       a.removeAttribute("href");
       a.style.cursor = "default";
@@ -1385,6 +1361,112 @@ doc.querySelectorAll("img").forEach((img) => {
     });
 
     contentDiv.innerHTML = doc.body.innerHTML;
+
+    // ===== Table of Contents (inline-based) =====
+
+    // Remove old ToC button/panel if present
+    const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
+    if (oldBtn) oldBtn.remove();
+    const oldPanel = contentDiv.querySelector("#toc-panel");
+    if (oldPanel) oldPanel.remove();
+
+    // Create ToC button (fixed, bottom right of viewport)
+    const tocBtn = document.createElement("button");
+    tocBtn.id = "toc-toggle-btn";
+    tocBtn.title = "Show Table of Contents";
+    tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
+tocBtn.style.cssText = `
+  position: fixed;
+  bottom: 70px;
+  left: 35px;
+  z-index: 1000;
+  background: var(--accent-color, royalblue);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+`;
+
+    // Create ToC panel (absolute inside .content)
+const tocPanel = document.createElement("div");
+tocPanel.id = "toc-panel";
+tocPanel.style.cssText = `
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 240px;
+  max-height: 70%;
+  background: var(--bg-color, #fff);
+  color: var(--text-color);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 12px 0 12px 0;
+`;
+    tocPanel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 18px 8px 18px;font-weight:bold;">
+        <span>Contents</span>
+        <button id="toc-close-btn" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:#888;">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div id="toc-list" style="padding:0 18px;"></div>
+    `;
+
+    // Insert into .content
+    contentDiv.appendChild(tocBtn);
+    contentDiv.appendChild(tocPanel);
+
+    // Show/hide panel
+    tocBtn.onclick = () => {
+      tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
+    };
+    tocPanel.querySelector("#toc-close-btn").onclick = () => {
+      tocPanel.style.display = "none";
+    };
+
+    // Build ToC from headings in content
+    const tocList = tocPanel.querySelector("#toc-list");
+    tocList.innerHTML = "";
+    const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
+    if (headings.length) {
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = "toc-h-" + i;
+        const indent = h.tagName === "H2" ? 0 : h.tagName === "H3" ? 1 : 2;
+        const a = document.createElement("a");
+        a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
+        a.style.marginLeft = `${indent * 16}px`;
+        a.style.display = "block";
+        a.style.color = "black";
+        a.style.textDecoration = "none";
+        a.style.marginBottom = "6px";
+        a.style.cursor = "pointer";
+        a.href = "#" + h.id;
+        a.onmouseenter = () => (a.style.textDecoration = "underline");
+        a.onmouseleave = () => (a.style.textDecoration = "none");
+        a.onclick = (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: "smooth", block: "start" });
+          tocPanel.style.display = "none";
+        };
+        tocList.appendChild(a);
+      });
+    } else {
+      tocBtn.style.display = "none";
+    }
+
   } catch (e) {
     contentDiv.innerHTML = "<i>Error loading article.</i>";
   }
@@ -1605,15 +1687,17 @@ function formatDate(dateStr) {
 }
 
 
-  async function fetchWeather(query) {
+  async function fetchWeather(query, silent = false) {
     if (!query) {
       output.innerHTML = `<i>Please enter a location.</i>`;
       return;
     }
 
-    output.innerHTML = `
+    if (!silent) {
+      output.innerHTML = `
       <span class="material-symbols-rounded loading-spinner">autorenew</span>
       <div>Loading weather...</div>`;
+  }
 
     try {
       const geoRes = await fetch(
@@ -1709,19 +1793,22 @@ function formatDate(dateStr) {
       <text x="85" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">E</text>
       <text x="50" y="85" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">S</text>
       <text x="15" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">W</text>
-      <circle cx="50" cy="50" r="6" fill="royalblue"/>
+      <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
       <g transform="rotate(${windDirDeg}, 50, 50)">
-        <polygon points="50,14 47,50 53,50" fill="royalblue"/>
+        <polygon points="50,14 47,50 53,50" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"/>
       </g>
     </svg>
   </div>
   <div class="forecast">${forecastHTML}</div>
 `;
 
-    } catch (err) {
+  } catch (err) {
+    if (!silent) {
       output.innerHTML = `<i>Could not load weather. Try a ZIP code if City doesn't work.</i>`;
     }
+    // If silent, do not change the UI on error
   }
+}
 
   button.addEventListener("click", () => fetchWeather(input.value));
   input.addEventListener("keydown", (e) => {
@@ -1741,9 +1828,9 @@ if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
 weatherRefreshTimer = setInterval(() => {
   if (lastWeatherLocation) {
     unitToggle.checked = lastWeatherUnit;
-    fetchWeather(lastWeatherLocation);
+    fetchWeather(lastWeatherLocation, true); // silent refresh
   }
-}, 120000);
+}, 120000); // 2 minutes
 
 }  
 
@@ -1770,12 +1857,12 @@ function loadSettings() {
       <label style="margin-bottom:4px;">Accent Color: <input type="color" id="accent-color-picker" value="${accentColor.trim() || "#4169e1"}"></label>
       <label style="margin-bottom:4px;">Text Color: <input type="color" id="text-color-picker" value="${textColor.trim() || "#000000"}"></label>
       <label style="margin-bottom:4px;">Background Color: <input type="color" id="bg-color-picker" value="${bgColor.trim() || "#ffffff"}"></label>
-      <button id="reset-theme-btn" style="margin-top:6px;">Reset to Default</button>
+      <button id="reset-theme-btn" style="margin-top:6px; font-family: var(--text-font, 'Roboto'), sans-serif;">Reset to Default</button>
       <div style="font-size:0.9em;color:#888;margin-top:2px;">Custom theme disables dark mode toggle.</div>
     </div>
     <div class="setting-item font-family-settings">
       <label for="font-family-search">Search Fonts:</label>
-      <input type="text" id="font-family-search" placeholder="Type to filter fonts…" autocomplete="off" />
+      <input type="text" id="font-family-search" placeholder="Type to filter fonts…" autocomplete="off" style="font-family: var(--text-font, 'Roboto'), sans-serif;" />
       <label for="font-family-select">Font Family:</label>
       <select id="font-family-select" class="font-selector" size="10">
         <optgroup label="Sans-Serif">
@@ -2055,14 +2142,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.1 changes:</strong>
+      <strong>v.2.1.1 changes:</strong>
       <ul>
-        <li>Added font searcher in Settings Tab</li>
-        <li>Added OpenDyslexic font</li>
-        <li>Added theme changer in Settings Tab</li>
-        <li>Added automatic weather refresh every 2 minutes</li>
-        <li>Added higher resolution images in Wikipedia Tab (only works for article with images with Wikimedia Commons links)</li>
-        <li>
+        <li>Added Table of Contents in Wikipedia Tab</li>
         </ul>
         <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">
         View project on GitHub
@@ -2136,3 +2218,5 @@ document.getElementById("versionLabel").addEventListener("click", () => {
 });
 //Copyright 2025 by L. Smalley
     </script>
+    </body>
+</html>
