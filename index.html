@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Compendium of Everything - 2.0</title>
+    <meta name="description" content="A minimalist multi-tool app for fast access to knowledge all in one place.">
+    <title>The Compendium of Everything</title>
     <link rel="icon" type="image/png" href="Compendium_Logo.png">
     <style id="style">
         body {
@@ -17,7 +18,7 @@
 
     <script>
         (() => {
-  const existing = document.getElementById("wiki-dic-thes-sett-app");
+  const existing = document.getElementById("compendium-app");
   if (existing) existing.remove();
 
   const style = document.createElement("style");
@@ -52,8 +53,8 @@
       @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded');
+
 
       /* Serif */
       @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
@@ -139,6 +140,11 @@
       @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
+      @font-face {
+      font-family: OpenDyslexic;
+      src: url(OpenDyslexic-Regular.otf);
+      }
+
      .font-selector {
       width: 100%;
       padding: 8px 14px;
@@ -176,7 +182,7 @@
       background: #fff;
       }
 
-     #wiki-dic-thes-sett-app {
+     #compendium-app {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -204,7 +210,7 @@
       right: 15px;
       text-align: right;
       font-family: var(--text-font, 'Roboto'), sans-serif;
-      font-size: 16px;
+      font-size: var(--font-size);
       font-weight: bold;
       color: #000;
       text-shadow:
@@ -212,6 +218,7 @@
       1px -1px 0 white,
       -1px 1px 0 white,
       1px 1px 0 white;
+      z-index: 1000;
     }  
 
      .compendium-title {
@@ -225,14 +232,14 @@
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
 
-      #wiki-dic-thes-sett-app.dark {
+      #compendium-app.dark {
       --bg-color: #121212;
       --text-color: #eee;
       --accent-color: royalblue;
       --text-font: var(--text-font, 'Roboto'), sans-serif;
     }
 
-      #wiki-dic-thes-sett-app.light {
+      #compendium-app.light {
       --bg-color: #fff;
       --text-color: #000;
       --accent-color: royalblue;
@@ -240,17 +247,7 @@
       color: var(--text-color);
     }
 
-     .author-title {
-      font-size: 16px;
-      position: absolute;
-      bottom: 5px;
-      left: 20px;
-      font-family: var(--text-font, 'Roboto'), sans-serif;
-      font-style: italic;
-      color: #808080;
-    }
-
-     #wiki-dic-thes-sett-app header {
+     #compendium-app header {
       display: flex;
       justify-content: space-around;
       padding: 12px 0;
@@ -261,7 +258,7 @@
       z-index: 10;
     }
 
-     #wiki-dic-thes-sett-app header .tab {
+     #compendium-app header .tab {
       flex: 1;
       text-align: center;
       cursor: pointer;
@@ -276,7 +273,7 @@
       gap: 4px;
     }
 
-     #wiki-dic-thes-sett-app header .tab.selected {
+     #compendium-app header .tab.selected {
       color: var(--accent-color, royalblue);
       font-weight: 700;
     }
@@ -292,15 +289,15 @@
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
 
-     #wiki-dic-thes-sett-app main {
+     #compendium-app main {
       flex: 1;
-      padding: 10px 16px;
+      padding: 10px 16px 120px 16px;
       overflow-y: auto;
       overflow-x: hidden;
-      box-sizing: border-box;
+    box-sizing: border-box;
     }
 
-     #wiki-dic-thes-sett-app input[type="search"] {
+     #compendium-app input[type="search"] {
       width: 100%;
       padding: 10px 14px;
       border-radius: 24px;
@@ -315,7 +312,7 @@
       transition: border-color 0.3s;
     }
 
-     #wiki-dic-thes-sett-app input[type="search"]::placeholder {
+     #compendium-app input[type="search"]::placeholder {
       color: var(--text-color);
       opacity: 0.5;
     }
@@ -343,7 +340,7 @@
       margin: 0 5px;
     }
 
-     #wiki-dic-thes-sett-app input[type="search"] {
+     #compendium-app input[type="search"] {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
@@ -363,6 +360,7 @@
       border-radius: 18px;
       z-index: 100;
       white-space: normal;
+      z-index: 999;
     }
 
      .version-label {
@@ -371,10 +369,22 @@
       position: absolute;
       bottom: 24px;
       left: 20px;
-      font-size: 16px;
+      font-size: var(--font-size);
       font-style: italic;
       font-family: var(--text-font, 'Roboto'), sans-serif;
       color: #808080;
+      z-index: 1000;
+    }
+
+     .author-title {
+      font-size: var(--font-size);
+      position: absolute;
+      bottom: 5px;
+      left: 20px;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-style: italic;
+      color: #808080;
+      z-index: 1000;
     }
 
      .result-item {
@@ -698,7 +708,7 @@
       position: fixed;
       bottom: 30px;
       right: 35px;
-      z-index: 1000001;
+      z-index: 1000;
       background: var(--accent-color, royalblue);
       color: #fff;
       border: none;
@@ -804,7 +814,7 @@
      .about-panel {
       position: absolute;
       bottom: 50px;
-      left: 240px;
+      left: 50px;
       max-width: 320px;
       min-width: 220px;
       padding: 20px 18px 18px 18px;
@@ -825,7 +835,7 @@
   }
      .about-logo {
       width: 64px;
-    height: 64px;
+      height: 64px;
       object-fit: contain;
       border-radius: 12px;
       margin-bottom: 8px;
@@ -870,12 +880,194 @@
     .notepad-header .material-symbols-rounded {
      font-size: 1.3em;
      margin-right: 2px;
+  }
+
+      .font-family-settings {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin-bottom: 1em;
+      font-family: Arial, sans-serif;
+  }
+
+     .font-family-settings #font-family-search {
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline-offset: 2px;
+      transition: border-color 0.2s ease;
+  }
+
+     .font-family-settings #font-family-search:focus {
+      border-color: #3a86ff;
+      box-shadow: 0 0 4px #3a86ffaa;
+  }
+
+     .font-family-settings #font-family-select {
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+  }
+
+     #simple-version-btn {
+      background: linear-gradient(90deg, #3a86ff 0%, #4361ee 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 18px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(58,134,255,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      margin-left: 10px;
+  }
+
+     #simple-version-btn:hover,
+     #simple-version-btn:focus {
+      background: linear-gradient(90deg, #4361ee 0%, #3a86ff 100%);
+      box-shadow: 0 4px 16px rgba(58,134,255,0.15);
+      transform: translateY(-2px) scale(1.04);
+      outline: none;
+  }
+
+     #footer-overlay {
+      position: absolute;
+      left: 0;
+      right: 16px;
+      bottom: 0;
+      height: 120px;
+      background: linear-gradient(
+        to top,
+        var(--bg-color) 0%,
+        var(--bg-color) 40px,
+        transparent 100%
+    );
+      z-index: 100;
+      pointer-events: none;
+      border-radius: 0 0 30px 30px;
+      box-shadow: none;
+  }
+
+     .setting-item input[type="color"] {
+      appearance: none;
+      border: 1.5px solid var(--accent-color);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+     .setting-item input[type="color"]:focus {
+      outline: none;
+      border-color: #3a86ff;
+      box-shadow: 0 0 0 2px #3a86ff44;
+  }
+     .setting-item label {
+      display: flex;
+      align-items: center;
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--text-color);
+  }
+
+     #reset-theme-btn {
+      background: var(--accent-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 8px;
+      padding: 6px 16px;
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, box-shadow 0.2s;
+  }
+
+     #reset-theme-btn:hover, #reset-theme-btn:focus {
+      background: #3a50c1;
+      box-shadow: 0 2px 8px rgba(58,134,255,0.10);
+      outline: none;
+  }
+
+     .dropdown {
+      position: relative;
+      display: inline-block;
+      margin-top: 18px;
+  }
+
+     .dropdown-button {
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(58,134,255,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+
+    .dropdown-button:hover,
+    .dropdown-button:focus {
+     background: #3a50c1;
+     box-shadow: 0 4px 16px rgba(58,134,255,0.15);
+     outline: none;
+     transform: translateY(-2px) scale(1.04);
+  }
+
+     .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      min-width: 180px;
+      background: var(--bg-color, #fff);
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+      z-index: 1002;
+      padding: 8px 0;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+  }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: block;
+  }
+
+     .dropdown-content a {
+      display: block;
+      padding: 10px 18px;
+      color: var(--text-color, #222);
+      text-decoration: none;
+      font-size: 1em;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+  }
+
+     .dropdown-content a:hover,
+     .dropdown-content a:focus {
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      outline: none;
+  }
+
+
   `;
 
   document.head.appendChild(style);
 
   const app = document.createElement("section");
-  app.id = "wiki-dic-thes-sett-app";
+  app.id = "compendium-app";
   app.classList.add("light");
 
   app.innerHTML = `
@@ -908,9 +1100,10 @@
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.0</div>
+      <div class="version-label" id="versionLabel">v.2.2</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
+      <div id="footer-overlay"></div>
     </main>
   `;
 
@@ -1057,8 +1250,23 @@ function switchTab(tab) {
     resultsDiv.innerHTML = tabContents.weather.results;
     contentDiv.innerHTML = tabContents.weather.content;
     settingsDiv.style.display = "none";
-    // If weather content is empty, load weather UI
     if (!contentDiv.innerHTML) loadWeather();
+
+    // --- Weather auto-refresh: start timer when entering weather tab ---
+    if (typeof weatherRefreshTimer !== "undefined" && weatherRefreshTimer) {
+      clearInterval(weatherRefreshTimer);
+      weatherRefreshTimer = null;
+    }
+    weatherRefreshTimer = setInterval(() => {
+      if (typeof lastWeatherLocation !== "undefined" && lastWeatherLocation) {
+        // Ensure unit toggle matches last used unit
+        const unitToggle = document.getElementById("unit-toggle");
+        if (unitToggle && typeof lastWeatherUnit !== "undefined") {
+          unitToggle.checked = lastWeatherUnit;
+        }
+        fetchWeather(lastWeatherLocation, true);
+      }
+    }, 120000); // 2 minutes
   } else if (tab === "sett") {
     searchInput.style.display = "none";
     settingsDiv.style.display = "block";
@@ -1074,8 +1282,6 @@ tabs.forEach((tab) => {
 
 
 // Wikipedia API
-// Find your wikiSearch function and replace it with this version:
-
 async function wikiSearch(query) {
   if (!query) {
     resultsDiv.innerHTML = "";
@@ -1138,11 +1344,10 @@ async function wikiSearch(query) {
 }
 
 async function wikiLoadArticle(title) {
+  resultsDiv.innerHTML = ""; // clear search results
+  contentDiv.innerHTML = "Loading article...";
 
-
-  resultsDiv.innerHTML = ""; // clear search results immediately
-
-
+  // Easter egg article
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
       <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
@@ -1159,7 +1364,7 @@ async function wikiLoadArticle(title) {
       </p>
       <h2>Development and Features</h2>
       <p>
-        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app.
+        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app. His website went live officially on 6th June, 2025 at 5:00 PM EST exactly.
       </p>
       <p>
         Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
@@ -1172,7 +1377,6 @@ async function wikiLoadArticle(title) {
       <p>
         The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
       </p>
-     
       <h2>See Also</h2>
       <ul>
         <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
@@ -1182,45 +1386,38 @@ async function wikiLoadArticle(title) {
       <p style="font-size:0.9em;color:#888;">
         This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
       </p>
-
-       `;
+    `;
     return;
   }
-  
-  resultsDiv.innerHTML = ""; // clear search results
-  contentDiv.innerHTML = "Loading article...";
+
   try {
     const articleRes = await fetch(
-      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(
-        title
-      )}&prop=text`
+      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(title)}&prop=text`
     );
     const data = await articleRes.json();
-    let html =
-      data && data.parse && data.parse.text && data.parse.text["*"]
-        ? data.parse.text["*"]
-        : "<i>Could not load content.</i>";
+    let html = data?.parse?.text?.["*"] || "<i>Could not load content.</i>";
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
 
-    // Remove all [edit] links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
-    // Fix image URLs
     doc.querySelectorAll("img").forEach((img) => {
       let src = img.getAttribute("src");
       if (!src) return;
-      if (src.startsWith("//")) {
-        img.setAttribute("src", "https:" + src);
-      } else if (src.startsWith("/")) {
-        img.setAttribute("src", "https://en.wikipedia.org" + src);
-      } else if (!src.startsWith("http")) {
-        img.setAttribute("src", "https://en.wikipedia.org/" + src.replace(/^\/*/, ""));
+
+      if (src.startsWith("//")) src = "https:" + src;
+      else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+      else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+
+      const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+      if (thumbMatch) {
+        src = `${thumbMatch[1]}/${thumbMatch[2]}`;
       }
+
+      img.setAttribute("src", src);
     });
 
-    // Disable all links
     doc.querySelectorAll("a").forEach((a) => {
       a.removeAttribute("href");
       a.style.cursor = "default";
@@ -1229,11 +1426,118 @@ async function wikiLoadArticle(title) {
     });
 
     contentDiv.innerHTML = doc.body.innerHTML;
+
+    // ===== Table of Contents (inline-based) =====
+
+    // Remove old ToC button/panel if present
+    const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
+    if (oldBtn) oldBtn.remove();
+    const oldPanel = contentDiv.querySelector("#toc-panel");
+    if (oldPanel) oldPanel.remove();
+
+    // Create ToC button (fixed, bottom right of viewport)
+    const tocBtn = document.createElement("button");
+    tocBtn.id = "toc-toggle-btn";
+    tocBtn.title = "Show Table of Contents";
+    tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
+tocBtn.style.cssText = `
+  position: fixed;
+  bottom: 70px;
+  left: 35px;
+  z-index: 1000;
+  background: var(--accent-color, royalblue);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+`;
+
+    // Create ToC panel (absolute inside .content)
+const tocPanel = document.createElement("div");
+tocPanel.id = "toc-panel";
+tocPanel.style.cssText = `
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 240px;
+  max-height: 70%;
+  background: var(--bg-color, #fff);
+  color: var(--text-color);
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  z-index: 1001;
+  display: none;
+  flex-direction: column;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 12px 0 12px 0;
+`;
+    tocPanel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 18px 8px 18px;font-weight:bold;">
+        <span>Contents</span>
+        <button id="toc-close-btn" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:#888;">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div id="toc-list" style="padding:0 18px;"></div>
+    `;
+
+    // Insert into .content
+    contentDiv.appendChild(tocBtn);
+    contentDiv.appendChild(tocPanel);
+
+    // Show/hide panel
+    tocBtn.onclick = () => {
+      tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
+    };
+    tocPanel.querySelector("#toc-close-btn").onclick = () => {
+      tocPanel.style.display = "none";
+    };
+
+    // Build ToC from headings in content
+    const tocList = tocPanel.querySelector("#toc-list");
+    tocList.innerHTML = "";
+    const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
+    if (headings.length) {
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = "toc-h-" + i;
+        const indent = h.tagName === "H2" ? 0 : h.tagName === "H3" ? 1 : 2;
+        const a = document.createElement("a");
+        a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
+        a.style.marginLeft = `${indent * 16}px`;
+        a.style.display = "block";
+        a.style.color = "black";
+        a.style.textDecoration = "none";
+        a.style.marginBottom = "6px";
+        a.style.cursor = "pointer";
+        a.href = "#" + h.id;
+        a.onmouseenter = () => (a.style.textDecoration = "underline");
+        a.onmouseleave = () => (a.style.textDecoration = "none");
+        a.onclick = (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: "smooth", block: "start" });
+          tocPanel.style.display = "none";
+        };
+        tocList.appendChild(a);
+      });
+    } else {
+      tocBtn.style.display = "none";
+    }
+
   } catch (e) {
     contentDiv.innerHTML = "<i>Error loading article.</i>";
   }
 }
-  //Dictionary API (Free Dictionary API)
+
+//Dictionary API (Free Dictionary API)
   async function dicSearch(query) {
     if (!query) {
       resultsDiv.innerHTML = "";
@@ -1360,6 +1664,10 @@ async function loadWeather() {
     </div>
   `;
 
+  let lastWeatherLocation = "";
+  let lastWeatherUnit = false; // false = metric, true = imperial
+  let weatherRefreshTimer = null;
+
   const input = document.getElementById("location-input");
   const button = document.getElementById("get-weather-btn");
   const output = document.getElementById("weather-output");
@@ -1444,15 +1752,17 @@ function formatDate(dateStr) {
 }
 
 
-  async function fetchWeather(query) {
+  async function fetchWeather(query, silent = false) {
     if (!query) {
       output.innerHTML = `<i>Please enter a location.</i>`;
       return;
     }
 
-    output.innerHTML = `
+    if (!silent) {
+      output.innerHTML = `
       <span class="material-symbols-rounded loading-spinner">autorenew</span>
       <div>Loading weather...</div>`;
+  }
 
     try {
       const geoRes = await fetch(
@@ -1526,6 +1836,9 @@ function formatDate(dateStr) {
       }
       forecastHTML += `</div>`;
 
+      lastWeatherLocation = query;
+      lastWeatherUnit = unitToggle.checked;
+
       output.innerHTML = `
   <div class="weather-header">
     <h3>Weather in ${locationName}</h3>
@@ -1545,19 +1858,22 @@ function formatDate(dateStr) {
       <text x="85" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">E</text>
       <text x="50" y="85" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">S</text>
       <text x="15" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">W</text>
-      <circle cx="50" cy="50" r="6" fill="royalblue"/>
+      <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
       <g transform="rotate(${windDirDeg}, 50, 50)">
-        <polygon points="50,14 47,50 53,50" fill="royalblue"/>
+        <polygon points="50,14 47,50 53,50" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"/>
       </g>
     </svg>
   </div>
   <div class="forecast">${forecastHTML}</div>
 `;
 
-    } catch (err) {
+  } catch (err) {
+    if (!silent) {
       output.innerHTML = `<i>Could not load weather. Try a ZIP code if City doesn't work.</i>`;
     }
+    // If silent, do not change the UI on error
   }
+}
 
   button.addEventListener("click", () => fetchWeather(input.value));
   input.addEventListener("keydown", (e) => {
@@ -1569,158 +1885,278 @@ function formatDate(dateStr) {
       fetchWeather(input.value);
     }
   });
-}
-  
+
+  // Clear any previous timer
+if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
+
+// Set up auto-refresh every 2 minutes (120,000 ms)
+weatherRefreshTimer = setInterval(() => {
+  if (lastWeatherLocation) {
+    unitToggle.checked = lastWeatherUnit;
+    fetchWeather(lastWeatherLocation, true); // silent refresh
+  }
+}, 120000); // 2 minutes
+
+}  
+
 function loadSettings() {
-    settingsDiv.innerHTML = `
-  <div class="setting-item">
-    <label for="dark-mode-toggle">Dark Mode</label>
-    <label class="toggle-switch">
-      <input type="checkbox" id="dark-mode-toggle" ${darkMode ? "checked" : ""}>
-      <span class="toggle-slider"></span>
-    </label>
-  </div>
-  <div class="setting-item">
-    <label for="font-size-range">Text Size (${fontSize}px)</label>
-    <input type="range" id="font-size-range" min="10" max="25" value="${fontSize}">
-  </div>
-  <div class="setting-item">
-   <!-- Font Family Selector for Settings Menu -->
-<label for="font-family-select">Font Family:</label>
-<select id="font-family-select" class="font-selector">
-  <optgroup label="Sans-Serif">
-    <option value="Roboto" style="font-family:Roboto, sans-serif;">Roboto</option>
-    <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif;">Open Sans</option>
-    <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif;">Montserrat</option>
-    <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif;">Lato</option>
-    <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif;">Nunito</option>
-    <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif;">Quicksand</option>
-    <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif;">Raleway</option>
-    <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif;">Work Sans</option>
-    <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif;">Source Sans 3</option>
-    <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif;">Ubuntu</option>
-    <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif;">Inter</option>
-    <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif;">Mulish</option>
-    <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif;">Cabin</option>
-    <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif;">Barlow</option>
-    <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif;">Asap</option>
-    <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif;">Karla</option>
-    <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif;">Manrope</option>
-    <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif;">Titillium Web</option>
-    <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif;">Exo 2</option>
-    <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif;">Signika</option>
-    <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif;">Hind</option>
-    <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif;">Archivo</option>
-    <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif;">Questrial</option>
-    <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif;">Heebo</option>
-    <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif;">Fira Sans</option>
-    <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif;">Assistant</option>
-    <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif;">Lexend</option>
-    <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif;">Public Sans</option>
-    <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif;">DM Sans</option>
-    <option value="'Jost', sans-serif" style="font-family:'Jost', sans-serif;">Jost</option>
-  </optgroup>
-  <optgroup label="Serif">
-    <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif;">EB Garamond</option>
-    <option value="'Merriweather', serif" style="font-family:'Merriweather', serif;">Merriweather</option>
-    <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif;">Playfair Display</option>
-    <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif;">Roboto Serif</option>
-    <option value="'PT Serif', serif" style="font-family:'PT Serif', serif;">PT Serif</option>
-    <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif;">Crimson Text</option>
-    <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif;">Libre Baskerville</option>
-    <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif;">Source Serif 4</option>
-    <option value="'Domine', serif" style="font-family:'Domine', serif;">Domine</option>
-    <option value="'Spectral', serif" style="font-family:'Spectral', serif;">Spectral</option>
-    <option value="'Cardo', serif" style="font-family:'Cardo', serif;">Cardo</option>
-    <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif;">Vollkorn</option>
-    <option value="'Crete Round', serif" style="font-family:'Crete Round', serif;">Crete Round</option>
-    <option value="'Arvo', serif" style="font-family:'Arvo', serif;">Arvo</option>
-    <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif;">Old Standard TT</option>
-    <option value="'Prata', serif" style="font-family:'Prata', serif;">Prata</option>
-    <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif;">Zilla Slab</option>
-    <option value="'Literata', serif" style="font-family:'Literata', serif;">Literata</option>
-    <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif;">Georgia Pro</option>
-    <option value="'Faustina', serif" style="font-family:'Faustina', serif;">Faustina</option>
-    <option value="'PT Mono', serif" style="font-family:'PT Mono', serif;">PT Mono</option>
-    <option value="'Neuton', serif" style="font-family:'Neuton', serif;">Neuton</option>
-    <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif;">Sorts Mill Goudy</option>
-    <option value="'Alice', serif" style="font-family:'Alice', serif;">Alice</option>
-    <option value="'Gloock', serif" style="font-family:'Gloock', serif;">Gloock</option>
-    <option value="'Trirong', serif" style="font-family:'Trirong', serif;">Trirong</option>
-    <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif;">Noticia Text</option>
-    <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif;">Abhaya Libre</option>
-    <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif;">Libre Caslon Text</option>
-    <option value="'Martel', serif" style="font-family:'Martel', serif;">Martel</option>
-  </optgroup>
-  <optgroup label="Monospace">
-    <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace;">Fira Mono</option>
-    <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace;">JetBrains Mono</option>
-    <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace;">Roboto Mono</option>
-    <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace;">Source Code Pro</option>
-    <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
-    <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace;">Space Mono</option>
-    <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace;">Cascadia Code</option>
-    <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace;">Inconsolata</option>
-    <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace;">Ubuntu Mono</option>
-    <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
-    <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace;">Share Tech Mono</option>
-    <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace;">Cutive Mono</option>
-    <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace;">Oxygen Mono</option>
-    <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace;">Overpass Mono</option>
-    <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace;">Major Mono Display</option>
-    <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace;">Nanum Gothic Coding</option>
-    <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace;">Red Hat Mono</option>
-    <option value="'VT323', monospace" style="font-family:'VT323', monospace;">VT323</option>
-    <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace;">Syne Mono</option>
-    <option value="'Recursive', monospace" style="font-family:'Recursive', monospace;">Recursive</option>
-    <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace;">Nova Mono</option>
-    <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace;">Enriqueta</option>
-    <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace;">Special Elite</option>
-    <option value="'Press Start 2P', monospace" style="font-family:'Press Start 2P', monospace;">Press Start 2P</option>
-    <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace;">Mononoki</option>
-    <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
-    <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace;">PT Mono</option>
-    <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace;">Fira Code</option>
-    <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
-    <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace;">Courier Prime</option>
-  </optgroup>
-</select>
-  </div>
-`;
+  // Get current theme values or defaults
+  const accentColor = app.style.getPropertyValue("--accent-color") || "royalblue";
+  const textColor = app.style.getPropertyValue("--text-color") || "#000000";
+  const bgColor = app.style.getPropertyValue("--bg-color") || "#ffffff";
 
-    settingsDiv
-      .querySelector("#dark-mode-toggle")
-      .addEventListener("change", (e) => {
-        darkMode = e.target.checked;
-        if (darkMode) {
-          app.classList.add("dark");
-          app.classList.remove("light");
-        } else {
-          app.classList.remove("dark");
-          app.classList.add("light");
-        }
-      });
+  settingsDiv.innerHTML = `
+    <div class="setting-item">
+      <label for="dark-mode-toggle">Dark Mode</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="dark-mode-toggle" ${darkMode ? "checked" : ""} ${localStorage.getItem("custom-theme") ? "disabled" : ""}>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="setting-item">
+      <label for="font-size-range">Text Size (${fontSize}px)</label>
+      <input type="range" id="font-size-range" min="10" max="25" value="${fontSize}">
+    </div>
+    <div class="setting-item" style="flex-direction:column;align-items:flex-start;">
+      <div style="font-weight:bold;margin-bottom:6px;">Theme</div>
+      <label style="margin-bottom:4px;">Accent Color: <input type="color" id="accent-color-picker" value="${accentColor.trim() || "#4169e1"}"></label>
+      <label style="margin-bottom:4px;">Text Color: <input type="color" id="text-color-picker" value="${textColor.trim() || "#000000"}"></label>
+      <label style="margin-bottom:4px;">Background Color: <input type="color" id="bg-color-picker" value="${bgColor.trim() || "#ffffff"}"></label>
+      <button id="reset-theme-btn" style="margin-top:6px; font-family: var(--text-font, 'Roboto'), sans-serif;">Reset to Default</button>
+      <div style="font-size:0.9em;color:#888;margin-top:2px;">Custom theme disables dark mode toggle.</div>
+    </div>
+    <div class="setting-item font-family-settings">
+      <label for="font-family-search">Search Fonts:</label>
+      <input type="text" id="font-family-search" placeholder="Type to filter fonts…" autocomplete="off" style="font-family: var(--text-font, 'Roboto'), sans-serif;" />
+      <label for="font-family-select">Font Family:</label>
+      <select id="font-family-select" class="font-selector" size="10">
+        <optgroup label="Sans-Serif">
+          <option value="Roboto" style="font-family:Roboto, sans-serif;">Roboto</option>
+          <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif;">Open Sans</option>
+          <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif;">Montserrat</option>
+          <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif;">Lato</option>
+          <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif;">Nunito</option>
+          <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif;">Quicksand</option>
+          <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif;">Raleway</option>
+          <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif;">Work Sans</option>
+          <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif;">Source Sans 3</option>
+          <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif;">Ubuntu</option>
+          <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif;">Inter</option>
+          <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif;">Mulish</option>
+          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif;">Cabin</option>
+          <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif;">Barlow</option>
+          <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif;">Asap</option>
+          <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif;">Karla</option>
+          <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif;">Manrope</option>
+          <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif;">Titillium Web</option>
+          <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif;">Exo 2</option>
+          <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif;">Signika</option>
+          <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif;">Hind</option>
+          <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif;">Archivo</option>
+          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif;">Questrial</option>
+          <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif;">Heebo</option>
+          <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif;">Fira Sans</option>
+          <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif;">Assistant</option>
+          <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif;">Lexend</option>
+          <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif;">Public Sans</option>
+          <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif;">DM Sans</option>
+          <option value="'OpenDyslexic', sans-serif" style="font-family:'OpenDyslexic', sans-serif;">OpenDyslexic</option>
+        </optgroup>
+        <optgroup label="Serif">
+          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif;">EB Garamond</option>
+          <option value="'Merriweather', serif" style="font-family:'Merriweather', serif;">Merriweather</option>
+          <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif;">Playfair Display</option>
+          <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif;">Roboto Serif</option>
+          <option value="'PT Serif', serif" style="font-family:'PT Serif', serif;">PT Serif</option>
+          <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif;">Crimson Text</option>
+          <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif;">Libre Baskerville</option>
+          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif;">Source Serif 4</option>
+          <option value="'Domine', serif" style="font-family:'Domine', serif;">Domine</option>
+          <option value="'Spectral', serif" style="font-family:'Spectral', serif;">Spectral</option>
+          <option value="'Cardo', serif" style="font-family:'Cardo', serif;">Cardo</option>
+          <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif;">Vollkorn</option>
+          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif;">Crete Round</option>
+          <option value="'Arvo', serif" style="font-family:'Arvo', serif;">Arvo</option>
+          <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif;">Old Standard TT</option>
+          <option value="'Prata', serif" style="font-family:'Prata', serif;">Prata</option>
+          <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif;">Zilla Slab</option>
+          <option value="'Literata', serif" style="font-family:'Literata', serif;">Literata</option>
+          <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif;">Georgia Pro</option>
+          <option value="'Faustina', serif" style="font-family:'Faustina', serif;">Faustina</option>
+          <option value="'PT Mono', serif" style="font-family:'PT Mono', serif;">PT Mono</option>
+          <option value="'Neuton', serif" style="font-family:'Neuton', serif;">Neuton</option>
+          <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif;">Sorts Mill Goudy</option>
+          <option value="'Alice', serif" style="font-family:'Alice', serif;">Alice</option>
+          <option value="'Gloock', serif" style="font-family:'Gloock', serif;">Gloock</option>
+          <option value="'Trirong', serif" style="font-family:'Trirong', serif;">Trirong</option>
+          <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif;">Noticia Text</option>
+          <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif;">Abhaya Libre</option>
+          <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif;">Libre Caslon Text</option>
+          <option value="'Martel', serif" style="font-family:'Martel', serif;">Martel</option>
+        </optgroup>
+        <optgroup label="Monospace">
+          <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace;">Fira Mono</option>
+          <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace;">JetBrains Mono</option>
+          <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace;">Roboto Mono</option>
+          <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace;">Source Code Pro</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
+          <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace;">Space Mono</option>
+          <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace;">Cascadia Code</option>
+          <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace;">Inconsolata</option>
+          <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace;">Ubuntu Mono</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
+          <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace;">Share Tech Mono</option>
+          <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace;">Cutive Mono</option>
+          <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace;">Oxygen Mono</option>
+          <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace;">Overpass Mono</option>
+          <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace;">Major Mono Display</option>
+          <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace;">Nanum Gothic Coding</option>
+          <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace;">Red Hat Mono</option>
+          <option value="'VT323', monospace" style="font-family:'VT323', monospace;">VT323</option>
+          <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace;">Syne Mono</option>
+          <option value="'Recursive', monospace" style="font-family:'Recursive', monospace;">Recursive</option>
+          <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace;">Nova Mono</option>
+          <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace;">Enriqueta</option>
+          <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace;">Special Elite</option>
+          <option value="'Press Start 2P', monospace" style="font-family:'Press Start 2P', monospace;">Press Start 2P</option>
+          <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace;">Mononoki</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
+          <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace;">PT Mono</option>
+          <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace;">Fira Code</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
+          <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace;">Courier Prime</option>
+        </optgroup>
+      </select>
+    </div>
+      <div class="dropdown">
+    <button class="dropdown-button">Versions</button>
+    <div class="dropdown-content">
+      <a href="https://www.compendiumofeverything.org/versions/beta/">Beta</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.1/">Beta 1.1</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.2/">Beta 1.2</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.3/">Beta 1.3</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.4/">Beta 1.4</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.5/">Beta 1.5</a>
+      <a href="https://www.compendiumofeverything.org/versions/beta/1.6/">Beta 1.6</a>
+      <a href="https://www.compendiumofeverything.org/versions/2.0/">2.0</a>
+    </div>
+  </div>
+  `;
 
-    settingsDiv
-      .querySelector("#font-size-range")
-      .addEventListener("input", (e) => {
-        fontSize = e.target.value;
-        app.style.setProperty("--font-size", `${fontSize}px`);
-        // Update label text
-        e.target.previousElementSibling.textContent = `Text Size (${fontSize}px)`;
-      });
+    // Theme pickers logic
+  const accentPicker = document.getElementById("accent-color-picker");
+  const textPicker = document.getElementById("text-color-picker");
+  const bgPicker = document.getElementById("bg-color-picker");
+  const resetBtn = document.getElementById("reset-theme-btn");
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
 
-    settingsDiv
-      .querySelector("#font-family-select")
-      .addEventListener("change", (e) => {
-        fontFamily = e.target.value;
-        app.style.setProperty("--text-font", fontFamily);
-      });
-    // Set font on load
-    app.style.setProperty("--text-font", fontFamily);
+  function setThemeVars(accent, text, bg) {
+    app.style.setProperty("--accent-color", accent);
+    app.style.setProperty("--text-color", text);
+    app.style.setProperty("--bg-color", bg);
+    localStorage.setItem("custom-theme", JSON.stringify({accent, text, bg}));
+    // Disable dark mode toggle when custom theme is set
+    darkModeToggle.disabled = true;
+    app.classList.remove("dark");
+    app.classList.add("light");
   }
 
-  // Input handler
+function resetThemeVars() {
+  // Remove inline custom theme variables so class-based ones take effect
+  app.style.removeProperty("--accent-color");
+  app.style.removeProperty("--text-color");
+  app.style.removeProperty("--bg-color");
+  localStorage.removeItem("custom-theme");
+  darkModeToggle.disabled = false;
+  darkModeToggle.removeAttribute("disabled");
+  darkModeToggle.checked = darkMode; // Sync toggle state with darkMode variable
+
+  // Restore dark/light mode
+  if (darkMode) {
+    app.classList.add("dark");
+    app.classList.remove("light");
+  } else {
+    app.classList.remove("dark");
+    app.classList.add("light");
+  }
+
+  // Force a change event to ensure the UI and logic are in sync
+  const event = new Event('change', { bubbles: true });
+  darkModeToggle.dispatchEvent(event);
+}
+  accentPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+  textPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+  bgPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+resetBtn.addEventListener("click", () => {
+  resetThemeVars();
+  accentPicker.value = "#4169e1";
+  textPicker.value = "#000000";
+  bgPicker.value = "#ffffff";
+});
+
+  // On load, apply custom theme if present
+  const savedTheme = localStorage.getItem("custom-theme");
+  if (savedTheme) {
+    const {accent, text, bg} = JSON.parse(savedTheme);
+    setThemeVars(accent, text, bg);
+    accentPicker.value = accent;
+    textPicker.value = text;
+    bgPicker.value = bg;
+  }
+
+  // Font search filter
+  const searchInput = document.getElementById('font-family-search');
+  const fontSelect = document.getElementById('font-family-select');
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    for (const option of fontSelect.options) {
+      if (option.tagName === 'OPTION') {
+        const text = option.textContent.toLowerCase();
+        option.style.display = text.includes(filter) ? '' : 'none';
+      }
+    }
+  });
+
+  // Dark mode toggle
+  settingsDiv
+    .querySelector("#dark-mode-toggle")
+    .addEventListener("change", (e) => {
+      darkMode = e.target.checked;
+      if (darkMode) {
+        app.classList.add("dark");
+        app.classList.remove("light");
+      } else {
+        app.classList.remove("dark");
+        app.classList.add("light");
+      }
+    });
+
+  // Font size slider
+  settingsDiv
+    .querySelector("#font-size-range")
+    .addEventListener("input", (e) => {
+      fontSize = e.target.value;
+      app.style.setProperty("--font-size", `${fontSize}px`);
+      e.target.previousElementSibling.textContent = `Text Size (${fontSize}px)`;
+    });
+
+  // Font family selector
+  settingsDiv
+    .querySelector("#font-family-select")
+    .addEventListener("change", (e) => {
+      fontFamily = e.target.value;
+      app.style.setProperty("--text-font", fontFamily);
+    });
+
+  // Set font on load
+  app.style.setProperty("--text-font", fontFamily);
+}
   let debounceTimer;
   searchInput.addEventListener("input", () => {
     clearTimeout(debounceTimer);
@@ -1784,29 +2220,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.0:</strong>
+      <strong>v.2.2 changes:</strong>
       <ul>
-        <li>Brought The Compendium of Everything to official domain URL.</li>
-        <li>Added weather tab with 3-day forecast and current conditions.</li>
-        <li>Added font selection into settings tab.</li>
-        <li>Added notes (saved automatically via loacal storage) to each tab.</li>
-        <li>Fixed results clearing when switching tabs.</li>
-        <li>Minor UI improvements and bug fixes.</li>
-      </ul>
-      <strong>v.2.1 planned updates:</strong>
-      <ul>
-        <li>Improving the weather tab with more detailed forecasts.</li>
-        <li>Enhancing the settings tab with more customization options.</li>
-      <div style="margin-top: 10px; font-size: 12px;">
+        <li>Added past version access</li>
         </ul>
         <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">
-          View project on GitHub
+        View project on GitHub
         </a>
         <br>
-        <a href="https://editor.p5js.org/L_Smalley/full/o1UZH4J8M" target="_blank" style="color: var(--accent-color); text-decoration: none; margin-left: 10px;">
-          View Beta version
+        <a href="https://www.compendiumofeverything.org/beta" target="_blank" style="color: var(--accent-color); text-decoration: none; margin-left: 10px;">
+        View Beta version
         </a>
-      </div>
+      <div>
       <span id="closeUpdates" class="material-symbols-rounded" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-size: 1.4em; font-family: var(--text-font 'Roboto'), sans-serif;">close</span>
     </div>
   `;
@@ -1871,5 +2296,5 @@ document.getElementById("versionLabel").addEventListener("click", () => {
 });
 //Copyright 2025 by L. Smalley
     </script>
-</body>
+    </body>
 </html>
