@@ -358,9 +358,8 @@
       color: var(--text-color);
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       border-radius: 18px;
-      z-index: 100;
+      z-index: 1000000000;
       white-space: normal;
-      z-index: 999;
     }
 
      .version-label {
@@ -1459,23 +1458,31 @@ async function wikiLoadArticle(title) {
     // Remove edit section links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
-    // Fix image URLs
-    doc.querySelectorAll("img").forEach((img) => {
-      let src = img.getAttribute("src");
-      if (!src) return;
+// Fix image URLs
+doc.querySelectorAll("img").forEach((img) => {
+  let src = img.getAttribute("src");
+  if (!src) return;
 
-      if (src.startsWith("//")) src = "https:" + src;
-      else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
-      else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+  if (src.startsWith("//")) src = "https:" + src;
+  else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+  else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
 
-      // Remove thumbnail cropping for full image
-      const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
-      if (thumbMatch) {
-        src = `${thumbMatch[1]}/${thumbMatch[2]}`;
-      }
+  // Remove thumbnail cropping for full image
+  const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+  if (thumbMatch) {
+    src = `${thumbMatch[1]}/${thumbMatch[2]}`;
+  }
 
-      img.setAttribute("src", src);
-    });
+  img.setAttribute("src", src);
+});
+
+// Remove links that wrap images (make images not clickable)
+doc.querySelectorAll("a > img").forEach(img => {
+  const a = img.parentElement;
+  if (a && a.tagName === "A") {
+    a.replaceWith(img);
+  }
+});
 
     // Clean up links: keep /wiki/ and #cite_note, disable others
     doc.querySelectorAll("a").forEach((a) => {
@@ -2328,6 +2335,8 @@ function loadSettings() {
     <a href="https://www.compendiumofeverything.org/versions/beta/1.5/">Beta 1.5</a>
     <a href="https://www.compendiumofeverything.org/versions/beta/1.6/">Beta 1.6</a>
     <a href="https://www.compendiumofeverything.org/versions/2.0/">2.0</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.1/">2.1</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.2/">2.2</a>
   </div>
 </div>
 
