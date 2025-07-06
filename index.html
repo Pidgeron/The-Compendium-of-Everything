@@ -2818,6 +2818,52 @@ document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
 //Copyright 2025 by L. Smalley
+function handleHashNavigation() {
+  const hash = window.location.hash.replace(/^#/, "");
+  if (!hash) return;
+
+  // Patterns: wiki-article, dic-word, thes-word
+  if (hash.startsWith("wiki-")) {
+    const article = decodeURIComponent(hash.slice(5).replace(/-/g, " "));
+    switchTab("wiki");
+    searchInput.value = article;
+    wikiSearch(article);
+  } else if (hash.startsWith("dic-")) {
+    const word = decodeURIComponent(hash.slice(4));
+    switchTab("dic");
+    searchInput.value = word;
+    dicSearch(word);
+  } else if (hash.startsWith("thes-")) {
+    const word = decodeURIComponent(hash.slice(5));
+    switchTab("thes");
+    searchInput.value = word;
+    thesSearch(word);
+  }
+}
+
+// Listen for hash changes and on load
+window.addEventListener("hashchange", handleHashNavigation);
+window.addEventListener("DOMContentLoaded", handleHashNavigation);
+
+// Update the hash when searching (for shareable links)
+function setHashForTab(tab, value) {
+  if (!value) return;
+  let prefix = "";
+  if (tab === "wiki") prefix = "wiki-";
+  else if (tab === "dic") prefix = "dic-";
+  else if (tab === "thes") prefix = "thes-";
+  if (prefix) {
+    window.location.hash = prefix + encodeURIComponent(value.replace(/\s+/g, "-"));
+  }
+}
+
+// Patch search input to update hash
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && searchInput.value.trim()) {
+    setHashForTab(currentTab, searchInput.value.trim());
+  }
+});
+
     </script>
     </body>
 </html>
