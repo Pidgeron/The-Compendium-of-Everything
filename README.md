@@ -3,7 +3,8 @@
 **The Compendium of Everything** is a unified interface for all the knowledge you’ll ever need—whether it's dictionary definitions, encyclopaedia entries, synonyms, or a gentle reminder that the word “aardvark” comes alphabetically before “abacus”.
 
 Visit it live at: [https://www.compendiumofeverything.org](https://compendiumofeverything.org)
-![image](https://github.com/user-attachments/assets/604562ef-7223-4b8c-ba52-20efcfb0a07b)
+![{0BF80D8F-3BDC-4D20-97D2-9E6C7FB8D035}](https://github.com/user-attachments/assets/2d588716-b52b-4e94-904c-edc5e87f0d25)
+
 
 
 ## Table of Contents
