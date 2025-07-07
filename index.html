@@ -1968,7 +1968,42 @@ async function wikiLoadArticle(title) {
   // Easter egg article
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
-      <!--Ommited for brevity-->
+      <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
+      <h1>The Compendium of Everything</h1>
+      <p>
+        <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
+      </p>
+      <h2>History</h2>
+      <p>
+        The project began in late May 2025, when Smalley released version Beta 1.0 as a modest side project. The initial version was built using <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding. The first GitHub repository was minimal, containing only basic usage instructions, a logo (which has since evolved), and a single JavaScript file.
+      </p>
+      <p>
+        Upon its release, The Compendium of Everything received no publicity and was largely overlooked. Smalley briefly considered abandoning the project, but ultimately decided to continue development, believing that its utility would eventually be recognized.
+      </p>
+      <h2>Development and Features</h2>
+      <p>
+        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app. His website went live officially on 6th June, 2025 at 5:00 PM EST exactly.
+      </p>
+      <p>
+        Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
+      </p>
+      <h2>Author and Pseudonym</h2>
+      <p>
+        The creator, Liam C. Smalley, is also known online by the pseudonym <b>Pidgeron</b>, which serves as his GitHub username and digital moniker for his programming projects.
+      </p>
+      <h2>Design Philosophy</h2>
+      <p>
+        The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
+      </p>
+      <h2>See Also</h2>
+      <ul>
+        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
+        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank">Original Beta Version</a></li>
+      </ul>
+      <hr>
+      <p style="font-size:0.9em;color:#888;">
+        This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
+      </p>
     `;
     return;
   }
