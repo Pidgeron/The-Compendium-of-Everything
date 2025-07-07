@@ -203,24 +203,26 @@
       overflow: hidden;
       font-size: var(--font-size, 16px);
     }
-
-     #clock-container {
-      position: absolute;
-      bottom: 10px;
-      right: 15px;
-      text-align: right;
+   
+    @media (max-width: 768px) {
+     #compendium-app {
+      position: static;
+      top: unset;
+      left: unset;
+      width: 100vw;
+      height: 100vh;
+      min-width: 320px;
+      min-height: 100vh;
+      background-color: var(--bg-color, #fff);
+      color: var(--text-color, #000);
+      display: flex;
+      flex-direction: column;
       font-family: var(--text-font, 'Roboto'), sans-serif;
-      font-size: var(--font-size);
-      font-weight: bold;
-      color: #000;
-      text-shadow:
-      -1px -1px 0 white,
-      1px -1px 0 white,
-      -1px 1px 0 white,
-      1px 1px 0 white;
-      z-index: 1000;
-    }  
-
+      z-index: 999999999;
+      overflow: hidden;
+      font-size: var(--font-size, 16px);
+    }
+  }
      .compendium-title {
       display: flex;
       align-items: center;
@@ -261,8 +263,8 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      width: 150px;
-      min-width: 90px;
+      width: 200px;
+      min-width: 190px;
       height: 100vh;
       padding: 12px 0;
       border-right: 1px solid #ccc;
@@ -273,20 +275,49 @@
       z-index: 10;
     }
 
-
      #compendium-app header .tab {
       flex: 0 0 auto;
       text-align: left;
+      justify-content: flex-start;
+      width: 100%;
       cursor: pointer;
       font-weight: 500;
-      padding: 14px 8px 14px 8px;
+      padding: 14px 8px 8px 18px;
       color: var(--text-color);
       transition: color 0.3s;
       user-select: none;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+     #compendium-app header {
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      height: auto;
+      padding: 12px 0;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+     #compendium-app header .tab {
+      flex: 1;
+      text-align: center;
+      padding: 6px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+     #compendium-app header .tab:hover {
+      color: var(--accent-color, royalblue);
     }
 
      .tab-label {
@@ -1122,7 +1153,7 @@
       float: right;
       clear: right;
       margin: 0 0 1em 1.5em;
-      width: 270px;
+      width: 360px;
       max-width: 100%;
       font-size: 0.97em;
       background: #f8f9fa;
@@ -1134,6 +1165,22 @@
       line-height: 1.3;
       overflow: hidden;
     }
+    @media (max-width: 768px) {
+     .infobox {
+      margin: 0 0 1em 1.5em;
+      width: 100%;
+      max-width: 100%;
+      font-size: 0.97em;
+      background: #f8f9fa;
+      color: #222;
+      border: 1px solid #a2a9b1;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 0.5em 0.8em 0.8em 0.8em;
+      line-height: 1.3;
+      overflow: hidden;
+    }
+  }
     .infobox caption {
       font-size: 1.1em;
       font-weight: bold;
@@ -1365,12 +1412,12 @@
 
   document.head.appendChild(style);
 
-  const app = document.createElement("section");
-  app.id = "compendium-app";
-  app.classList.add("light");
+const app = document.createElement("section");
+app.id = "compendium-app";
+app.classList.add("light");
 
-  app.innerHTML = `
-
+// Define both layouts as template strings
+const htmlWide = `
 <header>
   <div class="sidebar-title">The Compendium of Everything</div>
   <div class="tab selected" data-tab="wiki" title="Wikipedia">
@@ -1389,6 +1436,10 @@
     <span class="material-symbols-rounded" aria-label="Weather">partly_cloudy_day</span>
     <span class="tab-label">Weather</span>
   </div>
+    <div class="tab" data-tab="compound" title="Compound Search">
+  <span class="material-symbols-rounded" aria-label="Compound Search">search</span>
+  <span class="tab-label">Compound Search</span>
+</div>
   <div class="tab" data-tab="sett" title="Settings">
     <span class="material-symbols-rounded" aria-label="Settings">settings</span>
     <span class="tab-label">Settings</span>
@@ -1400,6 +1451,41 @@
       <span class="material-symbols-rounded" id="compendium-title-icon">language</span>
       <span id="compendium-title-label">Wikipedia</span>
     </div>
+    <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
+    <div class="results"></div>
+    <div class="content"></div>
+    <div class="settings" style="display:none;"></div>
+    <div class="version-label" id="versionLabel">v.2.5</div>
+    <div id="versionDetails" class="version-details" style="display:none;"></div>
+    <div class="author-title">Made by L. Smalley</div>
+    <div id="footer-overlay"></div>
+  </div>
+</main>
+`;
+
+const htmlNarrow = `
+  <header>
+  <div class="tab selected" data-tab="wiki" title="Wikipedia">
+    <span class="material-symbols-rounded" aria-label="Wikipedia">language</span>
+  </div>
+  <div class="tab" data-tab="dic" title="Dictionary">
+    <span class="material-symbols-rounded" aria-label="Dictionary">dictionary</span>
+  </div>
+  <div class="tab" data-tab="thes" title="Thesaurus">
+    <span class="material-symbols-rounded" aria-label="Thesaurus">library_books</span>
+  </div>
+  <div class="tab" data-tab="weather" title="Weather">
+    <span class="material-symbols-rounded" aria-label="Weather">partly_cloudy_day</span>
+  </div>
+  <div class="tab" data-tab="compound" title="Compound Search">
+    <span class="material-symbols-rounded" aria-label="Compound Search">search</span>
+  </div>
+  <div class="tab" data-tab="sett" title="Settings">
+    <span class="material-symbols-rounded" aria-label="Settings">settings</span>
+  </div>
+</header>
+    <main>
+      <div class="compendium-title">The Compendium of Everything</div>
       <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
       <div class="results"></div>
       <div class="content"></div>
@@ -1409,16 +1495,31 @@
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.4</div>
+      <div class="version-label" id="versionLabel">v.2.3</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
     </main>
-  `;
+`;
+
+// Function to set the correct layout
+function setAppHTML() {
+  if (window.innerWidth < 768) {
+    app.innerHTML = htmlNarrow;
+  } else {
+    app.innerHTML = htmlWide;
+  }
+}
+
+// Set initial layout
+setAppHTML();
+
+// Update layout on resize
+window.addEventListener('resize', setAppHTML);
 
   document.body.appendChild(app);
 
-  const notepadBtn = document.createElement("button");
+const notepadBtn = document.createElement("button");
 notepadBtn.id = "notepad-btn";
 notepadBtn.title = "Open Notepad";
 notepadBtn.innerHTML = `<span class="material-symbols-rounded">edit_note</span>`;
@@ -1515,32 +1616,143 @@ let fontFamily = "Roboto";
 
 // Store content for each tab
 const tabContents = {
-  wiki: { results: "", content: "" },
-  dic: { results: "", content: "" },
-  thes: { results: "", content: "" },
-  weather: { results: "", content: "" },
-  sett: { results: "", content: "" }
+  wiki: { results: "", content: "", scroll: 0 },
+  dic: { results: "", content: "", scroll: 0 },
+  thes: { results: "", content: "", scroll: 0 },
+  weather: { results: "", content: "", scroll: 0 },
+  compound: { results: "", content: "", scroll: 0 },
+  sett: { results: "", content: "", scroll: 0 }
 };
 
+function initContentPopupsAndLinks() {
+  // Always get fresh reference
+  const contentDiv = app.querySelector(".content");
+  // Citation popups
+  let popup = document.getElementById("citation-popup");
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.className = "citation-popup";
+    popup.id = "citation-popup";
+    document.body.appendChild(popup);
+  }
+
+  contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
+    ref.addEventListener("mouseenter", (e) => {
+      const href = ref.getAttribute("href");
+      const note = contentDiv.querySelector(href);
+      if (note) {
+        popup.innerHTML = note.innerHTML;
+        popup.style.display = "block";
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(mouseY - 10, 10) + "px";
+      }
+    });
+    ref.addEventListener("mousemove", (e) => {
+      popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+      popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+    });
+    ref.addEventListener("mouseleave", () => {
+      popup.style.display = "none";
+    });
+  });
+
+  // Article summary popups and disable navigation
+  contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
+    const href = link.getAttribute("href");
+    if (
+      href.startsWith("/wiki/File:") ||
+      href.startsWith("/wiki/Special:") ||
+      href.startsWith("/wiki/Help:") ||
+      href.startsWith("/wiki/Category:") ||
+      href.startsWith("/wiki/Talk:") ||
+      href.startsWith("/wiki/Template:") ||
+      href.startsWith("/wiki/Portal:") ||
+      href.startsWith("/wiki/Wikipedia:") ||
+      href.startsWith("/wiki/Main_Page") ||
+      href.startsWith("/wiki/Citation_needed")
+    ) return;
+
+    let fetchTimeout, lastTitle = "";
+
+    link.addEventListener("mouseenter", (e) => {
+      const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+      fetchTimeout = setTimeout(async () => {
+        if (lastTitle === articleTitle) return;
+        lastTitle = articleTitle;
+        popup.innerHTML = `<span style="color:#888;">Loading summary...</span>`;
+        popup.style.display = "block";
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+        try {
+          const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
+          if (!resp.ok) throw new Error("No summary found");
+          const data = await resp.json();
+          let imgHtml = "";
+          if (data.thumbnail && data.thumbnail.source) {
+            imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+          }
+          popup.innerHTML = `
+            <div style="min-width:180px;max-width:320px;overflow:hidden;">
+              ${imgHtml}
+              <b>${data.title}</b><br>
+              <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
+            </div>
+          `;
+        } catch {
+          popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
+        }
+      }, 200);
+    });
+
+    link.addEventListener("mousemove", (e) => {
+      popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+      popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+    });
+
+    link.addEventListener("mouseleave", () => {
+      clearTimeout(fetchTimeout);
+      lastTitle = "";
+      popup.style.display = "none";
+    });
+
+    // Disable navigation for all wiki links
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      return false;
+    });
+  });
+}
+
 function switchTab(tab) {
-  // Save current tab's content
+  // Always get fresh references in case DOM was rebuilt
+  const resultsDiv = app.querySelector(".results");
+  const contentDiv = app.querySelector(".content");
+  const settingsDiv = app.querySelector(".settings");
+
+  // Save current tab's content and scroll position
   if (tabContents[currentTab]) {
     tabContents[currentTab].results = resultsDiv.innerHTML;
     tabContents[currentTab].content = contentDiv.innerHTML;
+    tabContents[currentTab].scroll = contentDiv.scrollTop;
   }
 
+
   const tabNames = {
-  wiki: "Wikipedia",
-  dic: "Dictionary",
-  thes: "Thesaurus",
-  weather: "Weather",
-  sett: "Settings"
-};
-const tabData = {
+    wiki: "Wikipedia",
+    dic: "Dictionary",
+    thes: "Thesaurus",
+    weather: "Weather",
+    compound: "Compound Search",
+    sett: "Settings"
+  };
+  const tabData = {
     wiki: { label: "Wikipedia", icon: "language" },
     dic: { label: "Dictionary", icon: "dictionary" },
     thes: { label: "Thesaurus", icon: "library_books" },
     weather: { label: "Weather", icon: "partly_cloudy_day" },
+    compound: { label: "Compound Search", icon: "search" },
     sett: { label: "Settings", icon: "settings" }
   };
   const titleIcon = document.getElementById("compendium-title-icon");
@@ -1549,7 +1761,6 @@ const tabData = {
     titleIcon.textContent = tabData[tab].icon;
     titleLabel.textContent = tabData[tab].label;
   }
-
 
   currentTab = tab;
   tabs.forEach((t) => t.classList.toggle("selected", t.dataset.tab === tab));
@@ -1564,24 +1775,41 @@ const tabData = {
     resultsDiv.innerHTML = tabContents.wiki.results;
     contentDiv.innerHTML = tabContents.wiki.content;
     settingsDiv.style.display = "none";
+    // Re-initialize popups/links
+    initContentPopupsAndLinks();
+    // Restore scroll
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.wiki.scroll || 0;
+    }, 0);
   } else if (tab === "dic") {
     searchInput.placeholder = "Search Dictionary...";
     searchInput.disabled = false;
     resultsDiv.innerHTML = tabContents.dic.results;
     contentDiv.innerHTML = tabContents.dic.content;
     settingsDiv.style.display = "none";
+    initContentPopupsAndLinks();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.dic.scroll || 0;
+    }, 0);
   } else if (tab === "thes") {
     searchInput.placeholder = "Search Thesaurus...";
     searchInput.disabled = false;
     resultsDiv.innerHTML = tabContents.thes.results;
     contentDiv.innerHTML = tabContents.thes.content;
     settingsDiv.style.display = "none";
+    initContentPopupsAndLinks();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.thes.scroll || 0;
+    }, 0);
   } else if (tab === "weather") {
     searchInput.style.display = "none";
     resultsDiv.innerHTML = tabContents.weather.results;
     contentDiv.innerHTML = tabContents.weather.content;
     settingsDiv.style.display = "none";
     if (!contentDiv.innerHTML) loadWeather();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.weather.scroll || 0;
+    }, 0);
 
     // --- Weather auto-refresh: start timer when entering weather tab ---
     if (typeof weatherRefreshTimer !== "undefined" && weatherRefreshTimer) {
@@ -1598,15 +1826,36 @@ const tabData = {
         fetchWeather(lastWeatherLocation, true);
       }
     }, 120000); // 2 minutes
+  } else if (tab === "compound") {
+    searchInput.placeholder = "Search Wikipedia, Dictionary, Thesaurus...";
+    searchInput.disabled = false;
+    resultsDiv.innerHTML = tabContents.compound.results;
+    contentDiv.innerHTML = tabContents.compound.content;
+    settingsDiv.style.display = "none";
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.compound.scroll || 0;
+      // Re-attach event listeners to compound-wiki-link
+      contentDiv.querySelectorAll('.compound-wiki-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const title = decodeURIComponent(link.getAttribute('data-title'));
+          switchTab('wiki');
+          searchInput.value = title;
+          wikiLoadArticle(title);
+        });
+      });
+    }, 0);
   } else if (tab === "sett") {
     searchInput.style.display = "none";
     settingsDiv.style.display = "block";
     resultsDiv.innerHTML = "";
     contentDiv.innerHTML = "";
     loadSettings();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.sett.scroll || 0;
+    }, 0);
   }
 }
-
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => switchTab(tab.dataset.tab));
 });
@@ -1712,7 +1961,6 @@ async function wikiSearch(query) {
   }
 }
 
-
 async function wikiLoadArticle(title) {
   resultsDiv.innerHTML = ""; // clear search results
   contentDiv.innerHTML = "Loading article...";
@@ -1720,42 +1968,7 @@ async function wikiLoadArticle(title) {
   // Easter egg article
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
-      <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
-      <h1>The Compendium of Everything</h1>
-      <p>
-        <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
-      </p>
-      <h2>History</h2>
-      <p>
-        The project began in late May 2025, when Smalley released version Beta 1.0 as a modest side project. The initial version was built using <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding. The first GitHub repository was minimal, containing only basic usage instructions, a logo (which has since evolved), and a single JavaScript file.
-      </p>
-      <p>
-        Upon its release, The Compendium of Everything received no publicity and was largely overlooked. Smalley briefly considered abandoning the project, but ultimately decided to continue development, believing that its utility would eventually be recognized.
-      </p>
-      <h2>Development and Features</h2>
-      <p>
-        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app. His website went live officially on 6th June, 2025 at 5:00 PM EST exactly.
-      </p>
-      <p>
-        Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
-      </p>
-      <h2>Author and Pseudonym</h2>
-      <p>
-        The creator, Liam C. Smalley, is also known online by the pseudonym <b>Pidgeron</b>, which serves as his GitHub username and digital moniker for his programming projects.
-      </p>
-      <h2>Design Philosophy</h2>
-      <p>
-        The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
-      </p>
-      <h2>See Also</h2>
-      <ul>
-        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
-        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank">Original Beta Version</a></li>
-      </ul>
-      <hr>
-      <p style="font-size:0.9em;color:#888;">
-        This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
-      </p>
+      <!--Ommited for brevity-->
     `;
     return;
   }
@@ -1773,31 +1986,38 @@ async function wikiLoadArticle(title) {
     // Remove edit section links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
-// Fix image URLs
-doc.querySelectorAll("img").forEach((img) => {
-  let src = img.getAttribute("src");
-  if (!src) return;
+    // Fix all image URLs (including lazy-loaded and infobox images)
+    doc.querySelectorAll("img").forEach((img) => {
+      let src = img.getAttribute("src") || img.getAttribute("data-src");
+      if (!src) return;
 
-  if (src.startsWith("//")) src = "https:" + src;
-  else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
-  else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+      // Handle protocol-relative URLs
+      if (src.startsWith("//")) src = "https:" + src;
+      // Handle Wikipedia relative URLs
+      else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+      // Handle other relative URLs
+      else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
 
-  // Remove thumbnail cropping for full image
-  const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
-  if (thumbMatch) {
-    src = `${thumbMatch[1]}/${thumbMatch[2]}`;
-  }
+      // Remove thumbnail cropping for full image (optional)
+      const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+      if (thumbMatch) {
+        src = `${thumbMatch[1]}/${thumbMatch[2]}`;
+      }
 
-  img.setAttribute("src", src);
-});
+      img.setAttribute("src", src);
+      img.removeAttribute("srcset"); // Remove srcset to avoid browser picking a broken one
+      img.onerror = function() {
+        this.style.display = "none";
+      };
+    });
 
-// Remove links that wrap images (make images not clickable)
-doc.querySelectorAll("a > img").forEach(img => {
-  const a = img.parentElement;
-  if (a && a.tagName === "A") {
-    a.replaceWith(img);
-  }
-});
+    // Remove links that wrap images (make images not clickable)
+    doc.querySelectorAll("a > img").forEach(img => {
+      const a = img.parentElement;
+      if (a && a.tagName === "A") {
+        a.replaceWith(img);
+      }
+    });
 
     // Clean up links: keep /wiki/ and #cite_note, disable others
     doc.querySelectorAll("a").forEach((a) => {
@@ -1821,7 +2041,7 @@ doc.querySelectorAll("a > img").forEach(img => {
 
     contentDiv.innerHTML = doc.body.innerHTML;
 
-        // Remove leading ^ symbol if present 
+    // Remove leading ^ symbol if present 
     (function removeLeadingCaret() {
       let node = contentDiv.firstChild;
       while (node) {
@@ -1838,112 +2058,117 @@ doc.querySelectorAll("a > img").forEach(img => {
       li.innerHTML = li.innerHTML.replace(/\^+/g, '');
     });
 
-// === Citation & Article Hover Popups ===
+    // === Citation & Article Hover Popups ===
 
-// Inject CSS for citation popup only once
-if (!document.getElementById("citation-popup-style")) {
-  const popupStyle = document.createElement("style");
-  popupStyle.id = "citation-popup-style";
-  document.head.appendChild(popupStyle);
-}
-
-// Only create one popup div
-let popup = document.getElementById("citation-popup");
-if (!popup) {
-  popup = document.createElement("div");
-  popup.className = "citation-popup";
-  popup.id = "citation-popup";
-  document.body.appendChild(popup);
-}
-
-// --- Citation popups ---
-contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
-  ref.addEventListener("mouseenter", (e) => {
-    const href = ref.getAttribute("href");
-    const note = contentDiv.querySelector(href);
-    if (note) {
-      popup.innerHTML = note.innerHTML;
-      popup.style.display = "block";
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
-      popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
-      popup.style.top = Math.max(mouseY - 10, 10) + "px";
+    // Inject CSS for citation popup only once
+    if (!document.getElementById("citation-popup-style")) {
+      const popupStyle = document.createElement("style");
+      popupStyle.id = "citation-popup-style";
+      document.head.appendChild(popupStyle);
     }
-  });
-  ref.addEventListener("mousemove", (e) => {
-    popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
-    popup.style.top = Math.max(e.clientY - 10, 10) + "px";
-  });
-  ref.addEventListener("mouseleave", () => {
-    popup.style.display = "none";
-  });
-});
 
-// --- Article summary popups ---
-contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
-  const href = link.getAttribute("href");
-  if (
-    href.startsWith("/wiki/File:") ||
-    href.startsWith("/wiki/Special:") ||
-    href.startsWith("/wiki/Help:") ||
-    href.startsWith("/wiki/Category:") ||
-    href.startsWith("/wiki/Talk:") ||
-    href.startsWith("/wiki/Template:") ||
-    href.startsWith("/wiki/Portal:") ||
-    href.startsWith("/wiki/Wikipedia:") ||
-    href.startsWith("/wiki/Main_Page") ||
-    href.startsWith("/wiki/Citation_needed")
-  ) return;
+    // Only create one popup div
+    let popup = document.getElementById("citation-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.className = "citation-popup";
+      popup.id = "citation-popup";
+      document.body.appendChild(popup);
+    }
 
-  let fetchTimeout, lastTitle = "";
-
-  link.addEventListener("mouseenter", (e) => {
-    const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
-    fetchTimeout = setTimeout(async () => {
-      if (lastTitle === articleTitle) return;
-      lastTitle = articleTitle;
-      popup.innerHTML = `<span style="color:#888;">Loading summary...</span>`;
-      popup.style.display = "block";
-      popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
-      popup.style.top = Math.max(e.clientY - 10, 10) + "px";
-      try {
-        const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
-        if (!resp.ok) throw new Error("No summary found");
-        const data = await resp.json();
-        let imgHtml = "";
-        if (data.thumbnail && data.thumbnail.source) {
-          imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+    // --- Citation popups ---
+    contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
+      ref.addEventListener("mouseenter", (e) => {
+        const href = ref.getAttribute("href");
+        const note = contentDiv.querySelector(href);
+        if (note) {
+          popup.innerHTML = note.innerHTML;
+          popup.style.display = "block";
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(mouseY - 10, 10) + "px";
         }
-        popup.innerHTML = `
-          <div style="min-width:180px;max-width:320px;overflow:hidden;">
-            ${imgHtml}
-            <b>${data.title}</b><br>
-            <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
-          </div>
-        `;
-      } catch {
-        popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
-      }
-    }, 200);
-  });
+      });
+      ref.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+      ref.addEventListener("mouseleave", () => {
+        popup.style.display = "none";
+      });
+    });
 
-  link.addEventListener("mousemove", (e) => {
-    popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
-    popup.style.top = Math.max(e.clientY - 10, 10) + "px";
-  });
+    // --- Article summary popups and internal navigation ---
+    contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (
+        href.startsWith("/wiki/File:") ||
+        href.startsWith("/wiki/Special:") ||
+        href.startsWith("/wiki/Help:") ||
+        href.startsWith("/wiki/Category:") ||
+        href.startsWith("/wiki/Talk:") ||
+        href.startsWith("/wiki/Template:") ||
+        href.startsWith("/wiki/Portal:") ||
+        href.startsWith("/wiki/Wikipedia:") ||
+        href.startsWith("/wiki/Main_Page") ||
+        href.startsWith("/wiki/Citation_needed")
+      ) return;
 
-  link.addEventListener("mouseleave", () => {
-    clearTimeout(fetchTimeout);
-    lastTitle = "";
-    popup.style.display = "none";
-  });
+      let fetchTimeout, lastTitle = "";
 
-  // Disable navigation for all wiki links
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    return false;
-  });
-});
+      link.addEventListener("mouseenter", (e) => {
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        fetchTimeout = setTimeout(async () => {
+          if (lastTitle === articleTitle) return;
+          lastTitle = articleTitle;
+          popup.innerHTML = `<span style="color: white;">Loading summary...</span>`;
+          popup.style.display = "block";
+          popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+          try {
+            const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
+            if (!resp.ok) throw new Error("No summary found");
+            const data = await resp.json();
+            let imgHtml = "";
+            if (data.thumbnail && data.thumbnail.source) {
+              imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+            }
+            popup.innerHTML = `
+              <div style="min-width:180px;max-width:320px;overflow:hidden;">
+                ${imgHtml}
+                <b>${data.title}</b><br>
+                <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
+              </div>
+            `;
+          } catch {
+            popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
+          }
+        }, 200);
+      });
+
+      link.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+
+      link.addEventListener("mouseleave", () => {
+        clearTimeout(fetchTimeout);
+        lastTitle = "";
+        popup.style.display = "none";
+      });
+
+      // --- Load full article on click ---
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        // Hide citation popup if visible
+        if (popup) popup.style.display = "none";
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        searchInput.value = articleTitle;
+        wikiLoadArticle(articleTitle);
+      });
+    });
+
     // ===== Table of Contents (inline-based) =====
 
     // Remove old ToC button/panel if present
@@ -2015,8 +2240,47 @@ contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
       tocBtn.style.display = "none";
     }
 
+    // --- Image lightbox (enlarge on click) ---
+    contentDiv.querySelectorAll("img").forEach(img => {
+      img.style.cursor = "zoom-in";
+      img.addEventListener("click", function handler(e) {
+        e.stopPropagation();
+        // Remove any existing overlay
+        let overlay = document.getElementById("img-lightbox-overlay");
+        if (overlay) overlay.remove();
+
+        overlay = document.createElement("div");
+        overlay.id = "img-lightbox-overlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.85)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "999999999";
+        overlay.style.cursor = "zoom-out";
+
+        const bigImg = document.createElement("img");
+        bigImg.src = img.src;
+        bigImg.alt = img.alt || "";
+        bigImg.style.maxWidth = "90vw";
+        bigImg.style.maxHeight = "90vh";
+        bigImg.style.borderRadius = "16px";
+        bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
+        bigImg.style.background = "#fff";
+
+        overlay.appendChild(bigImg);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click", () => overlay.remove());
+      });
+    });
+
   } catch (e) {
-    contentDiv.innerHTML = "<i>Error loading article.</i>";
+    contentDiv.innerHTML = "<i>Error fetching content.</i>";
   }
 }
 
@@ -2408,8 +2672,148 @@ weatherRefreshTimer = setInterval(() => {
     fetchWeather(lastWeatherLocation, true); // silent refresh
   }
 }, 120000); // 2 minutes
+}
 
-}  
+
+
+async function compoundSearch(query) {
+  if (!query) {
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+    return;
+  }
+  resultsDiv.innerHTML = "Searching all sources...";
+  contentDiv.innerHTML = "";
+
+  try {
+    // Run all three searches in parallel
+    const [wiki, dic, thes] = await Promise.all([
+      (async () => {
+        try {
+          const res = await fetch(
+            `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${encodeURIComponent(query)}&utf8=1&srlimit=5`
+          );
+          const data = await res.json();
+          return data.query.search || [];
+        } catch { return []; }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(
+            `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query)}`
+          );
+          if (!res.ok) return null;
+          const data = await res.json();
+          return data[0] || null;
+        } catch { return null; }
+      })(),
+      (async () => {
+        try {
+          const [synRes, antRes] = await Promise.all([
+            fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(query)}&max=20`),
+            fetch(`https://api.datamuse.com/words?rel_ant=${encodeURIComponent(query)}&max=20`)
+          ]);
+          const syn = await synRes.json();
+          const ant = await antRes.json();
+          return { syn, ant };
+        } catch { return { syn: [], ant: [] }; }
+      })()
+    ]);
+
+    let html = "";
+
+    // Wikipedia
+    html += `<h2><span class="material-symbols-rounded" style="vertical-align:middle;">language</span> Wikipedia</h2>`;
+    if (wiki.length) {
+      html += "<ul>";
+      wiki.forEach(item => {
+        // Title as clickable link
+        html += `<li>
+          <a href="#" class="compound-wiki-link" data-title="${encodeURIComponent(item.title)}" style="font-weight:bold; color:var(--accent-color,royalblue); text-decoration:underline; cursor:pointer;">
+            ${item.title}
+          </a>
+          <br>
+          <span style="font-size:0.95em;">${item.snippet.replace(/<\/?span[^>]*>/g, "")}</span>
+        </li>`;
+      });
+      html += "</ul>";
+    } else {
+      html += "<i>No Wikipedia results found.</i>";
+    }
+
+    // Dictionary (full)
+    html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">dictionary</span> Dictionary</h2>`;
+    if (dic) {
+      html += `<h3 style="margin-top:0;">${dic.word}</h3>`;
+      if (dic.phonetics && dic.phonetics.length) {
+        html += `<p><i>Pronunciations:</i></p><ul style="margin-top: 0; margin-bottom: 1em;">`;
+        dic.phonetics.forEach((phon) => {
+          if (phon.text) html += `<li>${phon.text}`;
+          if (phon.audio) {
+            html += ` <button class="play-btn" onclick="new Audio('${phon.audio}').play()" aria-label="Play pronunciation">play_arrow</button>`;
+          }
+          html += `</li>`;
+        });
+        html += `</ul>`;
+      }
+      if (dic.meanings && dic.meanings.length) {
+        dic.meanings.forEach((meaning) => {
+          html += `<h4 style="margin-bottom: 0;">${meaning.partOfSpeech}</h4><ul>`;
+          meaning.definitions.forEach((def) => {
+            html += `<li>${def.definition}`;
+            if (def.example) html += `<br><em>Example: ${def.example}</em>`;
+            html += `</li>`;
+          });
+          html += `</ul>`;
+        });
+      }
+    } else {
+      html += "<i>No dictionary entry found.</i>";
+    }
+
+    // Thesaurus (full)
+    html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">library_books</span> Thesaurus</h2>`;
+    if ((thes.syn && thes.syn.length) || (thes.ant && thes.ant.length)) {
+      if (thes.syn && thes.syn.length) {
+        html += `<h4>Synonyms</h4><ul>`;
+        html += thes.syn.map(w => `<li>${w.word}</li>`).join("");
+        html += `</ul>`;
+      } else {
+        html += `<h4>Synonyms</h4><p><i>No synonyms found.</i></p>`;
+      }
+      if (thes.ant && thes.ant.length) {
+        html += `<h4>Antonyms</h4><ul>`;
+        html += thes.ant.map(w => `<li>${w.word}</li>`).join("");
+        html += `</ul>`;
+      } else {
+        html += `<h4>Antonyms</h4><p><i>No antonyms found.</i></p>`;
+      }
+    } else {
+      html += "<i>No synonyms or antonyms found.</i>";
+    }
+
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = html;
+
+    // Add event listeners to Wikipedia links
+    contentDiv.querySelectorAll('.compound-wiki-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const title = decodeURIComponent(link.getAttribute('data-title'));
+        switchTab('wiki');
+        searchInput.value = title;
+        wikiLoadArticle(title);
+      });
+    });
+
+    injectPlayButtonStyles();
+
+  } catch {
+    resultsDiv.innerHTML = "<i>Error fetching compound search results.</i>";
+    contentDiv.innerHTML = "";
+  }
+}
+
 
 function loadSettings() {
   // Get current theme values or defaults
@@ -2688,6 +3092,8 @@ resetBtn.addEventListener("click", () => {
         dicSearch(q);
       } else if (currentTab === "thes") {
         thesSearch(q);
+      } else if (currentTab === "compound") {
+        compoundSearch(q);
       }
     }, 400);
   });
@@ -2701,55 +3107,23 @@ resetBtn.addEventListener("click", () => {
 
 })();
 
-function updateClock() {
-  const now = new Date();
-
-  const time = now.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  const dayOfWeek = now.toLocaleDateString(undefined, { weekday: 'short' });
-  const day = now.getDate();
-  const month = now.toLocaleDateString(undefined, { month: 'short' });
-  const year = now.getFullYear();
-
-  function getOrdinal(n) {
-    if (n > 3 && n < 21) return 'th';
-    switch (n % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
-  }
-
-  const date = `${day}${getOrdinal(day)}`;
-
-  document.getElementById("time").textContent = time;
-  document.getElementById("date").textContent = `${dayOfWeek}, ${date} ${month}, ${year}`;
-}
-
-setInterval(updateClock, 1000);
-updateClock();
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const versionLabel = document.getElementById("versionLabel");
   const versionDetails = document.getElementById("versionDetails");
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.4 changes:</strong>
+      <strong>v.2.5 changes:</strong>
       <ul>
-        <li>Changed website layout</li>
-        <li>Changed styling of Citation Popups.
+        <li>Added 'Compound Search' Tab</li>
+        <li>Removed Clock</li>
+        <li>Added linking to other Wikipedia articles</li>
+        <li>Made The Compendium of a PWA</li>
         <li>Updated Changelog</li>
         </ul>
         <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">
         View project on GitHub
         </a>
-      
         <br>
         <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none; margin-left: 10px;">
         View Beta version
