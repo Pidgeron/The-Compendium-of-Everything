@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A minimalist multi-tool app for fast access to knowledge all in one place.">
     <title>The Compendium of Everything</title>
-    <link rel="icon" type="image/png" href="Compendium_Logo.png">
+    <link rel="icon" type="image/png" href="https://www.compendiumofeverything.org/Compendium_Logo.png">
     <style>
   html, body {
     height: 100%;
@@ -233,15 +233,33 @@
       text-align: left;
       margin: 10px 0 20px 0;
       font-family: var(--text-font, 'Roboto'), sans-serif;
-      color: var(--text-color);
+      color: var(--accent-color);
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
       justify-content: flex-start;
       padding-left: 0;
       padding-right: 0;
     }
+    @media (max-width: 768px) {
+     .compendium-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.4em;
+      font-weight: bold;
+      font-style: italic;
+      text-align: center;
+      margin: 10px 0 20px 0;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--text-color);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      padding-left: 0;
+      padding-right: 0;
+      justify-content: center;
+    }
+  }
      #compendium-title-icon {
       font-size: 1.2em;
-      color: var(--text-color);
+      color: var(--accent-color);
     }
 
       #compendium-app.dark {
@@ -267,6 +285,7 @@
       min-width: 190px;
       height: 100vh;
       padding: 12px 0;
+      margin-left: 5px;
       border-right: 1px solid #ccc;
       background-color: var(--bg-color);
       position: static;
@@ -359,7 +378,7 @@
       width: 100%;
       padding: 10px 14px;
       border-radius: 24px;
-      border: 1px solid #ccc;
+      border: 1px solid var(--accent-color);
       font-size: 1em;
       font-family: var(--text-font, 'Roboto'), sans-serif;
       box-sizing: border-box;
@@ -462,8 +481,6 @@
       max-width: 100%;
       height: auto;
       border-radius: 10px;
-      border: 1px solid #ccc;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       margin: 10px 0;
       display: block;
     }
@@ -559,6 +576,8 @@
       border-radius: 12px 0 0 12px;
       padding: 0 8px;
       font-family: var(--text-font, 'Roboto'), sans-serif;
+      background-color: var(--bg-color);
+      font-size: var(--font-size);
       margin: 0;
       box-sizing: border-box;
       line-height: normal;
@@ -629,7 +648,7 @@
 
      .weather-card {
       background: var(--bg-color);
-      border-radius: 8px;
+      border-radius: 20px;
       max-width: 320px;
       margin: 0 auto;
       padding: 1.2em 1.5em;
@@ -894,8 +913,8 @@
       to { opacity: 1; transform: translateY(0);}
   }
      .about-logo {
-      width: 64px;
-      height: 64px;
+      width: 120px;
+      height: 120px;
       object-fit: contain;
       border-radius: 12px;
       margin-bottom: 8px;
@@ -954,10 +973,13 @@
       padding: 6px 10px;
       margin-bottom: 8px;
       font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      outline-offset: 2px;
+      border: 1px solid var(--accent-color, royalblue);
+      border-radius: 15px;
       transition: border-color 0.2s ease;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-size: var(--font-size);
   }
 
      .font-family-settings #font-family-search:focus {
@@ -967,13 +989,16 @@
 
      .font-family-settings #font-family-select {
       font-size: 1rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+      background: var(--bg-color);
+      color: var(--text-color);
+      border-radius: 12px;
+      border: 1px solid var(--accent-color, royalblue);
+      font-size: var(--font-size)
   }
 
      #footer-overlay {
       position: absolute;
-      left: 0;
+      left: 206px;
       right: 16px;
       bottom: 0;
       height: 120px;
@@ -985,7 +1010,6 @@
     );
       z-index: 100;
       pointer-events: none;
-      border-radius: 0 0 30px 30px;
       box-shadow: none;
   }
 
@@ -1020,7 +1044,7 @@
       background: var(--accent-color);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 15px;
       padding: 6px 16px;
       font-size: 1em;
       font-weight: 500;
@@ -1046,9 +1070,9 @@
       color: #fff;
       padding: 8px 18px;
       border: none;
-      border-radius: 12px;
-      font-size: 1em;
-      font-weight: 600;
+      border-radius: 15px;
+      font-family: var(--text-font);
+      font-size: var(--font-size);
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(58,134,255,0.08);
       transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
@@ -1158,8 +1182,8 @@
       font-size: 0.97em;
       background: #f8f9fa;
       color: #222;
-      border: 1px solid #a2a9b1;
-      border-radius: 10px;
+      border: 1px solid var(--accent-color);
+      border-radius: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
       padding: 0.5em 0.8em 0.8em 0.8em;
       line-height: 1.3;
@@ -1173,8 +1197,8 @@
       font-size: 0.97em;
       background: #f8f9fa;
       color: #222;
-      border: 1px solid #a2a9b1;
-      border-radius: 10px;
+      border: 1px solid var(--accent-color);
+      border-radius: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
       padding: 0.5em 0.8em 0.8em 0.8em;
       line-height: 1.3;
@@ -1217,8 +1241,6 @@
       max-width: 220px;
       height: auto;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
       margin: 0 auto;
       display: block;
     }
@@ -1229,25 +1251,27 @@
     }
     .infobox .infobox-data {
       color: #222;
+      font-size: var(--font-size);
+      font-family: var(--text-font), sans-serif;
     }
     .infobox .infobox-header {
       font-size: 1.15em;
       font-weight: bold;
       text-align: center;
-      background: #e9ecef;
-      color: #222;
-      border-radius: 8px 8px 0 0;
-      padding: 8px 0;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 12px;
+      padding: 8px;
       margin-bottom: 0.5em;
     }
     .infobox .infobox-above {
       font-size: 1.1em;
       font-weight: bold;
       text-align: center;
-      background: #e9ecef;
-      color: #222;
-      border-radius: 8px 8px 0 0;
-      padding: 6px 0;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 12px;
+      padding: 6px;
       margin-bottom: 0.3em;
     }
     .infobox .infobox-below {
@@ -1302,7 +1326,7 @@
     #compendium-app.dark .infobox {
       background: #23272b;
       color: #eee;
-      border-color: #444;
+      border: 1px solid var(--accent-color);
     }
     #compendium-app.dark .infobox th,
     #compendium-app.dark .infobox td,
@@ -1455,7 +1479,7 @@ const htmlWide = `
     <div class="results"></div>
     <div class="content"></div>
     <div class="settings" style="display:none;"></div>
-    <div class="version-label" id="versionLabel">v.2.5</div>
+    <div class="version-label" id="versionLabel">v.2.6</div>
     <div id="versionDetails" class="version-details" style="display:none;"></div>
     <div class="author-title">Made by L. Smalley</div>
     <div id="footer-overlay"></div>
@@ -1513,9 +1537,6 @@ function setAppHTML() {
 
 // Set initial layout
 setAppHTML();
-
-// Update layout on resize
-//window.addEventListener('resize', setAppHTML);
 
   document.body.appendChild(app);
 
@@ -1616,12 +1637,12 @@ let fontFamily = "Roboto";
 
 // Store content for each tab
 const tabContents = {
-  wiki: { results: "", content: "", scroll: 0 },
-  dic: { results: "", content: "", scroll: 0 },
-  thes: { results: "", content: "", scroll: 0 },
-  weather: { results: "", content: "", scroll: 0 },
-  compound: { results: "", content: "", scroll: 0 },
-  sett: { results: "", content: "", scroll: 0 }
+  wiki: { results: "", content: ""},
+  dic: { results: "", content: ""},
+  thes: { results: "", content: ""},
+  weather: { results: "", content: ""},
+  compound: { results: "", content: ""},
+  sett: { results: "", content: ""}
 };
 
 function initContentPopupsAndLinks() {
@@ -1735,9 +1756,8 @@ function switchTab(tab) {
   if (tabContents[currentTab]) {
     tabContents[currentTab].results = resultsDiv.innerHTML;
     tabContents[currentTab].content = contentDiv.innerHTML;
-    tabContents[currentTab].scroll = contentDiv.scrollTop;
+    tabContents[currentTab].scroll = contentDiv.scrollTop; // Save scroll position
   }
-
 
   const tabNames = {
     wiki: "Wikipedia",
@@ -1856,13 +1876,14 @@ function switchTab(tab) {
     }, 0);
   }
 }
+
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => switchTab(tab.dataset.tab));
 });
 
 
 // Wikipedia API
-async function wikiSearch(query) {
+async function wikiLoadArticles(query) {
   if (!query) {
     resultsDiv.innerHTML = "";
     contentDiv.innerHTML = "";
@@ -1907,7 +1928,7 @@ async function wikiSearch(query) {
       resultsArr.push({
         title: "The Compendium of Everything",
         isEasterEgg: true,
-        thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/TomeOfEverything.png/80px-TomeOfEverything.png"
+        thumbnail: "https://www.compendiumofeverything.org/Compendium_Logo.png"
       });
     }
 
@@ -1915,7 +1936,7 @@ async function wikiSearch(query) {
       searchResults.map(item => ({
         title: item.title,
         isEasterEgg: false,
-        thumbnail: thumbnailMap[item.title] || "No_Image_Available_alt.png"
+        thumbnail: thumbnailMap[item.title] || "https://www.compendiumofeverything.org/No_Image_Available_alt.png"
       }))
     );
 
@@ -1962,13 +1983,12 @@ async function wikiSearch(query) {
 }
 
 async function wikiLoadArticle(title) {
-  resultsDiv.innerHTML = ""; // clear search results
+  resultsDiv.innerHTML = "";
   contentDiv.innerHTML = "Loading article...";
 
-  // Easter egg article
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
-      <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;">
+<img src="https://www.compendiumofeverything.org/Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;align-items:right;">
       <h1>The Compendium of Everything</h1>
       <p>
         <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
@@ -1997,8 +2017,8 @@ async function wikiLoadArticle(title) {
       </p>
       <h2>See Also</h2>
       <ul>
-        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank">Official GitHub Repository</a></li>
-        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank">Original Beta Version</a></li>
+        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank" style="color: var(--accent-color); text-decoration: none;">Official GitHub Repository</a></li>
+        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">Original Beta Version</a></li>
       </ul>
       <hr>
       <p style="font-size:0.9em;color:#888;">
@@ -2021,32 +2041,27 @@ async function wikiLoadArticle(title) {
     // Remove edit section links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
-    // Fix all image URLs (including lazy-loaded and infobox images)
+    // Fix image URLs
     doc.querySelectorAll("img").forEach((img) => {
       let src = img.getAttribute("src") || img.getAttribute("data-src");
       if (!src) return;
-
-      // Handle protocol-relative URLs
       if (src.startsWith("//")) src = "https:" + src;
-      // Handle Wikipedia relative URLs
       else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
-      // Handle other relative URLs
       else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
 
-      // Remove thumbnail cropping for full image (optional)
       const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
       if (thumbMatch) {
         src = `${thumbMatch[1]}/${thumbMatch[2]}`;
       }
 
       img.setAttribute("src", src);
-      img.removeAttribute("srcset"); // Remove srcset to avoid browser picking a broken one
-      img.onerror = function() {
+      img.removeAttribute("srcset");
+      img.onerror = function () {
         this.style.display = "none";
       };
     });
 
-    // Remove links that wrap images (make images not clickable)
+    // Remove links that wrap images
     doc.querySelectorAll("a > img").forEach(img => {
       const a = img.parentElement;
       if (a && a.tagName === "A") {
@@ -2054,20 +2069,35 @@ async function wikiLoadArticle(title) {
       }
     });
 
-    // Clean up links: keep /wiki/ and #cite_note, disable others
-    doc.querySelectorAll("a").forEach((a) => {
-      const href = a.getAttribute("href") || "";
+    // === Fix links ===
+    doc.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+
+      if (!href) return;
+
+      // Internal Wikipedia links
       if (
-        href.startsWith("#cite_note") ||
-        href.startsWith("/wiki/")
+        href.startsWith("/wiki/") ||
+        href.startsWith("#cite_note")
       ) {
         a.style.cursor = "pointer";
         a.style.color = "var(--accent-color, royalblue)";
         a.style.textDecoration = "underline";
-        // Remove browser tooltip for wiki links
         if (href.startsWith("/wiki/")) a.removeAttribute("title");
         return;
       }
+
+      // External links
+      if (href.startsWith("http") || href.startsWith("//")) {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+        a.style.color = "var(--accent-color, royalblue)";
+        a.style.textDecoration = "underline";
+        a.style.cursor = "pointer";
+        return;
+      }
+
+      // Unknown/weird links — disable
       a.removeAttribute("href");
       a.style.cursor = "default";
       a.style.color = "inherit";
@@ -2076,7 +2106,7 @@ async function wikiLoadArticle(title) {
 
     contentDiv.innerHTML = doc.body.innerHTML;
 
-    // Remove leading ^ symbol if present 
+    // Remove leading ^ symbols
     (function removeLeadingCaret() {
       let node = contentDiv.firstChild;
       while (node) {
@@ -2088,21 +2118,18 @@ async function wikiLoadArticle(title) {
       }
     })();
 
-    // Remove all ^ symbols from citation list
+    // Remove ^ from citation entries
     contentDiv.querySelectorAll('ol.references li, .references li').forEach(li => {
       li.innerHTML = li.innerHTML.replace(/\^+/g, '');
     });
 
-    // === Citation & Article Hover Popups ===
-
-    // Inject CSS for citation popup only once
+    // === Citation Popup System ===
     if (!document.getElementById("citation-popup-style")) {
       const popupStyle = document.createElement("style");
       popupStyle.id = "citation-popup-style";
       document.head.appendChild(popupStyle);
     }
 
-    // Only create one popup div
     let popup = document.getElementById("citation-popup");
     if (!popup) {
       popup = document.createElement("div");
@@ -2111,7 +2138,6 @@ async function wikiLoadArticle(title) {
       document.body.appendChild(popup);
     }
 
-    // --- Citation popups ---
     contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
       ref.addEventListener("mouseenter", (e) => {
         const href = ref.getAttribute("href");
@@ -2134,7 +2160,7 @@ async function wikiLoadArticle(title) {
       });
     });
 
-    // --- Article summary popups and internal navigation ---
+    // === Internal Article Popups and Navigation ===
     contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
       const href = link.getAttribute("href");
       if (
@@ -2193,10 +2219,8 @@ async function wikiLoadArticle(title) {
         popup.style.display = "none";
       });
 
-      // --- Load full article on click ---
       link.addEventListener("click", e => {
         e.preventDefault();
-        // Hide citation popup if visible
         if (popup) popup.style.display = "none";
         const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
         searchInput.value = articleTitle;
@@ -2204,21 +2228,17 @@ async function wikiLoadArticle(title) {
       });
     });
 
-    // ===== Table of Contents (inline-based) =====
-
-    // Remove old ToC button/panel if present
+    // === Table of Contents ===
     const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
     if (oldBtn) oldBtn.remove();
     const oldPanel = contentDiv.querySelector("#toc-panel");
     if (oldPanel) oldPanel.remove();
 
-    // Create ToC button (fixed, bottom left of viewport)
     const tocBtn = document.createElement("button");
     tocBtn.id = "toc-toggle-btn";
     tocBtn.title = "Show Table of Contents";
     tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
 
-    // Create ToC panel (absolute inside .content)
     const tocPanel = document.createElement("div");
     tocPanel.id = "toc-panel";
     tocPanel.innerHTML = `
@@ -2228,17 +2248,14 @@ async function wikiLoadArticle(title) {
           <span class="material-symbols-rounded">close</span>
         </button>
       </div>
-        <div id="toc-scroll" style="flex:1;overflow:auto;border-radius:18px;">
+      <div id="toc-scroll" style="flex:1;overflow:auto;border-radius:18px;">
         <div id="toc-list" style="padding:0 18px;"></div>
       </div>
-    </div>
     `;
 
-    // Insert into .content
     contentDiv.appendChild(tocBtn);
     contentDiv.appendChild(tocPanel);
 
-    // Show/hide panel
     tocBtn.onclick = () => {
       tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
     };
@@ -2246,7 +2263,6 @@ async function wikiLoadArticle(title) {
       tocPanel.style.display = "none";
     };
 
-    // Build ToC from headings in content
     const tocList = tocPanel.querySelector("#toc-list");
     tocList.innerHTML = "";
     const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
@@ -2259,11 +2275,10 @@ async function wikiLoadArticle(title) {
         a.style.marginLeft = `${indent * 16}px`;
         a.style.display = "block";
         a.style.color = "var(--accent-color, royalblue)";
-        a.style.textDecoration = "none";
+        a.style.textDecoration = "underline";
         a.style.marginBottom = "6px";
         a.style.cursor = "pointer";
         a.href = "#" + h.id;
-        a.style.textDecoration = "underline";
         a.onclick = (e) => {
           e.preventDefault();
           h.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2275,50 +2290,183 @@ async function wikiLoadArticle(title) {
       tocBtn.style.display = "none";
     }
 
-    // --- Image lightbox (enlarge on click) ---
-    contentDiv.querySelectorAll("img").forEach(img => {
-      img.style.cursor = "zoom-in";
-      img.addEventListener("click", function handler(e) {
-        e.stopPropagation();
-        // Remove any existing overlay
-        let overlay = document.getElementById("img-lightbox-overlay");
-        if (overlay) overlay.remove();
+    // === Lightbox ===
+contentDiv.querySelectorAll("img").forEach(img => {
+  img.style.cursor = "pointer";
+  img.addEventListener("click", function handler(e) {
+    e.stopPropagation();
 
-        overlay = document.createElement("div");
-        overlay.id = "img-lightbox-overlay";
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100vw";
-        overlay.style.height = "100vh";
-        overlay.style.background = "rgba(0,0,0,0.85)";
-        overlay.style.display = "flex";
-        overlay.style.alignItems = "center";
-        overlay.style.justifyContent = "center";
-        overlay.style.zIndex = "999999999";
-        overlay.style.cursor = "zoom-out";
+    // Remove existing overlay if present
+    let overlay = document.getElementById("img-lightbox-overlay");
+    if (overlay) overlay.remove();
 
-        const bigImg = document.createElement("img");
-        bigImg.src = img.src;
-        bigImg.alt = img.alt || "";
-        bigImg.style.maxWidth = "90vw";
-        bigImg.style.maxHeight = "90vh";
-        bigImg.style.borderRadius = "16px";
-        bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
-        bigImg.style.background = "#fff";
+    // Create overlay
+    overlay = document.createElement("div");
+    overlay.id = "img-lightbox-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.background = "rgba(0,0,0,0.85)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "999999999";
+    overlay.style.cursor = "zoom-in";
 
-        overlay.appendChild(bigImg);
-        document.body.appendChild(overlay);
+    // Helper to extract original Wikimedia Commons filename
+    function extractCommonsFilename(url) {
+      const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
+      if (thumbMatch && thumbMatch[1]) {
+        return decodeURIComponent(thumbMatch[1]);
+      }
+      const parts = url.split("/");
+      return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
+    }
 
-        overlay.addEventListener("click", () => overlay.remove());
-      });
+    // Create Download button with Material Symbols Rounded icon
+    const downloadBtn = document.createElement("button");
+    downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
+    downloadBtn.style.position = "fixed";
+    downloadBtn.style.top = "10px";
+    downloadBtn.style.left = "10px";
+    downloadBtn.style.padding = "6px 10px";
+    downloadBtn.style.fontSize = "14px";
+    downloadBtn.style.border = "none";
+    downloadBtn.style.borderRadius = "15px";
+    downloadBtn.style.background = "var(--accent-color)";
+    downloadBtn.style.color = "white";
+    downloadBtn.style.cursor = "pointer";
+    downloadBtn.style.zIndex = "1000000000";
+    downloadBtn.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+    downloadBtn.style.userSelect = "none";
+    downloadBtn.style.display = "flex";
+    downloadBtn.style.alignItems = "center";
+    downloadBtn.style.justifyContent = "center";
+
+    downloadBtn.addEventListener("click", async (event) => {
+      event.stopPropagation();
+
+      let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
+      // Force .png extension
+      filename = filename.replace(/\.[^.]+$/, ".png");
+
+      try {
+        // Fetch image as blob
+        const response = await fetch(bigImg.src, {mode: 'cors'});
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const blob = await response.blob();
+
+        // Convert to PNG using canvas
+        const imgBitmap = await createImageBitmap(blob);
+        const canvas = document.createElement("canvas");
+        canvas.width = imgBitmap.width;
+        canvas.height = imgBitmap.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(imgBitmap, 0, 0);
+
+        canvas.toBlob((pngBlob) => {
+          const url = URL.createObjectURL(pngBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            link.remove();
+          }, 100);
+        }, "image/png");
+
+      } catch (error) {
+        alert("Failed to download image: " + error.message);
+      }
     });
+
+    overlay.appendChild(downloadBtn);
+
+    // Create big image
+    const bigImg = document.createElement("img");
+    bigImg.src = img.src;
+    bigImg.alt = img.alt || "";
+    bigImg.style.maxWidth = "90vw";
+    bigImg.style.maxHeight = "90vh";
+    bigImg.style.borderRadius = "16px";
+    bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
+    bigImg.style.background = "#fff";
+    bigImg.style.transition = "transform 0.2s ease";
+    bigImg.style.transformOrigin = "center center";
+    bigImg.style.cursor = "zoom-in";
+
+    let zoomedIn = false;
+    const zoomScale = 4;
+    let isDragging = false;
+    let startX = 0, startY = 0, currentX = 0, currentY = 0;
+
+    bigImg.addEventListener("click", (e) => {
+      e.stopPropagation();
+      zoomedIn = !zoomedIn;
+
+      if (zoomedIn) {
+        bigImg.style.transform = `scale(${zoomScale})`;
+        bigImg.style.cursor = "grab";
+        overlay.style.cursor = "default";
+      } else {
+        bigImg.style.transform = "scale(1)";
+        bigImg.style.left = "0";
+        bigImg.style.top = "0";
+        currentX = 0;
+        currentY = 0;
+        bigImg.style.cursor = "zoom-in";
+        overlay.style.cursor = "zoom-out";
+      }
+    });
+
+    bigImg.addEventListener("mousedown", (e) => {
+      if (!zoomedIn) return;
+      isDragging = true;
+      startX = e.clientX - currentX;
+      startY = e.clientY - currentY;
+      bigImg.style.cursor = "grabbing";
+      e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        bigImg.style.cursor = "grab";
+      }
+    });
+
+    overlay.addEventListener("click", () => {
+      overlay.remove();
+    });
+
+    document.addEventListener("keydown", function escCloser(e) {
+      if (e.key === "Escape") {
+        overlay.remove();
+        document.removeEventListener("keydown", escCloser);
+      }
+    });
+
+    overlay.appendChild(bigImg);
+    document.body.appendChild(overlay);
+  });
+});
 
   } catch (e) {
     contentDiv.innerHTML = "<i>Error fetching content.</i>";
   }
 }
-
 
 // Main dictionary search function
 async function dicSearch(query) {
@@ -2882,100 +3030,99 @@ function loadSettings() {
       <label for="font-family-select">Font Family:</label>
       <select id="font-family-select" class="font-selector" size="10">
         <optgroup label="Sans-Serif">
-          <option value="Roboto" style="font-family:Roboto, sans-serif;">Roboto</option>
-          <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif;">Open Sans</option>
-          <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif;">Montserrat</option>
-          <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif;">Lato</option>
-          <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif;">Nunito</option>
-          <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif;">Quicksand</option>
-          <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif;">Raleway</option>
-          <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif;">Work Sans</option>
-          <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif;">Source Sans 3</option>
-          <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif;">Ubuntu</option>
-          <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif;">Inter</option>
-          <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif;">Mulish</option>
-          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif;">Cabin</option>
-          <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif;">Barlow</option>
-          <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif;">Asap</option>
-          <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif;">Karla</option>
-          <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif;">Manrope</option>
-          <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif;">Titillium Web</option>
-          <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif;">Exo 2</option>
-          <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif;">Signika</option>
-          <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif;">Hind</option>
-          <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif;">Archivo</option>
-          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif;">Questrial</option>
-          <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif;">Heebo</option>
-          <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif;">Fira Sans</option>
-          <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif;">Assistant</option>
-          <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif;">Lexend</option>
-          <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif;">Public Sans</option>
-          <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif;">DM Sans</option>
-          <option value="'OpenDyslexic', sans-serif" style="font-family:'OpenDyslexic', sans-serif;">OpenDyslexic</option>
+          <option value="Roboto" style="font-family:Roboto, sans-serif; background: var(--bg-color); color: var(--text-color);">Roboto</option>
+          <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Open Sans</option>
+          <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif; background: var(--bg-color); color: var(--text-color);">Montserrat</option>
+          <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif; background: var(--bg-color); color: var(--text-color);">Lato</option>
+          <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif; background: var(--bg-color); color: var(--text-color);">Nunito</option>
+          <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif; background: var(--bg-color); color: var(--text-color);">Quicksand</option>
+          <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif; background: var(--bg-color); color: var(--text-color);">Raleway</option>
+          <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Work Sans</option>
+          <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif; background: var(--bg-color); color: var(--text-color);">Source Sans 3</option>
+          <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif; background: var(--bg-color); color: var(--text-color);">Ubuntu</option>
+          <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif; background: var(--bg-color); color: var(--text-color);">Inter</option>
+          <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif; background: var(--bg-color); color: var(--text-color);">Mulish</option>
+          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif; background: var(--bg-color); color: var(--text-color);">Cabin</option>
+          <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif; background: var(--bg-color); color: var(--text-color);">Barlow</option>
+          <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif; background: var(--bg-color); color: var(--text-color);">Asap</option>
+          <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif; background: var(--bg-color); color: var(--text-color);">Karla</option>
+          <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif; background: var(--bg-color); color: var(--text-color);">Manrope</option>
+          <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif; background: var(--bg-color); color: var(--text-color);">Titillium Web</option>
+          <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif; background: var(--bg-color); color: var(--text-color);">Exo 2</option>
+          <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif; background: var(--bg-color); color: var(--text-color);">Signika</option>
+          <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif; background: var(--bg-color); color: var(--text-color);">Hind</option>
+          <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif; background: var(--bg-color); color: var(--text-color);">Archivo</option>
+          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif; background: var(--bg-color); color: var(--text-color);">Questrial</option>
+          <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif; background: var(--bg-color); color: var(--text-color);">Heebo</option>
+          <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Fira Sans</option>
+          <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif; background: var(--bg-color); color: var(--text-color);">Assistant</option>
+          <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif; background: var(--bg-color); color: var(--text-color);">Lexend</option>
+          <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Public Sans</option>
+          <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">DM Sans</option>
+          <option value="'OpenDyslexic', sans-serif" style="font-family:'OpenDyslexic', sans-serif; background: var(--bg-color); color: var(--text-color);">OpenDyslexic</option>
         </optgroup>
         <optgroup label="Serif">
-          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif;">EB Garamond</option>
-          <option value="'Merriweather', serif" style="font-family:'Merriweather', serif;">Merriweather</option>
-          <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif;">Playfair Display</option>
-          <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif;">Roboto Serif</option>
-          <option value="'PT Serif', serif" style="font-family:'PT Serif', serif;">PT Serif</option>
-          <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif;">Crimson Text</option>
-          <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif;">Libre Baskerville</option>
-          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif;">Source Serif 4</option>
-          <option value="'Domine', serif" style="font-family:'Domine', serif;">Domine</option>
-          <option value="'Spectral', serif" style="font-family:'Spectral', serif;">Spectral</option>
-          <option value="'Cardo', serif" style="font-family:'Cardo', serif;">Cardo</option>
-          <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif;">Vollkorn</option>
-          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif;">Crete Round</option>
-          <option value="'Arvo', serif" style="font-family:'Arvo', serif;">Arvo</option>
-          <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif;">Old Standard TT</option>
-          <option value="'Prata', serif" style="font-family:'Prata', serif;">Prata</option>
-          <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif;">Zilla Slab</option>
-          <option value="'Literata', serif" style="font-family:'Literata', serif;">Literata</option>
-          <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif;">Georgia Pro</option>
-          <option value="'Faustina', serif" style="font-family:'Faustina', serif;">Faustina</option>
-          <option value="'PT Mono', serif" style="font-family:'PT Mono', serif;">PT Mono</option>
-          <option value="'Neuton', serif" style="font-family:'Neuton', serif;">Neuton</option>
-          <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif;">Sorts Mill Goudy</option>
-          <option value="'Alice', serif" style="font-family:'Alice', serif;">Alice</option>
-          <option value="'Gloock', serif" style="font-family:'Gloock', serif;">Gloock</option>
-          <option value="'Trirong', serif" style="font-family:'Trirong', serif;">Trirong</option>
-          <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif;">Noticia Text</option>
-          <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif;">Abhaya Libre</option>
-          <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif;">Libre Caslon Text</option>
-          <option value="'Martel', serif" style="font-family:'Martel', serif;">Martel</option>
+          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif; background: var(--bg-color); color: var(--text-color);">EB Garamond</option>
+          <option value="'Merriweather', serif" style="font-family:'Merriweather', serif; background: var(--bg-color); color: var(--text-color);">Merriweather</option>
+          <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif; background: var(--bg-color); color: var(--text-color);">Playfair Display</option>
+          <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif; background: var(--bg-color); color: var(--text-color);">Roboto Serif</option>
+          <option value="'PT Serif', serif" style="font-family:'PT Serif', serif; background: var(--bg-color); color: var(--text-color);">PT Serif</option>
+          <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif; background: var(--bg-color); color: var(--text-color);">Crimson Text</option>
+          <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif; background: var(--bg-color); color: var(--text-color);">Libre Baskerville</option>
+          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif; background: var(--bg-color); color: var(--text-color);">Source Serif 4</option>
+          <option value="'Domine', serif" style="font-family:'Domine', serif; background: var(--bg-color); color: var(--text-color);">Domine</option>
+          <option value="'Spectral', serif" style="font-family:'Spectral', serif; background: var(--bg-color); color: var(--text-color);">Spectral</option>
+          <option value="'Cardo', serif" style="font-family:'Cardo', serif; background: var(--bg-color); color: var(--text-color);">Cardo</option>
+          <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif; background: var(--bg-color); color: var(--text-color);">Vollkorn</option>
+          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif; background: var(--bg-color); color: var(--text-color);">Crete Round</option>
+          <option value="'Arvo', serif" style="font-family:'Arvo', serif; background: var(--bg-color); color: var(--text-color);">Arvo</option>
+          <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif; background: var(--bg-color); color: var(--text-color);">Old Standard TT</option>
+          <option value="'Prata', serif" style="font-family:'Prata', serif; background: var(--bg-color); color: var(--text-color);">Prata</option>
+          <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif; background: var(--bg-color); color: var(--text-color);">Zilla Slab</option>
+          <option value="'Literata', serif" style="font-family:'Literata', serif; background: var(--bg-color); color: var(--text-color);">Literata</option>
+          <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif; background: var(--bg-color); color: var(--text-color);">Georgia Pro</option>
+          <option value="'Faustina', serif" style="font-family:'Faustina', serif; background: var(--bg-color); color: var(--text-color);">Faustina</option>
+          <option value="'PT Mono', serif" style="font-family:'PT Mono', serif; background: var(--bg-color); color: var(--text-color);">PT Mono</option>
+          <option value="'Neuton', serif" style="font-family:'Neuton', serif; background: var(--bg-color); color: var(--text-color);">Neuton</option>
+          <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif; background: var(--bg-color); color: var(--text-color);">Sorts Mill Goudy</option>
+          <option value="'Alice', serif" style="font-family:'Alice', serif; background: var(--bg-color); color: var(--text-color);">Alice</option>
+          <option value="'Gloock', serif" style="font-family:'Gloock', serif; background: var(--bg-color); color: var(--text-color);">Gloock</option>
+          <option value="'Trirong', serif" style="font-family:'Trirong', serif; background: var(--bg-color); color: var(--text-color);">Trirong</option>
+          <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif; background: var(--bg-color); color: var(--text-color);">Noticia Text</option>
+          <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif; background: var(--bg-color); color: var(--text-color);">Abhaya Libre</option>
+          <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif; background: var(--bg-color); color: var(--text-color);">Libre Caslon Text</option>
+          <option value="'Martel', serif" style="font-family:'Martel', serif; background: var(--bg-color); color: var(--text-color);">Martel</option>
         </optgroup>
         <optgroup label="Monospace">
-          <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace;">Fira Mono</option>
-          <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace;">JetBrains Mono</option>
-          <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace;">Roboto Mono</option>
-          <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace;">Source Code Pro</option>
-          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
-          <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace;">Space Mono</option>
-          <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace;">Cascadia Code</option>
-          <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace;">Inconsolata</option>
-          <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace;">Ubuntu Mono</option>
-          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
-          <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace;">Share Tech Mono</option>
-          <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace;">Cutive Mono</option>
-          <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace;">Oxygen Mono</option>
-          <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace;">Overpass Mono</option>
-          <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace;">Major Mono Display</option>
-          <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace;">Nanum Gothic Coding</option>
-          <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace;">Red Hat Mono</option>
-          <option value="'VT323', monospace" style="font-family:'VT323', monospace;">VT323</option>
-          <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace;">Syne Mono</option>
-          <option value="'Recursive', monospace" style="font-family:'Recursive', monospace;">Recursive</option>
-          <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace;">Nova Mono</option>
-          <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace;">Enriqueta</option>
-          <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace;">Special Elite</option>
-          <option value="'Press Start 2P', monospace" style="font-family:'Press Start 2P', monospace;">Press Start 2P</option>
-          <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace;">Mononoki</option>
-          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace;">IBM Plex Mono</option>
-          <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace;">PT Mono</option>
-          <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace;">Fira Code</option>
-          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace;">Anonymous Pro</option>
-          <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace;">Courier Prime</option>
+          <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace; background: var(--bg-color); color: var(--text-color);">Fira Mono</option>
+          <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace; background: var(--bg-color); color: var(--text-color);">JetBrains Mono</option>
+          <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace; background: var(--bg-color); color: var(--text-color);">Roboto Mono</option>
+          <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace; background: var(--bg-color); color: var(--text-color);">Source Code Pro</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace; background: var(--bg-color); color: var(--text-color);">IBM Plex Mono</option>
+          <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace; background: var(--bg-color); color: var(--text-color);">Space Mono</option>
+          <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace; background: var(--bg-color); color: var(--text-color);">Cascadia Code</option>
+          <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace; background: var(--bg-color); color: var(--text-color);">Inconsolata</option>
+          <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace; background: var(--bg-color); color: var(--text-color);">Ubuntu Mono</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace; background: var(--bg-color); color: var(--text-color);">Anonymous Pro</option>
+          <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace; background: var(--bg-color); color: var(--text-color);">Share Tech Mono</option>
+          <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace; background: var(--bg-color); color: var(--text-color);">Cutive Mono</option>
+          <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace; background: var(--bg-color); color: var(--text-color);">Oxygen Mono</option>
+          <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace; background: var(--bg-color); color: var(--text-color);">Overpass Mono</option>
+          <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace; background: var(--bg-color); color: var(--text-color);">Major Mono Display</option>
+          <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace; background: var(--bg-color); color: var(--text-color);">Nanum Gothic Coding</option>
+          <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace; background: var(--bg-color); color: var(--text-color);">Red Hat Mono</option>
+          <option value="'VT323', monospace" style="font-family:'VT323', monospace; background: var(--bg-color); color: var(--text-color);">VT323</option>
+          <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace; background: var(--bg-color); color: var(--text-color);">Syne Mono</option>
+          <option value="'Recursive', monospace" style="font-family:'Recursive', monospace; background: var(--bg-color); color: var(--text-color);">Recursive</option>
+          <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace; background: var(--bg-color); color: var(--text-color);">Nova Mono</option>
+          <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace; background: var(--bg-color); color: var(--text-color);">Enriqueta</option>
+          <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace; background: var(--bg-color); color: var(--text-color);">Special Elite</option>
+          <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace; background: var(--bg-color); color: var(--text-color);">Mononoki</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace; background: var(--bg-color); color: var(--text-color);">IBM Plex Mono</option>
+          <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace; background: var(--bg-color); color: var(--text-color);">PT Mono</option>
+          <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace; background: var(--bg-color); color: var(--text-color);">Fira Code</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace; background: var(--bg-color); color: var(--text-color);">Anonymous Pro</option>
+          <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace; background: var(--bg-color); color: var(--text-color);">Courier Prime</option>
         </optgroup>
       </select>
     </div>
@@ -3122,7 +3269,7 @@ resetBtn.addEventListener("click", () => {
     const q = searchInput.value.trim();
     debounceTimer = setTimeout(() => {
       if (currentTab === "wiki") {
-        wikiSearch(q);
+        wikiLoadArticles(q);
       } else if (currentTab === "dic") {
         dicSearch(q);
       } else if (currentTab === "thes") {
@@ -3148,21 +3295,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.5 changes:</strong>
+      <strong>v.2.6 changes:</strong>
       <ul>
-        <li>Added 'Compound Search' Tab</li>
-        <li>Removed Clock</li>
-        <li>Added linking to other Wikipedia articles</li>
-        <li>Made The Compendium of a PWA</li>
+        <li>Minor styling changes</li>
+        <li>Fixed mobile version not working</li>
+        <li>Added external link handling in Wikipedia articles</li>
         <li>Updated Changelog</li>
-        </ul>
-        <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">
-        View project on GitHub
-        </a>
+      </ul>
+      <strong>Personal Notes:</strong>
+      <p>Recently, I've been having trouble coming up with ideas for new features, so if you have any ideas, please feel free to <a href="https://mail.google.com/mail/?view=cm&to=liamcsmalley@gmail.com&su=Compendium%20Ideas" target="_blank" style="color: var(--accent-color); text-decoration: none;">Email</a> me your ideas</p>
+        <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">View project on GitHub</a>
         <br>
-        <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none; margin-left: 10px;">
-        View Beta version
-        </a>
+        <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">View Beta version</a>
       <p style="color: grey; font-family: var(--text-font); font-size: 0.9em;"">See Settings Tab for more past versions</p>
       <span id="closeUpdates" class="material-symbols-rounded" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-size: 1.4em; font-family: var(--text-font 'Roboto'), sans-serif;">close</span>
     </div>
@@ -3198,7 +3342,7 @@ aboutPanel.className = "about-panel";
 aboutPanel.style.display = "none";
 aboutPanel.innerHTML = `
   <div style="position: relative;">
-    <img src="Compendium_Logo.png" alt="Compendium Logo" class="about-logo">
+    <img src="https://www.compendiumofeverything.org/Compendium_Logo.png" alt="Compendium Logo" class="about-logo">
     <h2 style="margin-top:10px;">The Compendium of Everything</h2>
     <p>
       A multi-tool web app for quick access to Wikipedia, dictionary, thesaurus, weather, and more.<br>
