@@ -485,6 +485,43 @@
       display: block;
     }
 
+     .content audio,
+     .content video {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 18px auto 18px auto;
+      border-radius: 25px;
+      border: var(--accent-color, royalblue);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+      background: var(--accent-color, royalblue);
+    }
+
+     .content audio {
+      height: 38px;
+      min-width: 180px;
+      outline: none;
+    }
+
+     .content audio::-webkit-media-controls-enclosure {
+      border-radius: 25px;
+      overflow: hidden;
+    }
+     .content audio::-webkit-media-controls-panel {
+      background: var(--bg-color, #fff);
+    }
+     .content video {
+      max-height: 340px;
+      background: #000;
+}
+
+    @media (max-width: 600px) {
+      .content audio,
+      .content video {
+        max-width: 98vw;
+    }
+  }
+
      .setting-item {
       margin-bottom: 16px;
       display: flex;
@@ -1425,7 +1462,6 @@
       text-shadow: 1px 1px 4px rgba(0,0,0,0.13);
     }
 
-
   `;
 
   document.head.appendChild(style);
@@ -1477,7 +1513,7 @@ const htmlWide = `
     <div class="results"></div>
     <div class="content"></div>
     <div class="settings" style="display:none;"></div>
-    <div class="version-label" id="versionLabel">v.2.7</div>
+    <div class="version-label" id="versionLabel">v.2.8</div>
     <div id="versionDetails" class="version-details" style="display:none;"></div>
     <div class="author-title">Made by L. Smalley</div>
     <div id="footer-overlay"></div>
@@ -1520,7 +1556,7 @@ const htmlNarrow = `
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.7</div>
+      <div class="version-label" id="versionLabel">v.2.8</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
@@ -2038,69 +2074,43 @@ async function wikiLoadArticle(title) {
 
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
-<img src="Compendium_Logo.png" alt="Compendium Logo" class="infobox image" style="display:block;margin:0 auto 18px auto;">
-<h1>The Compendium of Everything</h1>
-  <p><strong>The Compendium of Everything</strong> is an information web app created by Liam C. Smalley which was designed, according to Smalley, to be an informational Swiss Army Knife.<sup id="cite-ref-1"><a href="#cite-note-1">[1]</a></sup></p>
-
-  <h2>Creation</h2>
-  <p>Liam Smalley first made The Compendium of Everything on 29th May, 2025, which wasn’t yet published to www.compendiumofeverything.org, but ran within the JavaScript library, p5js. The Compendium was not yet as advanced as it is now and did not yet have the Weather or Compound Search tabs, but its basic structure was still there. Over the next few weeks, Smalley worked on it a bit more and developed the Weather tab, which at the time used Wttr.In API, though in the next version, it was changed to Open Meteo API.<sup id="cite-ref-2"><a href="#cite-note-2">[2]</a></sup><sup id="cite-ref-3"><a href="#cite-note-3">[3]</a></sup></p>
-
-  <h2>Development</h2>
-  <p>In the second update, v. Beta 1.1, Smalley updated the Encyclopaedia tab, which changed the article to be longer and contain more information.<sup id="cite-ref-4"><a href="#cite-note-4">[4]</a></sup> The next two updates, v. Beta 1.2, v. Beta 1.3 and v. Beta 1.4 were not very significant, but v. Beta 1.5 added the first version of the Weather tab, which did not yet have the forecast.<sup id="cite-ref-5"><a href="#cite-note-5">[5]</a></sup><sup id="cite-ref-6"><a href="#cite-note-6">[6]</a></sup><sup id="cite-ref-7"><a href="#cite-note-7">[7]</a></sup><sup id="cite-ref-8"><a href="#cite-note-8">[8]</a></sup> The forecast was added in the next version, v. Beta 1.6, along with some other bug fixes.<sup id="cite-ref-9"><a href="#cite-note-9">[9]</a></sup></p>
-
-  <h2>Version 2</h2>
-  <p>After v. Beta 1.6, Smalley took a break from development for a while, but on 15th June, 2025, he released v. 2.0, skipping over version Beta 1.7, Beta 1.8 and Beta 1.9.<sup id="cite-ref-10"><a href="#cite-note-10">[10]</a></sup> This update was perhaps the most significant, as it brought The Compendium to an official domain, added an automatically saving Notepad, an easter egg, an about page, and fixed various bugs. In v. 2.1, Smalley added a Table of Contents to the Encyclopaedia articles, in v. 2.2 he added past version access, and in v. 2.3 he added citation popups to the articles and pronunciation playback to the Dictionary tab.<sup id="cite-ref-11"><a href="#cite-note-11">[11]</a></sup><sup id="cite-ref-12"><a href="#cite-note-12">[12]</a></sup><sup id="cite-ref-13"><a href="#cite-note-13">[13]</a></sup> In v. 2.4, he updated the styling quite a bit, changing the site layout from a card-like UI to something more traditional for websites, and in v. 2.5 he removed the clock, and added a Compound Search tab, which allowed the user to search the Encyclopaedia, Dictionary and Thesaurus tabs at once.<sup id="cite-ref-14"><a href="#cite-note-14">[14]</a></sup><sup id="cite-ref-15"><a href="#cite-note-15">[15]</a></sup> V. 2.6 was the next version,</p>
-
-  <h2>Encyclopaedia Tab</h2>
-  <p>The Encyclopaedia tab in The Compendium of Everything was the very first tab Smalley made for The Compendium. It runs on Wikipedia API. The first version included in v. Beta 1.0 only included the summaries of the articles, but in v. Beta 1.1, he included the full articles.<sup id="cite-ref-3"><a href="#cite-note-3">[3]</a></sup><sup id="cite-ref-4"><a href="#cite-note-4">[4]</a></sup> Smalley did not update the tab again until v. 2.1, which added the Table of Contents to the articles.<sup id="cite-ref-11"><a href="#cite-note-11">[11]</a></sup> In v. 2.3, he added the Citation Popups feature, which simply added a tooltip that displayed any citations or references included in the articles.<sup id="cite-ref-13"><a href="#cite-note-13">[13]</a></sup></p>
-
-  <h2>Dictionary Tab</h2>
-  <p>The Dictionary tab is little different from its first version and has only been significantly updated once in v. 2.3 which added pronunciation playback.<sup id="cite-ref-12"><a href="#cite-note-12">[12]</a></sup></p>
-
-  <h2>Thesaurus Tab</h2>
-  <p>Like the Dictionary tab, the Thesaurus tab has only been updated once, and that was in v. 2.3, which added antonyms to the search results.<sup id="cite-ref-6"><a href="#cite-note-6">[6]</a></sup></p>
-
-  <h2>Weather Tab</h2>
-  <p>The Weather tab, unlike the original four, was added in v. Beta 1.5 using the Wttr.in API, and was updated to Open Meteo API in v. Beta 1.6, which also added a 3-day forecast.<sup id="cite-ref-5"><a href="#cite-note-5">[5]</a></sup><sup id="cite-ref-6"><a href="#cite-note-6">[6]</a></sup></p>
-
-  <h2>Compound Search Tab</h2>
-  <p>Like the Weather tab, the Compound Search was added in a later version; v. 2.5 and has not been updated since then.<sup id="cite-ref-15"><a href="#cite-note-15">[15]</a></sup> This tab simply allows the user to search the Encyclopaedia, Dictionary and Thesaurus tabs at once.</p>
-
-  <h2>Settings Tab</h2>
-  <p>The Settings tab is one of the original four added and has been updated several times since its creation. In v. Beta 1.0, it simply had a dark mode toggler and a text size slider.<sup id="cite-ref-2"><a href="#cite-note-2">[2]</a></sup> The next update was in v. 2.0, which added a font-family selector.<sup id="cite-ref-10"><a href="#cite-note-10">[10]</a></sup> The next update was in v. 2.1, which let the user choose their accent colour, background colour and text colour.<sup id="cite-ref-11"><a href="#cite-note-11">[11]</a></sup></p>
-
-  <h2>See also:</h2>
-  <ul>
-    <li>Official Compendium of Everything website</li>
-    <li>Official GitHub Repository</li>
-    <li>The Compendium of Everything Version Directory</li>
-  </ul>
-
-  <h2>References</h2>
-  <ol>
-    <li id="cite-note-1">Compendium of Everything about page</li>
-    <li id="cite-note-2">v. Beta 1.0 changelog</li>
-    <li id="cite-note-3">v. Beta 1.1 changelog</li>
-    <li id="cite-note-4">v. Beta 1.2 changelog</li>
-    <li id="cite-note-5">v. Beta 1.3 changelog</li>
-    <li id="cite-note-6">v. Beta 1.4 changelog</li>
-    <li id="cite-note-7">v. Beta 1.5 changelog</li>
-    <li id="cite-note-8">v. Beta 1.6 changelog</li>
-    <li id="cite-note-9">v. 2.0 changelog</li>
-    <li id="cite-note-10">v. 2.1 changelog</li>
-    <li id="cite-note-11">v. 2.2 changelog</li>
-    <li id="cite-note-12">v. 2.3 changelog</li>
-    <li id="cite-note-13">v. 2.4 changelog</li>
-    <li id="cite-note-14">v. 2.5 changelog</li>
-    <li id="cite-note-15">v. 2.6 changelog</li>
-  </ol>
-
+<img src="https://www.compendiumofeverything.org/Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;align-items:right;">
+      <h1>The Compendium of Everything</h1>
+      <p>
+        <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
+      </p>
+      <h2>History</h2>
+      <p>
+        The project began in late May 2025, when Smalley released version Beta 1.0 as a modest side project. The initial version was built using <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding. The first GitHub repository was minimal, containing only basic usage instructions, a logo (which has since evolved), and a single JavaScript file.
+      </p>
+      <p>
+        Upon its release, The Compendium of Everything received no publicity and was largely overlooked. Smalley briefly considered abandoning the project, but ultimately decided to continue development, believing that its utility would eventually be recognized.
+      </p>
+      <h2>Development and Features</h2>
+      <p>
+        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app. His website went live officially on 6th June, 2025 at 5:00 PM EST exactly.
+      </p>
+      <p>
+        Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
+      </p>
+      <h2>Author and Pseudonym</h2>
+      <p>
+        The creator, Liam C. Smalley, is also known online by the pseudonym <b>Pidgeron</b>, which serves as his GitHub username and digital moniker for his programming projects.
+      </p>
+      <h2>Design Philosophy</h2>
+      <p>
+        The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
+      </p>
+      <h2>See Also</h2>
+      <ul>
+        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank" style="color: var(--accent-color); text-decoration: none;">Official GitHub Repository</a></li>
+        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">Original Beta Version</a></li>
+      </ul>
+      <hr>
+      <p style="font-size:0.9em;color:#888;">
+        This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
+      </p>
     `;
-
-    // Initialize citation popups and ToC for the easter egg content
-    initContentPopupsAndLinks();
-    setupTableOfContents();
-
     return;
   }
 
@@ -2212,15 +2222,367 @@ async function wikiLoadArticle(title) {
 
     contentDiv.prepend(bookmarkBtn);
 
-    // Initialize citation popups and ToC for the loaded article
-    initContentPopupsAndLinks();
-    setupTableOfContents();
 
-        if (title && typeof window !== "undefined") {
-      const param = title.trim().replace(/\s+/g, "-");
-      const newUrl = `${window.location.pathname}?wiki=${encodeURIComponent(param)}`;
-      window.history.replaceState({}, "", newUrl);
+    // Remove leading ^ symbols
+    (function removeLeadingCaret() {
+      let node = contentDiv.firstChild;
+      while (node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          node.textContent = node.textContent.replace(/^\s*\^+/, '').replace(/^\s+/, '');
+          if (node.textContent.trim().length > 0) break;
+        }
+        node = node.nextSibling;
+      }
+    })();
+
+    // Remove ^ from citation entries
+    contentDiv.querySelectorAll('ol.references li, .references li').forEach(li => {
+      li.innerHTML = li.innerHTML.replace(/\^+/g, '');
+    });
+
+    // === Citation Popup System ===
+    if (!document.getElementById("citation-popup-style")) {
+      const popupStyle = document.createElement("style");
+      popupStyle.id = "citation-popup-style";
+      document.head.appendChild(popupStyle);
     }
+
+    let popup = document.getElementById("citation-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.className = "citation-popup";
+      popup.id = "citation-popup";
+      document.body.appendChild(popup);
+    }
+
+    contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
+      ref.addEventListener("mouseenter", (e) => {
+        const href = ref.getAttribute("href");
+        const note = contentDiv.querySelector(href);
+        if (note) {
+          popup.innerHTML = note.innerHTML;
+          popup.style.display = "block";
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(mouseY - 10, 10) + "px";
+        }
+      });
+      ref.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+      ref.addEventListener("mouseleave", () => {
+        popup.style.display = "none";
+      });
+    });
+
+    // === Internal Article Popups and Navigation ===
+    contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (
+        href.startsWith("/wiki/File:") ||
+        href.startsWith("/wiki/Special:") ||
+        href.startsWith("/wiki/Help:") ||
+        href.startsWith("/wiki/Category:") ||
+        href.startsWith("/wiki/Talk:") ||
+        href.startsWith("/wiki/Template:") ||
+        href.startsWith("/wiki/Portal:") ||
+        href.startsWith("/wiki/Wikipedia:") ||
+        href.startsWith("/wiki/Main_Page") ||
+        href.startsWith("/wiki/Citation_needed")
+      ) return;
+
+      let fetchTimeout, lastTitle = "";
+
+      link.addEventListener("mouseenter", (e) => {
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        fetchTimeout = setTimeout(async () => {
+          if (lastTitle === articleTitle) return;
+          lastTitle = articleTitle;
+          popup.innerHTML = `<span style="color: white;">Loading summary...</span>`;
+          popup.style.display = "block";
+          popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+          try {
+            const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
+            if (!resp.ok) throw new Error("No summary found");
+            const data = await resp.json();
+            let imgHtml = "";
+            if (data.thumbnail && data.thumbnail.source) {
+              imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+            }
+            popup.innerHTML = `
+              <div style="min-width:180px;max-width:320px;overflow:hidden;">
+                ${imgHtml}
+                <b>${data.title}</b><br>
+                <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
+              </div>
+            `;
+          } catch {
+            popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
+          }
+        }, 200);
+      });
+
+      link.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+
+      link.addEventListener("mouseleave", () => {
+        clearTimeout(fetchTimeout);
+        lastTitle = "";
+        popup.style.display = "none";
+      });
+
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        if (popup) popup.style.display = "none";
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        searchInput.value = articleTitle;
+        wikiLoadArticle(articleTitle);
+
+        // --- Update URL param when navigating to a new article ---
+        const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
+        const newUrl = `${window.location.pathname}?wikipedia=${param}`;
+        window.history.replaceState({}, "", newUrl);
+      });
+    });
+
+    // === Table of Contents ===
+    const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
+    if (oldBtn) oldBtn.remove();
+    const oldPanel = contentDiv.querySelector("#toc-panel");
+    if (oldPanel) oldPanel.remove();
+
+    const tocBtn = document.createElement("button");
+    tocBtn.id = "toc-toggle-btn";
+    tocBtn.title = "Show Table of Contents";
+    tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
+
+    const tocPanel = document.createElement("div");
+    tocPanel.id = "toc-panel";
+    tocPanel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 18px 8px 18px;font-weight:bold;">
+        <span>Contents</span>
+        <button id="toc-close-btn" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:#888;">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div id="toc-scroll" style="flex:1;overflow:auto;border-radius:18px;">
+        <div id="toc-list" style="padding:0 18px;"></div>
+      </div>
+    `;
+
+    contentDiv.appendChild(tocBtn);
+    contentDiv.appendChild(tocPanel);
+
+    tocBtn.onclick = () => {
+      tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
+    };
+    tocPanel.querySelector("#toc-close-btn").onclick = () => {
+      tocPanel.style.display = "none";
+    };
+
+    const tocList = tocPanel.querySelector("#toc-list");
+    tocList.innerHTML = "";
+    const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
+    if (headings.length) {
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = "toc-h-" + i;
+        const indent = h.tagName === "H2" ? 0 : h.tagName === "H3" ? 1 : 2;
+        const a = document.createElement("a");
+        a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
+        a.style.marginLeft = `${indent * 16}px`;
+        a.style.display = "block";
+        a.style.color = "var(--accent-color, royalblue)";
+        a.style.textDecoration = "underline";
+        a.style.marginBottom = "6px";
+        a.style.cursor = "pointer";
+        a.href = "#" + h.id;
+        a.onclick = (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: "smooth", block: "start" });
+          tocPanel.style.display = "none";
+        };
+        tocList.appendChild(a);
+      });
+    } else {
+      tocBtn.style.display = "none";
+    }
+
+    // === Lightbox ===
+contentDiv.querySelectorAll("img").forEach(img => {
+  img.style.cursor = "pointer";
+  img.addEventListener("click", function handler(e) {
+    e.stopPropagation();
+
+    // Remove existing overlay if present
+    let overlay = document.getElementById("img-lightbox-overlay");
+    if (overlay) overlay.remove();
+
+    // Create overlay
+    overlay = document.createElement("div");
+    overlay.id = "img-lightbox-overlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.background = "rgba(0,0,0,0.85)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.zIndex = "999999999";
+    overlay.style.cursor = "zoom-in";
+
+    // Helper to extract original Wikimedia Commons filename
+    function extractCommonsFilename(url) {
+      const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
+      if (thumbMatch && thumbMatch[1]) {
+        return decodeURIComponent(thumbMatch[1]);
+      }
+      const parts = url.split("/");
+      return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
+    }
+
+    // Create Download button with Material Symbols Rounded icon
+    const downloadBtn = document.createElement("button");
+    downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
+    downloadBtn.style.position = "fixed";
+    downloadBtn.style.top = "10px";
+    downloadBtn.style.left = "10px";
+    downloadBtn.style.padding = "6px 10px";
+    downloadBtn.style.fontSize = "14px";
+    downloadBtn.style.border = "none";
+    downloadBtn.style.borderRadius = "15px";
+    downloadBtn.style.background = "none";
+    downloadBtn.style.color = "royalblue";
+    downloadBtn.style.cursor = "pointer";
+    downloadBtn.style.zIndex = "1000000";
+    downloadBtn.style.userSelect = "none";
+    downloadBtn.style.display = "flex";
+    downloadBtn.style.alignItems = "center";
+    downloadBtn.style.justifyContent = "center";
+
+    downloadBtn.addEventListener("click", async (event) => {
+      event.stopPropagation();
+
+      let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
+      // Force .png extension
+      filename = filename.replace(/\.[^.]+$/, ".png");
+
+      try {
+        // Fetch image as blob
+        const response = await fetch(bigImg.src, {mode: 'cors'});
+        if (!response.ok) throw new Error("Network response was not ok");
+
+        const blob = await response.blob();
+
+        // Convert to PNG using canvas
+        const imgBitmap = await createImageBitmap(blob);
+        const canvas = document.createElement("canvas");
+        canvas.width = imgBitmap.width;
+        canvas.height = imgBitmap.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(imgBitmap, 0, 0);
+
+        canvas.toBlob((pngBlob) => {
+          const url = URL.createObjectURL(pngBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => {
+            URL.revokeObjectURL(url);
+            link.remove();
+          }, 100);
+        }, "image/png");
+
+      } catch (error) {
+        alert("Failed to download image: " + error.message);
+      }
+    });
+
+    overlay.appendChild(downloadBtn);
+
+    // Create big image
+    const bigImg = document.createElement("img");
+    bigImg.src = img.src;
+    bigImg.alt = img.alt || "";
+    bigImg.style.maxWidth = "90vw";
+    bigImg.style.maxHeight = "90vh";
+    bigImg.style.borderRadius = "16px";
+    bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
+    bigImg.style.background = "#fff";
+    bigImg.style.transition = "transform 0.2s ease";
+    bigImg.style.transformOrigin = "center center";
+    bigImg.style.cursor = "zoom-in";
+
+    let zoomedIn = false;
+    const zoomScale = 4;
+    let isDragging = false;
+    let startX = 0, startY = 0, currentX = 0, currentY = 0;
+
+    bigImg.addEventListener("click", (e) => {
+      e.stopPropagation();
+      zoomedIn = !zoomedIn;
+
+      if (zoomedIn) {
+        bigImg.style.transform = `scale(${zoomScale})`;
+        bigImg.style.cursor = "grab";
+        overlay.style.cursor = "default";
+      } else {
+        bigImg.style.transform = "scale(1)";
+        bigImg.style.left = "0";
+        bigImg.style.top = "0";
+        currentX = 0;
+        currentY = 0;
+        bigImg.style.cursor = "zoom-in";
+        overlay.style.cursor = "zoom-out";
+      }
+    });
+
+    bigImg.addEventListener("mousedown", (e) => {
+      if (!zoomedIn) return;
+      isDragging = true;
+      startX = e.clientX - currentX;
+      startY = e.clientY - currentY;
+      bigImg.style.cursor = "grabbing";
+      e.preventDefault();
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        bigImg.style.cursor = "grab";
+      }
+    });
+
+    overlay.addEventListener("click", () => {
+      overlay.remove();
+    });
+
+    document.addEventListener("keydown", function escCloser(e) {
+      if (e.key === "Escape") {
+        overlay.remove();
+        document.removeEventListener("keydown", escCloser);
+      }
+    });
+
+    overlay.appendChild(bigImg);
+    document.body.appendChild(overlay);
+  });
+});
 
   } catch (e) {
     contentDiv.innerHTML = "<i>Error fetching content.</i>";
@@ -2326,7 +2688,7 @@ async function dicSearch(query) {
 
     if (query && typeof window !== "undefined") {
   const param = encodeURIComponent(query.trim());
-  const newUrl = `${window.location.pathname}?dic=${param}`;
+  const newUrl = `${window.location.pathname}?dictionary=${param}`;
   window.history.replaceState({}, "", newUrl);
 }
 
@@ -2435,7 +2797,7 @@ function injectPlayButtonStyles() {
 
 if (query && typeof window !== "undefined") {
   const param = encodeURIComponent(query.trim());
-  const newUrl = `${window.location.pathname}?thes=${param}`;
+  const newUrl = `${window.location.pathname}?thesaurus=${param}`;
   window.history.replaceState({}, "", newUrl);
 }
 
@@ -3037,7 +3399,8 @@ function loadSettings() {
   </div>
 </div>
 
-  `;
+
+`;
 
   // Theme pickers logic
   const accentPicker = document.getElementById("accent-color-picker");
@@ -3118,6 +3481,7 @@ resetBtn.addEventListener("click", () => {
       }
     }
   });
+  
 
   // Dark mode toggle
   settingsDiv
@@ -3176,20 +3540,20 @@ resetBtn.addEventListener("click", () => {
 function handleURLParams() {
   const params = new URLSearchParams(window.location.search);
 
-  if (params.has("wiki")) {
-    let article = params.get("wiki");
+  if (params.has("wikipedia")) {
+    let article = params.get("wikipedia");
     article = article.replace(/-/g, " ");
     switchTab("wiki");
     searchInput.value = article;
     wikiLoadArticle(article);
-  } else if (params.has("dic")) {
-    const word = params.get("dic");
+  } else if (params.has("dictionary")) {
+    const word = params.get("dictionary");
     switchTab("dic");
     searchInput.value = word;
     dicSearch(word);
-  } else if (params.has("thes")) {
-    const word = params.get("thes");
-    switchTab("thes");
+  } else if (params.has("thesaurus")) {
+    const word = params.get("thesaurus");
+    switchTab("thesaurus");
     searchInput.value = word;
     thesSearch(word);
   } else if (params.has("weather")) {
@@ -3202,8 +3566,21 @@ function handleURLParams() {
         document.getElementById("get-weather-btn").click();
       }
     }, 500);
+  } else if (params.has("comp")) {
+    const word = params.get("comp");
+    switchTab("compound");
+    searchInput.value = word;
+    compoundSearch(word);
+  } else if (params.has("bookmarks")) {
+    switchTab("bookmarks");
+  } else if (params.has("settings")) {
+    switchTab("settings");
+    // Default to Wikipedia tab
+    switchTab("wiki");
   }
+
 }
+
 
 handleURLParams();
 
@@ -3220,12 +3597,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.7 changes:</strong>
+      <strong>v.2.8 changes:</strong>
       <ul>
-        <li>Added URL Parameter navigation</li>
-        <li>Added bookmarking system</li>
-        <li>Added Bookmarks Tab</li>
+        <li>Fixed URL Parameters not properly navigating to Wikipedia articles</li>
+        <li>Fixed Wikipedia links</li>
         <li>Minor UI improvements</li>
+        <li>Updated changelog</li>
       </ul>
       <strong>Personal Note:</strong>
       <p>Recently, I've been having trouble coming up with ideas for new features, so if you have any ideas, please feel free to <a href="https://mail.google.com/mail/?view=cm&to=liamcsmalley@gmail.com&su=Compendium%20Ideas" target="_blank" style="color: var(--accent-color); text-decoration: none;">Email</a> me your ideas</p>
