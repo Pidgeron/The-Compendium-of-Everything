@@ -542,6 +542,7 @@
       border-radius: 12px;
       cursor: pointer;
       transition: background-color 0.3s;
+      color: var(--accent-color);
     }
 
      .toggle-switch input {
@@ -767,8 +768,6 @@
      .weather-icon {
        font-size: 48px;
   }
-
-
      .switch {
       position: relative;
       display: inline-block;
@@ -1513,7 +1512,7 @@ const htmlWide = `
     <div class="results"></div>
     <div class="content"></div>
     <div class="settings" style="display:none;"></div>
-    <div class="version-label" id="versionLabel">v.2.8</div>
+    <div class="version-label" id="versionLabel">v.2.9</div>
     <div id="versionDetails" class="version-details" style="display:none;"></div>
     <div class="author-title">Made by L. Smalley</div>
     <div id="footer-overlay"></div>
@@ -1556,7 +1555,7 @@ const htmlNarrow = `
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.8</div>
+      <div class="version-label" id="versionLabel">v.2.9</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
@@ -1691,24 +1690,13 @@ function initContentPopupsAndLinks() {
     popup = document.createElement("div");
     popup.className = "citation-popup";
     popup.id = "citation-popup";
-    document.body.appendChild(popup);
+    const citationPopupDiv = document.getElementById('compendium-app');
+    citationPopupDiv.appendChild(popup);
   }
 
   // Function to remove leading ^ symbols from citation text
 function cleanCitationText(text) {
   return text.replace(/^\s*\^+/, '').replace(/^\s+/, '');
-}
-
-// Initialize citation popups and links
-function initContentPopupsAndLinks() {
-  const contentDiv = app.querySelector(".content");
-  let popup = document.getElementById("citation-popup");
-  if (!popup) {
-    popup = document.createElement("div");
-    popup.className = "citation-popup";
-    popup.id = "citation-popup";
-    document.body.appendChild(popup);
-  }
 }
 
 // Update citation popups to clean text
@@ -2396,7 +2384,7 @@ async function wikiLoadArticle(title) {
         a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
         a.style.marginLeft = `${indent * 16}px`;
         a.style.display = "block";
-        a.style.color = "var(--accent-color, royalblue)";
+        a.style.color = "var(--accent-color)";
         a.style.textDecoration = "underline";
         a.style.marginBottom = "6px";
         a.style.cursor = "pointer";
@@ -2411,7 +2399,7 @@ async function wikiLoadArticle(title) {
     } else {
       tocBtn.style.display = "none";
     }
-
+const imageLightbox = document.getElementById('compendium-app')
     // === Lightbox ===
 contentDiv.querySelectorAll("img").forEach(img => {
   img.style.cursor = "pointer";
@@ -2454,11 +2442,11 @@ contentDiv.querySelectorAll("img").forEach(img => {
     downloadBtn.style.top = "10px";
     downloadBtn.style.left = "10px";
     downloadBtn.style.padding = "6px 10px";
-    downloadBtn.style.fontSize = "14px";
+    downloadBtn.style.fontSize = "18px";
     downloadBtn.style.border = "none";
     downloadBtn.style.borderRadius = "15px";
     downloadBtn.style.background = "none";
-    downloadBtn.style.color = "royalblue";
+    downloadBtn.style.color = "var(--accent-color)";
     downloadBtn.style.cursor = "pointer";
     downloadBtn.style.zIndex = "1000000";
     downloadBtn.style.userSelect = "none";
@@ -2580,7 +2568,7 @@ contentDiv.querySelectorAll("img").forEach(img => {
     });
 
     overlay.appendChild(bigImg);
-    document.body.appendChild(overlay);
+    imageLightbox.appendChild(overlay);
   });
 });
 
@@ -3597,11 +3585,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.8 changes:</strong>
+      <strong>v.2.9 changes:</strong>
       <ul>
-        <li>Fixed URL Parameters not properly navigating to Wikipedia articles</li>
-        <li>Fixed Wikipedia links</li>
-        <li>Minor UI improvements</li>
+        <li>Fixed various styles not applying correctly</li>
+        <li>Added 'Page Not Found' error page</li>
         <li>Updated changelog</li>
       </ul>
       <strong>Personal Note:</strong>
@@ -3654,7 +3641,9 @@ aboutPanel.innerHTML = `
     <span id="closeAbout" class="material-symbols-rounded about-close">close</span>
   </div>
 `;
-document.body.appendChild(aboutPanel);
+
+const aboutHTML = document.getElementById('compendium-app')
+aboutHTML.appendChild(aboutPanel);
 
 // Show/hide About panel, ensure only one panel is open
 authorTitle.addEventListener("click", () => {
@@ -3672,6 +3661,7 @@ aboutPanel.querySelector("#closeAbout").addEventListener("click", () => {
 document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
+
 //Copyright 2025 by L. Smalley
     </script>
     </body>
