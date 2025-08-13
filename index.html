@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A minimalist multi-tool app for fast access to knowledge all in one place.">
     <title>The Compendium of Everything</title>
-    <link rel="icon" type="image/png" href="https://www.compendiumofeverything.org/Compendium_Logo.png">
+    <link rel="icon" type="image/png" href="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png">
     <style>
   html, body {
     height: 100%;
@@ -27,127 +27,8 @@
 
   const style = document.createElement("style");
   style.textContent = `
-      /* Sans-Serif */
-      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Asap:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Signika:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Hind:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded');
 
-
-      /* Serif */
-      @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Vollkorn:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Crete+Round:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Literata:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Georgia+Pro:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Faustina:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=PT+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Neuton:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Alice&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Gloock:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Trirong:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Noticia+Text:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Martel:wght@400;700&display=swap');
-
-      /* Monospaced */
-      @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Recursive:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Mononoki&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Recursive:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Mononoki&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
-
-      @font-face {
-      font-family: OpenDyslexic;
-      src: url(OpenDyslexic-Regular.otf);
-      }
+  @import url('https://cdn.compendiumofeverything.org/fonts/fonts.css');
 
      .font-selector {
       width: 100%;
@@ -426,7 +307,7 @@
       position: absolute;
       bottom: 50px;   
       left: 20px;
-      max-width: 200px;
+      max-width: 400px;
       padding: 10px 15px;
       background: var(--bg-color);
       border: 2px solid var(--accent-color);
@@ -438,6 +319,12 @@
       z-index: 1000000000;
       white-space: normal;
     }
+
+    @media (max-width: 768px) {
+      .version-details {
+        max-width: 300px;
+      }
+  }
 
      .version-label {
       cursor: pointer;
@@ -847,7 +734,7 @@
       right: 40px;
       width: 320px;
       height: 260px;
-      background: var(--bg-color, #fff);
+      background: var(--bg-color);
       color: var(--text-color, #000);
       border-radius: 18px;
       box-shadow: 0 4px 18px rgba(0,0,0,0.18);
@@ -1044,11 +931,11 @@
       box-shadow: none;
   }
     @media (max-width: 768px) {
-      #footer-overlay {
+     #footer-overlay {
         left: 0;
         right: 16px;
-      }
-  }
+    }
+}
 
      .setting-item input[type="color"] {
       appearance: none;
@@ -1181,7 +1068,7 @@
       position: fixed;
       z-index: 999999999999;
       background: var(--accent-color);
-      color: #fff;
+      color: white;
       border: 2px solid white;
       border-radius: 20px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
@@ -1192,10 +1079,9 @@
       pointer-events: none;
       display: none;
       line-height: 1.5;
-      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-family: var(--text-font);
       word-break: break-word;
       transition: opacity 0.15s;
-      background: var(--accent-color, #4169e1);
       backdrop-filter: blur(2px);
     }
     .citation-popup a {
@@ -1518,7 +1404,7 @@ const htmlWide = `
     <div class="results"></div>
     <div class="content"></div>
     <div class="settings" style="display:none;"></div>
-    <div class="version-label" id="versionLabel">v.2.9</div>
+    <div class="version-label" id="versionLabel">v.3.0!</div>
     <div id="versionDetails" class="version-details" style="display:none;"></div>
     <div class="author-title">Made by L. Smalley</div>
     <div id="footer-overlay"></div>
@@ -1561,7 +1447,7 @@ const htmlNarrow = `
       <div id="date"></div>
     </div>
 
-      <div class="version-label" id="versionLabel">v.2.9</div>
+      <div class="version-label" id="versionLabel">v.3.0!</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
@@ -1670,6 +1556,128 @@ const resultsDiv = app.querySelector(".results");
 const contentDiv = app.querySelector(".content");
 const settingsDiv = app.querySelector(".settings");
 
+const words = []; // Will be populated via fetch
+
+// Load words dynamically from MIT wordlist (via CORS proxy)
+fetch('https://corsproxy.io/?https://www.mit.edu/~ecprice/wordlist.10000')
+  .then(res => res.text())
+  .then(text => {
+    words.push(...text.split('\n').map(w => w.trim()).filter(Boolean));
+  })
+  .catch(() => {}); // Silently ignore errors
+
+const suggestionBox = document.createElement('div');
+suggestionBox.className = 'suggestions';
+suggestionBox.style.position = 'absolute';
+suggestionBox.style.display = 'none';
+suggestionBox.style.zIndex = '10000';
+const autocompleteStyle = document.getElementById('compendium-app');
+autocompleteStyle.appendChild(suggestionBox);
+
+const acStyle = document.createElement('style');
+acStyle.textContent = `
+  .suggestions {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-height: 150px;
+    overflow-y: auto;
+    font-family: var(--text-font);
+    font-size: 1em;
+    color: var(--text-color);
+  }
+  .suggestions div {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .suggestions div:hover {
+    background: var(--accent-color);
+    color: white;
+  }
+`;
+document.head.appendChild(acStyle);
+
+
+
+function getLastWordInfo(str) {
+  const wordsArray = str.split(/\s+/);
+  const lastWord = wordsArray[wordsArray.length - 1];
+  const lastWordStart = str.lastIndexOf(lastWord);
+  return { lastWord, lastWordStart };
+}
+
+searchInput.addEventListener('input', () => {
+  const val = searchInput.value;
+  const { lastWord, lastWordStart } = getLastWordInfo(val);
+  const lowerLastWord = lastWord ? lastWord.toLowerCase() : "";
+
+  suggestionBox.innerHTML = '';
+  if (!lastWord) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  const matches = words
+    .filter(w => w.toLowerCase().startsWith(lowerLastWord))
+    .slice(0, 5);
+
+  if (matches.length === 0) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  matches.forEach(match => {
+    const div = document.createElement('div');
+    div.innerHTML = `<strong>${match.substr(0, lastWord.length)}</strong>${match.substr(lastWord.length)}`;
+    
+    function fillSuggestion(e) {
+      e.preventDefault();
+      const before = val.substring(0, lastWordStart);
+      searchInput.value = before + match;
+      suggestionBox.style.display = 'none';
+      searchInput.focus();
+      searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    div.addEventListener('mousedown', fillSuggestion);
+    div.addEventListener('click', fillSuggestion);
+    suggestionBox.appendChild(div);
+  });
+
+  const rect = searchInput.getBoundingClientRect();
+  suggestionBox.style.top = (rect.bottom + window.scrollY) + 'px';
+  suggestionBox.style.left = (rect.left + window.scrollX) + 'px';
+  suggestionBox.style.width = rect.width + 'px';
+  suggestionBox.style.display = 'block';
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    const val = searchInput.value;
+    const { lastWord, lastWordStart } = getLastWordInfo(val);
+    if (searchInput.selectionStart === val.length && lastWord) {
+      if (suggestionBox.style.display === 'block' && suggestionBox.firstChild) {
+        e.preventDefault();
+        const firstSuggestion = suggestionBox.firstChild.textContent;
+        const before = val.substring(0, lastWordStart);
+        searchInput.value = before + firstSuggestion;
+        suggestionBox.style.display = 'none';
+        searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+      }
+    }
+  }
+});
+
+document.addEventListener('click', e => {
+  if (e.target !== searchInput && !suggestionBox.contains(e.target)) {
+    suggestionBox.style.display = 'none';
+  }
+});
+
 let currentTab = "wiki";
 
 let darkMode = false;
@@ -1686,6 +1694,35 @@ const tabContents = {
   compound: { results: "", content: ""},
   sett: { results: "", content: ""}
 };
+
+// Keyboard shortcuts for tab switching
+document.addEventListener("keydown", (e) => {
+  if (e.altKey && e.shiftKey) {
+    switch (e.key.toLowerCase()) {
+      case "w":
+        switchTab("wiki");
+        break;
+      case "d":
+        switchTab("dic");
+        break;
+      case "t":
+        switchTab("thes");
+        break;
+      case "l":
+        switchTab("weather");
+        break;
+      case "c":
+        switchTab("compound");
+        break;
+      case "b":
+        switchTab("bookmarks");
+        break;
+      case "s":
+        switchTab("sett");
+        break;
+    }
+  }
+});
 
 function initContentPopupsAndLinks() {
   // Always get fresh reference
@@ -2008,7 +2045,7 @@ async function wikiLoadArticles(query) {
       resultsArr.push({
         title: "The Compendium of Everything",
         isEasterEgg: true,
-        thumbnail: "https://www.compendiumofeverything.org/Compendium_Logo.png"
+        thumbnail: "https://cdn.compendiumofeverything.org/images/Compendium_Logo.png"
       });
     }
 
@@ -2016,7 +2053,7 @@ async function wikiLoadArticles(query) {
       searchResults.map(item => ({
         title: item.title,
         isEasterEgg: false,
-        thumbnail: thumbnailMap[item.title] || "https://www.compendiumofeverything.org/No_Image_Available_alt.png"
+        thumbnail: thumbnailMap[item.title] || "https://cdn.compendiumofeverything.org/images/No_Image_Available_alt.png"
       }))
     );
 
@@ -2068,42 +2105,7 @@ async function wikiLoadArticle(title) {
 
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
-<img src="https://www.compendiumofeverything.org/Compendium_Logo.png" alt="Compendium Logo" class="about-logo" style="display:block;margin:0 auto 18px auto;align-items:right;">
-      <h1>The Compendium of Everything</h1>
-      <p>
-        <b>The Compendium of Everything</b> is a multi-tool web application created by Liam C. Smalley in 2025. Designed as a digital Swiss Army knife, it provides users with quick access to a variety of resources, including Wikipedia, a dictionary, a thesaurus, weather forecasts, and a notepad—all within a single, streamlined interface.
-      </p>
-      <h2>History</h2>
-      <p>
-        The project began in late May 2025, when Smalley released version Beta 1.0 as a modest side project. The initial version was built using <a href="https://p5js.org/" target="_blank">p5.js</a>, a JavaScript library for creative coding. The first GitHub repository was minimal, containing only basic usage instructions, a logo (which has since evolved), and a single JavaScript file.
-      </p>
-      <p>
-        Upon its release, The Compendium of Everything received no publicity and was largely overlooked. Smalley briefly considered abandoning the project, but ultimately decided to continue development, believing that its utility would eventually be recognized.
-      </p>
-      <h2>Development and Features</h2>
-      <p>
-        In early June 2025, Smalley dedicated significant effort to improving the application. One of the first major updates was the addition of a weather tab, allowing users to check current conditions and forecasts for any location. Around this time, Smalley discovered that his financial situation was better than expected, which enabled him to purchase a domain name and begin hosting The Compendium of Everything as a standalone web app. His website went live officially on 6th June, 2025 at 5:00 PM EST exactly.
-      </p>
-      <p>
-        Over subsequent versions, the application expanded to include a font selector, dark mode, customizable text size, and a persistent notepad. The interface was refined for clarity and accessibility, and the project’s logo was updated to reflect its evolving identity.
-      </p>
-      <h2>Author and Pseudonym</h2>
-      <p>
-        The creator, Liam C. Smalley, is also known online by the pseudonym <b>Pidgeron</b>, which serves as his GitHub username and digital moniker for his programming projects.
-      </p>
-      <h2>Design Philosophy</h2>
-      <p>
-        The Compendium of Everything was conceived as a tool for “knowledge at your fingertips.” Its design emphasizes speed, simplicity, and versatility, allowing users to search Wikipedia, look up word definitions, find synonyms and antonyms, check the weather, and jot down notes—all without leaving the app. The project’s open-source nature encourages community feedback and contributions.
-      </p>
-      <h2>See Also</h2>
-      <ul>
-        <li><a href="https://github.com/Pidgeron/The-Compendium-of-Everything" target="_blank" style="color: var(--accent-color); text-decoration: none;">Official GitHub Repository</a></li>
-        <li><a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">Original Beta Version</a></li>
-      </ul>
-      <hr>
-      <p style="font-size:0.9em;color:#888;">
-        This article is an easter egg, appearing only when you search for "The Compendium of Everything" within the app.
-      </p>
+    <!--Ommited for brevity-->
     `;
     return;
   }
@@ -2122,26 +2124,43 @@ async function wikiLoadArticle(title) {
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
 
     // Fix image URLs
-    doc.querySelectorAll("img").forEach((img) => {
-      let src = img.getAttribute("src") || img.getAttribute("data-src");
-      if (!src) return;
-      if (src.startsWith("//")) src = "https:" + src;
-      else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
-      else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+doc.querySelectorAll("img").forEach((img) => {
+  let src = img.getAttribute("src") || img.getAttribute("data-src") || "";
 
-      const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
-      if (thumbMatch) {
-        src = `${thumbMatch[1]}/${thumbMatch[2]}`;
-      }
+  // If src is missing, broken, or a placeholder, use srcset if available
+  if (
+    (!src || src === "" || src === "undefined" || src.startsWith("data:") || src.includes("wiki/Special:") || src.includes("question")) &&
+    img.getAttribute("srcset")
+  ) {
+    // Use the largest image in srcset (last one)
+    const srcsetArr = img.getAttribute("srcset").split(",");
+    src = srcsetArr[srcsetArr.length - 1].trim().split(" ")[0];
+  }
 
-      img.setAttribute("src", src);
-      img.removeAttribute("srcset");
-      img.onerror = function () {
-        this.style.display = "none";
-      };
-    });
+  // If still missing, try srcset first image
+  if (!src && img.getAttribute("srcset")) {
+    src = img.getAttribute("srcset").split(",")[0].trim().split(" ")[0];
+  }
 
-    // Remove links that wrap images
+  // Ensure protocol
+  if (src.startsWith("//")) src = "https:" + src;
+  else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+  else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+
+  // Remove Wikipedia thumbnail cropping (but keep SVGs!)
+  const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+  if (thumbMatch && !src.endsWith(".svg")) {
+    src = `${thumbMatch[1]}/${thumbMatch[2]}`;
+  }
+
+  img.src = src;
+  img.removeAttribute("srcset");
+  img.onerror = function () {
+    this.style.display = "none";
+  };
+});
+
+// Remove links that wrap images
     doc.querySelectorAll("a > img").forEach(img => {
       const a = img.parentElement;
       if (a && a.tagName === "A") {
@@ -2186,36 +2205,157 @@ async function wikiLoadArticle(title) {
 
     contentDiv.innerHTML = doc.body.innerHTML;
 
-    // Add bookmark button at the top
+    (function injectInfoboxMap() {
+  const infobox = contentDiv.querySelector('.infobox');
+  if (!infobox) return;
+
+  let lat = null, lon = null;
+  // Try <span class="geo">lat; lon</span>
+  const geoSpan = infobox.querySelector('.geo');
+  if (geoSpan) {
+    const parts = geoSpan.textContent.split(';').map(s => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      lat = parts[0];
+      lon = parts[1];
+    }
+  }
+  // Try <span class="latitude">lat</span> <span class="longitude">lon</span>
+  if (!lat || !lon) {
+    const latSpan = infobox.querySelector('.latitude');
+    const lonSpan = infobox.querySelector('.longitude');
+    if (latSpan && lonSpan) {
+      lat = parseFloat(latSpan.textContent);
+      lon = parseFloat(lonSpan.textContent);
+    }
+  }
+  if (!lat || !lon || isNaN(lat) || isNaN(lon)) return;
+
+  // Find the map image (alt="Map" or alt contains "location")
+  let mapImg = Array.from(infobox.querySelectorAll('img')).find(img =>
+    img.alt && (
+      img.alt.toLowerCase() === "map" ||
+      img.alt.toLowerCase().includes("location")
+    )
+  );
+
+  // Create map container
+  const mapDiv = document.createElement('div');
+  mapDiv.className = 'infobox-map';
+  mapDiv.style = 'width:100%;height:220px;margin:10px 0;border-radius:12px;overflow:hidden;';
+
+  // Replace map image with mapDiv, or insert after first image if not found
+  if (mapImg && mapImg.parentNode) {
+    mapImg.parentNode.replaceChild(mapDiv, mapImg);
+  } else {
+    const firstImg = infobox.querySelector('img');
+    if (firstImg && firstImg.parentNode) {
+      firstImg.parentNode.insertBefore(mapDiv, firstImg.nextSibling);
+    } else {
+      infobox.prepend(mapDiv);
+    }
+  }
+
+  // --- Optimized Leaflet loader ---
+  function ensureLeafletLoaded(callback) {
+    if (window.L && typeof window.L.map === "function") {
+      callback();
+      return;
+    }
+    if (window._leafletLoading) {
+      document.addEventListener("leafletLoaded", callback, { once: true });
+      return;
+    }
+    window._leafletLoading = true;
+
+    if (!document.querySelector('link[href*="leaflet.css"]')) {
+      const leafletCSS = document.createElement('link');
+      leafletCSS.rel = 'stylesheet';
+      leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(leafletCSS);
+    }
+
+    if (!document.querySelector('script[src*="leaflet.js"]')) {
+      const leafletJS = document.createElement('script');
+      leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      leafletJS.onload = () => {
+        window._leafletLoading = false;
+        document.dispatchEvent(new Event("leafletLoaded"));
+        callback();
+      };
+      document.body.appendChild(leafletJS);
+    }
+  }
+
+function renderMap() {
+  // Remove previous map instance if present
+  if (mapDiv._leaflet_map) {
+    mapDiv._leaflet_map.remove();
+    mapDiv._leaflet_map = null;
+    mapDiv.innerHTML = '';
+  }
+  const map = L.map(mapDiv, {
+    zoomControl: true,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    tap: false,
+    touchZoom: false,
+  }).setView([lat, lon], 13);
+
+  mapDiv._leaflet_map = map; // Save reference for cleanup
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+  }).addTo(map);
+
+  L.marker([lat, lon])
+    .addTo(map)
+    .bindPopup(infobox.querySelector('.infobox-title')?.textContent || 'Location')
+    .openPopup();
+}
+  ensureLeafletLoaded(renderMap);
+})();
+
+// --- Add QR Code and Bookmark buttons at the top ---
+    // QR Code Button
+    const qrBtn = document.createElement("button");
+    qrBtn.className = "qr-btn";
+    qrBtn.title = "Share this article (QR Code)";
+    qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+    qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+    qrBtn.addEventListener("click", () => showQrLightboxStyled(title));
+
+    // Bookmark Button
     const bookmarkBtn = document.createElement("button");
     bookmarkBtn.className = "bookmark-btn";
     bookmarkBtn.title = "Bookmark this article";
     bookmarkBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
-    bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark</span>
-    `;
+    bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark</span>`;
 
     // Check if already bookmarked
     const bookmarks = getBookmarks();
     if (bookmarks.some(b => b.title === title)) {
       bookmarkBtn.disabled = true;
-      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>
-      `;
+      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>`;
       bookmarkBtn.style.opacity = "0.7";
     }
-
     bookmarkBtn.addEventListener("click", () => {
       addBookmark({
         title,
         html: contentDiv.innerHTML
       });
       bookmarkBtn.disabled = true;
-      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>
-      `;
+      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>`;
       bookmarkBtn.style.opacity = "0.7";
     });
 
+    // Insert both buttons at the top
     contentDiv.prepend(bookmarkBtn);
-
+    contentDiv.prepend(qrBtn);
 
     // Remove leading ^ symbols
     (function removeLeadingCaret() {
@@ -2405,182 +2545,467 @@ async function wikiLoadArticle(title) {
     } else {
       tocBtn.style.display = "none";
     }
-const imageLightbox = document.getElementById('compendium-app')
+
+    const imageLightbox = document.getElementById('compendium-app');
     // === Lightbox ===
-contentDiv.querySelectorAll("img").forEach(img => {
-  img.style.cursor = "pointer";
-  img.addEventListener("click", function handler(e) {
-    e.stopPropagation();
+    contentDiv.querySelectorAll("img").forEach(img => {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", function handler(e) {
+        e.stopPropagation();
 
-    // Remove existing overlay if present
-    let overlay = document.getElementById("img-lightbox-overlay");
-    if (overlay) overlay.remove();
+        // Remove existing overlay if present
+        let overlay = document.getElementById("img-lightbox-overlay");
+        if (overlay) overlay.remove();
 
-    // Create overlay
-    overlay = document.createElement("div");
-    overlay.id = "img-lightbox-overlay";
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100vw";
-    overlay.style.height = "100vh";
-    overlay.style.background = "rgba(0,0,0,0.85)";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.zIndex = "999999999";
-    overlay.style.cursor = "zoom-in";
+        // Create overlay
+        overlay = document.createElement("div");
+        overlay.id = "img-lightbox-overlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.85)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "999999999";
+        overlay.style.cursor = "zoom-in";
 
-    // Helper to extract original Wikimedia Commons filename
-    function extractCommonsFilename(url) {
-      const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
-      if (thumbMatch && thumbMatch[1]) {
-        return decodeURIComponent(thumbMatch[1]);
-      }
-      const parts = url.split("/");
-      return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
-    }
+        // Helper to extract original Wikimedia Commons filename
+        function extractCommonsFilename(url) {
+          const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
+          if (thumbMatch && thumbMatch[1]) {
+            return decodeURIComponent(thumbMatch[1]);
+          }
+          const parts = url.split("/");
+          return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
+        }
 
-    // Create Download button with Material Symbols Rounded icon
-    const downloadBtn = document.createElement("button");
-    downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
-    downloadBtn.style.position = "fixed";
-    downloadBtn.style.top = "10px";
-    downloadBtn.style.left = "10px";
-    downloadBtn.style.padding = "6px 10px";
-    downloadBtn.style.fontSize = "18px";
-    downloadBtn.style.border = "none";
-    downloadBtn.style.borderRadius = "15px";
-    downloadBtn.style.background = "none";
-    downloadBtn.style.color = "var(--accent-color)";
-    downloadBtn.style.cursor = "pointer";
-    downloadBtn.style.zIndex = "1000000";
-    downloadBtn.style.userSelect = "none";
-    downloadBtn.style.display = "flex";
-    downloadBtn.style.alignItems = "center";
-    downloadBtn.style.justifyContent = "center";
+        // Create Download button with Material Symbols Rounded icon
+        const downloadBtn = document.createElement("button");
+        downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
+        downloadBtn.style.position = "fixed";
+        downloadBtn.style.top = "10px";
+        downloadBtn.style.left = "10px";
+        downloadBtn.style.padding = "6px 10px";
+        downloadBtn.style.fontSize = "18px";
+        downloadBtn.style.border = "none";
+        downloadBtn.style.borderRadius = "15px";
+        downloadBtn.style.background = "none";
+        downloadBtn.style.color = "var(--accent-color)";
+        downloadBtn.style.cursor = "pointer";
+        downloadBtn.style.zIndex = "1000000";
+        downloadBtn.style.userSelect = "none";
+        downloadBtn.style.display = "flex";
+        downloadBtn.style.alignItems = "center";
+        downloadBtn.style.justifyContent = "center";
 
-    downloadBtn.addEventListener("click", async (event) => {
-      event.stopPropagation();
+        downloadBtn.addEventListener("click", async (event) => {
+          event.stopPropagation();
 
-      let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
-      // Force .png extension
-      filename = filename.replace(/\.[^.]+$/, ".png");
+          let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
+          filename = filename.replace(/\.[^.]+$/, ".png");
 
-      try {
-        // Fetch image as blob
-        const response = await fetch(bigImg.src, {mode: 'cors'});
-        if (!response.ok) throw new Error("Network response was not ok");
+          try {
+            const response = await fetch(bigImg.src, {mode: 'cors'});
+            if (!response.ok) throw new Error("Network response was not ok");
 
-        const blob = await response.blob();
+            const blob = await response.blob();
 
-        // Convert to PNG using canvas
-        const imgBitmap = await createImageBitmap(blob);
-        const canvas = document.createElement("canvas");
-        canvas.width = imgBitmap.width;
-        canvas.height = imgBitmap.height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(imgBitmap, 0, 0);
+            const imgBitmap = await createImageBitmap(blob);
+            const canvas = document.createElement("canvas");
+            canvas.width = imgBitmap.width;
+            canvas.height = imgBitmap.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imgBitmap, 0, 0);
 
-        canvas.toBlob((pngBlob) => {
-          const url = URL.createObjectURL(pngBlob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = filename;
-          document.body.appendChild(link);
-          link.click();
-          setTimeout(() => {
-            URL.revokeObjectURL(url);
-            link.remove();
-          }, 100);
-        }, "image/png");
+            canvas.toBlob((pngBlob) => {
+              const url = URL.createObjectURL(pngBlob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = filename;
+              document.body.appendChild(link);
+              link.click();
+              setTimeout(() => {
+                URL.revokeObjectURL(url);
+                link.remove();
+              }, 100);
+            }, "image/png");
 
-      } catch (error) {
-        alert("Failed to download image: " + error.message);
-      }
-    });
+          } catch (error) {
+            alert("Failed to download image: " + error.message);
+          }
+        });
 
-    overlay.appendChild(downloadBtn);
+        overlay.appendChild(downloadBtn);
 
-    // Create big image
-    const bigImg = document.createElement("img");
-    bigImg.src = img.src;
-    bigImg.alt = img.alt || "";
-    bigImg.style.maxWidth = "90vw";
-    bigImg.style.maxHeight = "90vh";
-    bigImg.style.borderRadius = "16px";
-    bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
-    bigImg.style.background = "#fff";
-    bigImg.style.transition = "transform 0.2s ease";
-    bigImg.style.transformOrigin = "center center";
-    bigImg.style.cursor = "zoom-in";
-
-    let zoomedIn = false;
-    const zoomScale = 4;
-    let isDragging = false;
-    let startX = 0, startY = 0, currentX = 0, currentY = 0;
-
-    bigImg.addEventListener("click", (e) => {
-      e.stopPropagation();
-      zoomedIn = !zoomedIn;
-
-      if (zoomedIn) {
-        bigImg.style.transform = `scale(${zoomScale})`;
-        bigImg.style.cursor = "grab";
-        overlay.style.cursor = "default";
-      } else {
-        bigImg.style.transform = "scale(1)";
-        bigImg.style.left = "0";
-        bigImg.style.top = "0";
-        currentX = 0;
-        currentY = 0;
+        // Create big image
+        const bigImg = document.createElement("img");
+        bigImg.src = img.src;
+        bigImg.alt = img.alt || "";
+        bigImg.style.maxWidth = "90vw";
+        bigImg.style.maxHeight = "90vh";
+        bigImg.style.borderRadius = "16px";
+        bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
+        bigImg.style.background = "#fff";
+        bigImg.style.transition = "transform 0.2s ease";
+        bigImg.style.transformOrigin = "center center";
         bigImg.style.cursor = "zoom-in";
-        overlay.style.cursor = "zoom-out";
-      }
-    });
 
-    bigImg.addEventListener("mousedown", (e) => {
-      if (!zoomedIn) return;
-      isDragging = true;
-      startX = e.clientX - currentX;
-      startY = e.clientY - currentY;
-      bigImg.style.cursor = "grabbing";
-      e.preventDefault();
-    });
+        let zoomedIn = false;
+        const zoomScale = 4;
+        let isDragging = false;
+        let startX = 0, startY = 0, currentX = 0, currentY = 0;
 
-    document.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
-    });
+        bigImg.addEventListener("click", (e) => {
+          e.stopPropagation();
+          zoomedIn = !zoomedIn;
 
-    document.addEventListener("mouseup", () => {
-      if (isDragging) {
-        isDragging = false;
-        bigImg.style.cursor = "grab";
-      }
-    });
+          if (zoomedIn) {
+            bigImg.style.transform = `scale(${zoomScale})`;
+            bigImg.style.cursor = "grab";
+            overlay.style.cursor = "default";
+          } else {
+            bigImg.style.transform = "scale(1)";
+            bigImg.style.left = "0";
+            bigImg.style.top = "0";
+            currentX = 0;
+            currentY = 0;
+            bigImg.style.cursor = "zoom-in";
+            overlay.style.cursor = "zoom-out";
+          }
+        });
 
-    overlay.addEventListener("click", () => {
-      overlay.remove();
-    });
+        bigImg.addEventListener("mousedown", (e) => {
+          if (!zoomedIn) return;
+          isDragging = true;
+          startX = e.clientX - currentX;
+          startY = e.clientY - currentY;
+          bigImg.style.cursor = "grabbing";
+          e.preventDefault();
+        });
 
-    document.addEventListener("keydown", function escCloser(e) {
-      if (e.key === "Escape") {
-        overlay.remove();
-        document.removeEventListener("keydown", escCloser);
-      }
-    });
+        document.addEventListener("mousemove", (e) => {
+          if (!isDragging) return;
+          currentX = e.clientX - startX;
+          currentY = e.clientY - startY;
+          bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
+        });
 
-    overlay.appendChild(bigImg);
-    imageLightbox.appendChild(overlay);
-  });
-});
+        document.addEventListener("mouseup", () => {
+          if (isDragging) {
+            isDragging = false;
+            bigImg.style.cursor = "grab";
+          }
+        });
+
+        overlay.addEventListener("click", () => {
+          overlay.remove();
+        });
+
+        document.addEventListener("keydown", function escCloser(e) {
+          if (e.key === "Escape") {
+            overlay.remove();
+            document.removeEventListener("keydown", escCloser);
+          }
+        });
+
+        overlay.appendChild(bigImg);
+        imageLightbox.appendChild(overlay);
+      });
+    });
 
   } catch (e) {
-    contentDiv.innerHTML = "<i>Error fetching content.</i>";
+    contentDiv.innerHTML = `
+  Error fetching content: ${e.message || e}
+  <br>Stack trace: ${e.stack || 'No stack available'}
+`;
+
   }
+}
+
+// ---- QR Lightbox with Styled Canvas (matches your p5js QR style) ----
+function showQrLightboxStyled(articleTitle) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
+  const url = `https://www.compendiumofeverything.org/?wikipedia=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer (matches your p5js code) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+// --- Helper: Draw rounded rectangles ---
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+// --- Helper: Position Markers (7x7) ---
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+// --- Helper: Alignment Markers (5x5) ---
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  // Create offscreen canvas
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  // Return as Image
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
 }
 
 // Function to setup Table of Contents
@@ -2726,7 +3151,298 @@ function displayDictionary(entry) {
 
   contentDiv.innerHTML = html;
 
+  // --- Add QR Code Button at the Top ---
+  // (QR is for this dictionary entry, using a URL param ?dictionary=word)
+  const qrBtn = document.createElement("button");
+  qrBtn.className = "qr-btn";
+  qrBtn.title = "Share this word (QR Code)";
+  qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+  qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+  qrBtn.addEventListener("click", () => showQrLightboxDictionary(entry.word));
+
+  // Insert QR button at the very top
+  contentDiv.prepend(qrBtn);
+
   injectPlayButtonStyles();
+}
+
+// ---- QR Lightbox for Dictionary Entries ----
+// Uses the same styling and logic as your main QR renderer
+function showQrLightboxDictionary(word) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(word.trim().replace(/ /g, "-"));
+  const url = `https://www.compendiumofeverything.org/?dictionary=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers (same as previous answers) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
 }
 
 function injectPlayButtonStyles() {
@@ -2789,17 +3505,306 @@ function injectPlayButtonStyles() {
 
       contentDiv.innerHTML = html;
 
-if (query && typeof window !== "undefined") {
-  const param = encodeURIComponent(query.trim());
-  const newUrl = `${window.location.pathname}?thesaurus=${param}`;
-  window.history.replaceState({}, "", newUrl);
+    // --- Add QR Code Button at the Top ---
+    // (QR is for this thesaurus entry, using a URL param ?thesaurus=word)
+    const qrBtn = document.createElement("button");
+    qrBtn.className = "qr-btn";
+    qrBtn.title = "Share this word (QR Code)";
+    qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+    qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+    qrBtn.addEventListener("click", () => showQrLightboxThesaurus(query));
+
+    // Insert QR button at the very top
+    contentDiv.prepend(qrBtn);
+
+    if (query && typeof window !== "undefined") {
+      const param = encodeURIComponent(query.trim());
+      const newUrl = `${window.location.pathname}?thesaurus=${param}`;
+      window.history.replaceState({}, "", newUrl);
+    }
+
+  } catch (e) {
+    resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
+  }
 }
 
+// ---- QR Lightbox for Thesaurus Queries ----
+function showQrLightboxThesaurus(word) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(word.trim());
+  const url = `https://www.compendiumofeverything.org/?thesaurus=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
     }
-     catch (e) {
-      resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers (same as previous answers) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
     }
   }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
 
   function getBookmarks() {
   try {
@@ -2843,6 +3848,7 @@ function renderBookmarks() {
     }</ul>`;
 }
 
+// Weather tab (Open-Meteo API)
 async function loadWeather() {
   contentDiv.innerHTML = `
    <div class="input-group">
@@ -2860,10 +3866,77 @@ async function loadWeather() {
     <div id="weather-output" class="weather-card" style="text-align:center;">
       <i>Enter a location to get weather.</i>
     </div>
+    <style>
+      .hourly-forecast-bow {
+        margin: 1.5em auto 0 auto;
+        max-width: 340px;
+        background: linear-gradient(to bottom, #f0f8ff 80%, #e6eaff 100%);
+        border-radius: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 0.7em 0.5em 0.7em 0.5em;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7em;
+        max-height: 340px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-color);
+      }
+      .hourly-forecast-hour {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 16px;
+        padding: 0.5em 1em;
+        background: var(--bg-color);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        margin: 0 0.2em;
+        transition: background 0.2s, color 0.2s;
+        border: 2px solid transparent;
+        color: var(--text-color);
+        font-family: var(--text-font);
+      }
+      .hourly-forecast-hour.current {
+        background: var(--accent-color);
+        color: #fff;
+        border-color: var(--accent-color);
+        font-weight: bold;
+      }
+      .hourly-forecast-hour .material-symbols-rounded {
+        font-size: 2em;
+        margin: 0 0.7em 0 0.7em;
+      }
+      .hourly-forecast-hour .hour-label {
+        min-width: 48px;
+        font-size: 1em;
+        font-weight: 500;
+      }
+      .hourly-forecast-hour .precip-label {
+        min-width: 48px;
+        text-align: right;
+        font-size: 1em;
+      }
+     @media (max-width: 500px) {
+      .hourly-forecast-bow { 
+        max-width: 98vw; }
+      }
+#compendium-app.dark .hourly-forecast-bow {
+  background: linear-gradient(to bottom, #23293a 80%, #181c2a 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+#compendium-app.dark .hourly-forecast-hour.current {
+  background: var(--accent-color, royalblue);
+  color: #fff;
+  border-color: var(--accent-color, royalblue);
+}
+#compendium-app.dark .hourly-forecast-hour .material-symbols-rounded {
+  color: #fff;
+}
+    </style>
   `;
 
   let lastWeatherLocation = "";
-  let lastWeatherUnit = false; // false = metric, true = imperial
+  let lastWeatherUnit = false;
   let weatherRefreshTimer = null;
 
   const input = document.getElementById("location-input");
@@ -2930,28 +4003,27 @@ async function loadWeather() {
     return weatherIcons["default"];
   }
 
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  const day = date.getDate();
-  const month = date.toLocaleString("en-GB", { month: "short" });
-  const weekday = date.toLocaleString("en-GB", { weekday: "short" });
-  const year = date.getFullYear();
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleString("en-GB", { month: "short" });
+    const weekday = date.toLocaleString("en-GB", { weekday: "short" });
+    const year = date.getFullYear();
 
-  function getOrdinalSuffix(n) {
-    if (n >= 11 && n <= 13) return "th";
-    switch (n % 10) {
-      case 1: return "st";
-      case 2: return "nd";
-      case 3: return "rd";
-      default: return "th";
+    function getOrdinalSuffix(n) {
+      if (n >= 11 && n <= 13) return "th";
+      switch (n % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+      }
     }
+    return `${weekday}, ${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
   }
 
-  return `${weekday}, ${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
-}
 
-
-  async function fetchWeather(query, silent = false) {
+async function fetchWeather(query, silent = false) {
     if (!query) {
       output.innerHTML = `<i>Please enter a location.</i>`;
       return;
@@ -2961,12 +4033,14 @@ function formatDate(dateStr) {
       output.innerHTML = `
       <span class="material-symbols-rounded loading-spinner">autorenew</span>
       <div>Loading weather...</div>`;
-  }
+    }
 
     try {
+      // 1. Geocode location
       const geoRes = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1`
       );
+      if (!geoRes.ok) throw new Error("Location lookup failed (network error).");
       const geoData = await geoRes.json();
       if (!geoData.results || geoData.results.length === 0)
         throw new Error("Location not found.");
@@ -2977,12 +4051,18 @@ function formatDate(dateStr) {
       const locationName = `${loc.name}${loc.admin1 ? ", " + loc.admin1 : ""}${loc.country ? ", " + loc.country : ""}`;
       const useImperial = unitToggle.checked;
 
+      // 2. Get weather data (add hourly fields)
       const weatherRes = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,pressure_msl,uv_index,visibility,precipitation_probability,weathercode&timezone=auto`
       );
+      if (!weatherRes.ok) throw new Error("Weather fetch failed (network error).");
       const weatherData = await weatherRes.json();
-      const cw = weatherData.current_weather;
 
+      if (!weatherData.current_weather) throw new Error("No weather data for this location.");
+      if (!weatherData.daily || !Array.isArray(weatherData.daily.time) || weatherData.daily.time.length < 1)
+        throw new Error("No forecast data for this location.");
+
+      const cw = weatherData.current_weather;
       const desc = describeWeather(cw.weathercode);
       const iconName = getWeatherIcon(desc);
 
@@ -2992,8 +4072,8 @@ function formatDate(dateStr) {
       const windDir = getWindDirection(windDirDeg);
 
       const temp = useImperial
-        ? `${Math.ceil((tempC * 9) / 5 + 32)}°F`
-        : `${Math.ceil(tempC)}°C`;
+        ? `${Math.round((tempC * 9) / 5 + 32)}°F`
+        : `${Math.round(tempC)}°C`;
 
       const windSpeed = useImperial
         ? (windKmph * 0.621371).toFixed(1)
@@ -3001,11 +4081,37 @@ function formatDate(dateStr) {
 
       const windUnit = useImperial ? "mph" : "km/h";
 
-      const todayStr = new Date().toLocaleDateString('en-CA'); // Local timezone, format: YYYY-MM-DD
+      // --- Extract extra info ---
+      // Find the current hour index (use local time, not UTC)
+      const now = new Date();
+      function pad(n) { return n < 10 ? '0' + n : n; }
+      const localHourStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}`;
+      const hourlyTimes = weatherData.hourly?.time || [];
+      let hourIdx = -1;
+      for (let i = 0; i < hourlyTimes.length; i++) {
+        if (hourlyTimes[i].slice(0, 13) === localHourStr) {
+          hourIdx = i;
+          break;
+        }
+      }
+      // Fallback: closest hour
+      if (hourIdx === -1) {
+        hourIdx = hourlyTimes.findIndex(t => t >= localHourStr);
+        if (hourIdx === -1) hourIdx = 0;
+      }
+      const humidity = hourIdx >= 0 ? weatherData.hourly.relative_humidity_2m[hourIdx] : null;
+      const pressure = hourIdx >= 0 ? weatherData.hourly.pressure_msl[hourIdx] : null;
+      const feelsLike = hourIdx >= 0 ? weatherData.hourly.apparent_temperature[hourIdx] : null;
+      const uv = hourIdx >= 0 ? weatherData.hourly.uv_index[hourIdx] : null;
+      const visibility = hourIdx >= 0 ? weatherData.hourly.visibility[hourIdx] : null;
+      const sunrise = weatherData.daily?.sunrise?.[0];
+      const sunset = weatherData.daily?.sunset?.[0];
 
+      // 3-day forecast
       let forecastHTML = `<h4>3-Day Forecast</h4><div class="forecast-container">`;
       const daily = weatherData.daily;
-      for (let i = 0; i < 3; i++) {
+      const days = Math.min(3, daily.time.length);
+      for (let i = 0; i < days; i++) {
         const dayRaw = daily.time[i];
         const formattedDate = formatDate(dayRaw);
         const maxC = daily.temperature_2m_max[i];
@@ -3015,14 +4121,13 @@ function formatDate(dateStr) {
         const forecastIcon = getWeatherIcon(weatherDesc);
 
         const max = useImperial
-          ? `${Math.ceil((maxC * 9) / 5 + 32)}°F`
-          : `${Math.ceil(maxC)}°C`;
+          ? `${Math.round((maxC * 9) / 5 + 32)}°F`
+          : `${Math.round(maxC)}°C`;
         const min = useImperial
-          ? `${Math.ceil((minC * 9) / 5 + 32)}°F`
-          : `${Math.ceil(minC)}°C`;
+          ? `${Math.round((minC * 9) / 5 + 32)}°F`
+          : `${Math.round(minC)}°C`;
 
         const todayId = i === 1 ? `id="today-forecast"` : "";
-
 
         forecastHTML += `
           <div class="forecast-day" ${todayId}>
@@ -3035,51 +4140,102 @@ function formatDate(dateStr) {
       }
       forecastHTML += `</div>`;
 
+      // --- Hourly forecast (next 6 hours) ---
+      let hourlyHTML = `<div class="hourly-forecast-bow">`;
+      for (let i = 0; i < 6; i++) {
+        const idx = hourIdx + i;
+        if (idx >= hourlyTimes.length) break;
+        const hourDate = new Date(hourlyTimes[idx]);
+        const hourLabel = hourDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const wcode = weatherData.hourly.weathercode[idx];
+        const wdesc = describeWeather(wcode);
+        const wicon = getWeatherIcon(wdesc);
+        const tempVal = weatherData.hourly.temperature_2m[idx];
+        const tempStr = useImperial
+          ? `${Math.round((tempVal * 9) / 5 + 32)}°F`
+          : `${Math.round(tempVal)}°C`;
+        const precip = weatherData.hourly.precipitation_probability?.[idx] ?? null;
+        const isCurrent = i === 0;
+        hourlyHTML += `
+          <div class="hourly-forecast-hour${isCurrent ? " current" : ""}">
+            <span class="hour-label">${hourLabel}</span>
+            <span>${wdesc}</span>
+            <span class="material-symbols-rounded">${wicon}</span>
+            <span>${tempStr}</span>
+            <span class="precip-label">${precip !== null ? precip + "%" : "N/A"}</span>
+          </div>
+        `;
+      }
+      hourlyHTML += `</div>`;
+
       lastWeatherLocation = query;
       lastWeatherUnit = unitToggle.checked;
 
+      // --- Add QR Code Button ---
+      const qrBtn = document.createElement("button");
+      qrBtn.className = "qr-btn";
+      qrBtn.title = "Share this weather (QR Code)";
+      qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+      qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+      qrBtn.addEventListener("click", () => showQrLightboxWeather(query));
+
+      // Set the weather HTML (without the QR button)
       output.innerHTML = `
-  <div class="weather-header">
-    <h3>Weather in ${locationName}</h3>
-  </div>
-  <p><strong>${desc}</strong></p>
-  <span class="material-symbols-rounded weather-icon">${iconName}</span>
-  <p>Temperature: ${temp}</p>
-  <p>Wind: ${windSpeed} ${windUnit} (${windDir})</p>
-  <div class="wind-container" style="width:120px; margin:auto;">
-    <svg class="wind-compass" viewBox="0 0 100 100" width="120" height="120" aria-label="Wind direction compass" role="img">
-      <circle cx="50" cy="50" r="48" fill="none" stroke="#666" stroke-width="2"/>
-      <line x1="80" y1="20" x2="72" y2="28" stroke="#666" stroke-width="1.5"/>
-      <line x1="80" y1="80" x2="72" y2="72" stroke="#666" stroke-width="1.5"/>
-      <line x1="20" y1="80" x2="28" y2="72" stroke="#666" stroke-width="1.5"/>
-      <line x1="20" y1="20" x2="28" y2="28" stroke="#666" stroke-width="1.5"/>
-      <text x="50" y="25" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">N</text>
-      <text x="85" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">E</text>
-      <text x="50" y="85" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">S</text>
-      <text x="15" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">W</text>
-      <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
-      <g transform="rotate(${windDirDeg}, 50, 50)">
-        <polygon points="50,14 47,50 53,50" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"/>
-      </g>
-    </svg>
-  </div>
-  <div class="forecast">${forecastHTML}</div>
-`;
+        <div class="weather-header">
+          <h3>Weather in ${locationName}</h3>
+        </div>
+        <p><strong>${desc}</strong></p>
+        <span class="material-symbols-rounded weather-icon">${iconName}</span>
+        <p>Temperature: ${temp}</p>
+        <p>Feels Like: ${feelsLike !== null ? (useImperial ? Math.round((feelsLike * 9) / 5 + 32) + "°F" : Math.round(feelsLike) + "°C") : "N/A"}</p>
+        <p>Humidity: ${humidity !== null ? humidity + "%" : "N/A"}</p>
+        <p>Pressure: ${pressure !== null ? pressure + " hPa" : "N/A"}</p>
+        <p>UV Index: ${uv !== null ? uv : "N/A"}</p>
+        <p>Visibility: ${visibility !== null ? (useImperial ? (visibility/1609.34).toFixed(1) + " mi" : (visibility/1000).toFixed(1) + " km") : "N/A"}</p>
+        <p>Sunrise: ${sunrise ? new Date(sunrise).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "N/A"}</p>
+        <p>Sunset: ${sunset ? new Date(sunset).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "N/A"}</p>
+        <p>Wind: ${windSpeed} ${windUnit} (${windDir})</p>
+        <div class="wind-container" style="width:120px; margin:auto;">
+          <svg class="wind-compass" viewBox="0 0 100 100" width="120" height="120" aria-label="Wind direction compass" role="img">
+            <circle cx="50" cy="50" r="48" fill="none" stroke="#666" stroke-width="2"/>
+            <line x1="80" y1="20" x2="72" y2="28" stroke="#666" stroke-width="1.5"/>
+            <line x1="80" y1="80" x2="72" y2="72" stroke="#666" stroke-width="1.5"/>
+            <line x1="20" y1="80" x2="28" y2="72" stroke="#666" stroke-width="1.5"/>
+            <line x1="20" y1="20" x2="28" y2="28" stroke="#666" stroke-width="1.5"/>
+            <text x="50" y="25" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">N</text>
+            <text x="85" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">E</text>
+            <text x="50" y="85" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">S</text>
+            <text x="15" y="55" text-anchor="middle" font-weight="bold" font-size="14" fill="#666" font-family="sans-serif">W</text>
+            <circle cx="50" cy="50" r="6" fill="var(--accent-color)"/>
+            <g transform="rotate(${windDirDeg}, 50, 50)">
+              <polygon points="50,14 47,50 53,50" fill="var(--accent-color)" stroke="var(--accent-color)" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="forecast">${forecastHTML}</div>
+        ${hourlyHTML}
+        <p style="font-size:0.9em;color:#666;margin-top:1em;">Data provided by <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:var(--accent-color);">Open-Meteo</a></p>
+      `;
+      // Insert the QR button at the very top
+      output.insertBefore(qrBtn, output.firstChild);
 
-if (query && typeof window !== "undefined") {
-  const param = encodeURIComponent(query.trim());
-  const newUrl = `${window.location.pathname}?weather=${param}`;
-  window.history.replaceState({}, "", newUrl);
-}
-
-  } catch (err) {
-    if (!silent) {
-      output.innerHTML = `<i>Could not load weather. Try a ZIP code if City doesn't work.</i>`;
+      // Only update the URL if not running in a blob context (for p5js editor compatibility)
+      if (
+        typeof window !== "undefined" &&
+        window.location.protocol !== "blob:"
+      ) {
+        const param = encodeURIComponent(query.trim());
+        const newUrl = `${window.location.pathname}?weather=${param}`;
+        window.history.replaceState({}, "", newUrl);
+      }
+    } catch (err) {
+      if (!silent) {
+        output.innerHTML = `<i>${err.message || "Could not load weather. Try a ZIP code if City doesn't work."}</i>`;
+      }
     }
-    // If silent, do not change the UI on error
   }
-}
-
+// ...existing
   button.addEventListener("click", () => fetchWeather(input.value));
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") fetchWeather(input.value);
@@ -3091,18 +4247,290 @@ if (query && typeof window !== "undefined") {
     }
   });
 
-  // Clear any previous timer
-if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
-
-// Set up auto-refresh every 2 minutes (120,000 ms)
-weatherRefreshTimer = setInterval(() => {
-  if (lastWeatherLocation) {
-    unitToggle.checked = lastWeatherUnit;
-    fetchWeather(lastWeatherLocation, true); // silent refresh
-  }
-}, 120000); // 2 minutes
+  if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
+  weatherRefreshTimer = setInterval(() => {
+    if (lastWeatherLocation) {
+      unitToggle.checked = lastWeatherUnit;
+      fetchWeather(lastWeatherLocation, true);
+    }
+  }, 120000);
 }
 
+// ---- QR Lightbox for Weather Location ----
+function showQrLightboxWeather(locationQuery) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(locationQuery.trim());
+  const url = `https://www.compendiumofeverything.org/?weather=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
 
 
 async function compoundSearch(query) {
@@ -3113,6 +4541,13 @@ async function compoundSearch(query) {
   }
   resultsDiv.innerHTML = "Searching all sources...";
   contentDiv.innerHTML = "";
+
+  // Update URL with query parameter
+    if (query && typeof window !== "undefined") {
+    const param = encodeURIComponent(query.trim());
+    const newUrl = `${window.location.pathname}?comp=${param}`;
+    window.history.replaceState({}, "", newUrl);
+  }
 
   try {
     // Run all three searches in parallel
@@ -3288,7 +4723,7 @@ function loadSettings() {
           <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif; background: var(--bg-color); color: var(--text-color);">Ubuntu</option>
           <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif; background: var(--bg-color); color: var(--text-color);">Inter</option>
           <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif; background: var(--bg-color); color: var(--text-color);">Mulish</option>
-          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif; background: var(--bg-color); color: var(--text-color);">Cabin</option>
+          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif; background: var(--bg-color); color: var,--text-color);">Cabin</option>
           <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif; background: var(--bg-color); color: var(--text-color);">Barlow</option>
           <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif; background: var(--bg-color); color: var(--text-color);">Asap</option>
           <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif; background: var(--bg-color); color: var(--text-color);">Karla</option>
@@ -3298,7 +4733,7 @@ function loadSettings() {
           <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif; background: var(--bg-color); color: var(--text-color);">Signika</option>
           <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif; background: var(--bg-color); color: var(--text-color);">Hind</option>
           <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif; background: var(--bg-color); color: var(--text-color);">Archivo</option>
-          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif; background: var(--bg-color); color: var(--text-color);">Questrial</option>
+          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif; background: var(--bg-color); color: var,--text-color);">Questrial</option>
           <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif; background: var(--bg-color); color: var(--text-color);">Heebo</option>
           <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Fira Sans</option>
           <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif; background: var(--bg-color); color: var(--text-color);">Assistant</option>
@@ -3308,29 +4743,23 @@ function loadSettings() {
           <option value="'OpenDyslexic', sans-serif" style="font-family:'OpenDyslexic', sans-serif; background: var(--bg-color); color: var(--text-color);">OpenDyslexic</option>
         </optgroup>
         <optgroup label="Serif">
-          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif; background: var(--bg-color); color: var(--text-color);">EB Garamond</option>
+          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif; background: var(--bg-color); color: var,--text-color);">EB Garamond</option>
           <option value="'Merriweather', serif" style="font-family:'Merriweather', serif; background: var(--bg-color); color: var(--text-color);">Merriweather</option>
           <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif; background: var(--bg-color); color: var(--text-color);">Playfair Display</option>
           <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif; background: var(--bg-color); color: var(--text-color);">Roboto Serif</option>
           <option value="'PT Serif', serif" style="font-family:'PT Serif', serif; background: var(--bg-color); color: var(--text-color);">PT Serif</option>
           <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif; background: var(--bg-color); color: var(--text-color);">Crimson Text</option>
           <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif; background: var(--bg-color); color: var(--text-color);">Libre Baskerville</option>
-          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif; background: var(--bg-color); color: var(--text-color);">Source Serif 4</option>
+          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif; background: var(--bg-color); color: var,--text-color);">Source Serif 4</option>
           <option value="'Domine', serif" style="font-family:'Domine', serif; background: var(--bg-color); color: var(--text-color);">Domine</option>
           <option value="'Spectral', serif" style="font-family:'Spectral', serif; background: var(--bg-color); color: var(--text-color);">Spectral</option>
           <option value="'Cardo', serif" style="font-family:'Cardo', serif; background: var(--bg-color); color: var(--text-color);">Cardo</option>
           <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif; background: var(--bg-color); color: var(--text-color);">Vollkorn</option>
-          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif; background: var(--bg-color); color: var(--text-color);">Crete Round</option>
+          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif; background: var(--bg-color); color: var,--text-color);">Crete Round</option>
           <option value="'Arvo', serif" style="font-family:'Arvo', serif; background: var(--bg-color); color: var(--text-color);">Arvo</option>
           <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif; background: var(--bg-color); color: var(--text-color);">Old Standard TT</option>
           <option value="'Prata', serif" style="font-family:'Prata', serif; background: var(--bg-color); color: var(--text-color);">Prata</option>
           <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif; background: var(--bg-color); color: var(--text-color);">Zilla Slab</option>
-          <option value="'Literata', serif" style="font-family:'Literata', serif; background: var(--bg-color); color: var(--text-color);">Literata</option>
-          <option value="'Georgia Pro', serif" style="font-family:'Georgia Pro', serif; background: var(--bg-color); color: var(--text-color);">Georgia Pro</option>
-          <option value="'Faustina', serif" style="font-family:'Faustina', serif; background: var(--bg-color); color: var(--text-color);">Faustina</option>
-          <option value="'PT Mono', serif" style="font-family:'PT Mono', serif; background: var(--bg-color); color: var(--text-color);">PT Mono</option>
-          <option value="'Neuton', serif" style="font-family:'Neuton', serif; background: var(--bg-color); color: var(--text-color);">Neuton</option>
-          <option value="'Sorts Mill Goudy', serif" style="font-family:'Sorts Mill Goudy', serif; background: var(--bg-color); color: var(--text-color);">Sorts Mill Goudy</option>
           <option value="'Alice', serif" style="font-family:'Alice', serif; background: var(--bg-color); color: var(--text-color);">Alice</option>
           <option value="'Gloock', serif" style="font-family:'Gloock', serif; background: var(--bg-color); color: var(--text-color);">Gloock</option>
           <option value="'Trirong', serif" style="font-family:'Trirong', serif; background: var(--bg-color); color: var(--text-color);">Trirong</option>
@@ -3568,8 +4997,10 @@ function handleURLParams() {
   } else if (params.has("bookmarks")) {
     switchTab("bookmarks");
   } else if (params.has("settings")) {
-    switchTab("settings");
-    // Default to Wikipedia tab
+    switchTab("sett");
+  }
+  else {
+    // Default to Wikipedia if no params
     switchTab("wiki");
   }
 
@@ -3591,10 +5022,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updates = `
     <div style="position: relative;">
-      <strong>v.2.9 changes:</strong>
+      <strong>v.3.0 changes:</strong>
       <ul>
-        <li>Fixed various styles not applying correctly</li>
-        <li>Added 'Page Not Found' error page</li>
+        <li>Added autocomplete</li>
+        <li>Added a map to the Wikipedia articles</li>
+        <li>Added keyboard shortcuts for tab switching:</li>
+        <ul>
+          <li>Alt + Shift + W: Wikipedia</li>
+          <li>Alt + Shift + D: Dictionary</li>
+          <li>Alt + Shift + T: Thesaurus</li>
+          <li>Alt + Shift + L: Weather</li>
+          <li>Alt + Shift + C: Compound Search</li>
+          <li>Alt + Shift + B: Bookmarks</li>
+          <li>Alt + Shift + S: Settings</li>
+        </ul>
+        <li>Added more information in the Weather including UV Index, Humidity, 6hr forecast, and more</li>
+        <li>Added URL Parameter searching for Compound Search Tab</li>
+        <li>Added QR Code generation for Wikipedia, Dictionary, Thesaurus and Weather Tabs</li>
         <li>Updated changelog</li>
       </ul>
       <strong>Personal Note:</strong>
@@ -3602,7 +5046,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">View project on GitHub</a>
         <br>
         <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">View Beta version</a>
-      <p style="color: grey; font-family: var(--text-font); font-size: 0.9em;"">See Settings Tab for more past versions</p>
+      <p style="color: grey; font-family: var(--text-font); font-size: 0.9em;"">See <a href="https://www.compendiumofeverything.org/?settings" style="color: var(--accent-color); text-decoration: none;">Settings Tab</a> for more past versions</p>
       <span id="closeUpdates" class="material-symbols-rounded" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-size: 1.4em; font-family: var(--text-font 'Roboto'), sans-serif;">close</span>
     </div>
   `;
@@ -3637,13 +5081,17 @@ aboutPanel.className = "about-panel";
 aboutPanel.style.display = "none";
 aboutPanel.innerHTML = `
   <div style="position: relative;">
-    <img src="https://www.compendiumofeverything.org/Compendium_Logo.png" alt="Compendium Logo" class="about-logo">
+    <img src="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png" alt="Compendium Logo" class="about-logo">
     <h2 style="margin-top:10px;">The Compendium of Everything</h2>
     <p>
       A multi-tool web app for quick access to Wikipedia, dictionary, thesaurus, weather, and more.<br>
       Created by <b>Liam C. Smalley</b>.<br>
       <span style="font-size:13px; color:#888;">Copyright &copy; 2025</span>
     </p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Wikipedia articles provided by <a href="https://en.wikipedia.org" target="_blank" rel="noopener" style="color:var(--accent-color);">Wikipedia API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Dictionary entries provided by <a href="https://api.dictionaryapi.dev/" target="_blank" rel="noopener" style="color:var(--accent-color);">Free Dictionary API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Thesaurus entries provided by <a href="https://api.datamuse.com" target="_blank" rel="noopener" style="color:var(--accent-color);">Datamuse API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Weather data provided by <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:var(--accent-color);">Open-Meteo API</a></p>
     <span id="closeAbout" class="material-symbols-rounded about-close">close</span>
   </div>
 `;
