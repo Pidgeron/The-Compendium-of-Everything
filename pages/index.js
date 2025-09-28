@@ -1,0 +1,5599 @@
+export default function Home() {
+  return (
+    <div dangerouslySetInnerHTML={{ __html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A minimalist multi-tool app for fast access to knowledge all in one place.">
+    <title>The Compendium of Everything</title>
+    <link rel="icon" type="image/png" href="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png">
+    <style>
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents unwanted scrollbars */
+  }
+  </style>
+
+</head>
+<body>
+<noscript>
+  <main>
+    <h1>The Compendium of Everything</h1>
+    <p>
+      A multi-tool web app for quick access to Wikipedia, dictionary, thesaurus, weather, and more.<br>
+      <b>Features:</b>
+      <ul>
+        <li>Wikipedia search and articles</li>
+        <li>Dictionary definitions</li>
+        <li>Thesaurus synonyms and antonyms</li>
+        <li>Weather forecasts</li>
+        <li>Bookmarks and notepad</li>
+      </ul>
+      <b>Sources:</b>
+      <ul>
+        <li><a href="https://en.wikipedia.org/" target="_blank">Wikipedia</a></li>
+        <li><a href="https://api.dictionaryapi.dev/" target="_blank">Free Dictionary API</a></li>
+        <li><a href="https://api.datamuse.com/" target="_blank">Datamuse Thesaurus API</a></li>
+        <li><a href="https://open-meteo.com/" target="_blank">Open-Meteo Weather API</a></li>
+      </ul>
+      <p>This site requires JavaScript to function. For direct access, visit the sources above.</p>
+  </main>
+</noscript>
+
+    <div id="app"></div>
+
+    <script>
+        (() => {
+            // --- HOME PAGE LOGIC ---
+  function showHomePage() {
+    // Remove app if present
+    document.getElementById("compendium-app")?.remove();
+
+    // Home page HTML
+    const home = document.createElement("section");
+    home.id = "compendium-home";
+    home.style = `
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      background:var(--bg-color,#fff);color:var(--text-color,#000);font-family:'Roboto',sans-serif;
+    `;
+
+    if (!document.getElementById("material-symbols-home")) {
+  const link = document.createElement("link");
+  link.id = "material-symbols-home";
+  link.rel = "stylesheet";
+  link.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded";
+  document.head.appendChild(link);
+  }
+
+  // Re-import Roboto font for home page
+if (!document.getElementById("roboto-home")) {
+  const link = document.createElement("link");
+  link.id = "roboto-home";
+  link.rel = "stylesheet";
+  link.href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap";
+  document.head.appendChild(link);
+}
+
+home.innerHTML = `
+  <img src="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png" alt="Logo" style="width:120px;height:120px;border-radius:18px;margin-bottom:18px;">
+  <h1 style="font-size:2.2em;margin-bottom:0.2em;">The Compendium of Everything</h1>
+  <p style="font-size:1.1em;margin-bottom:2em;text-align:center;max-width:420px;">
+    A minimalist multi-tool for fast access to Wikipedia, dictionary, thesaurus, weather, and more.
+  </p>
+  <form id="home-search-form" style="width:100%;max-width:340px;margin-bottom:2em;">
+    <input id="home-search" type="search" placeholder="Search..." autocomplete="off"
+      style="width:100%;padding:14px 18px;border-radius:35px;border:2px solid royalblue;font-size:1.1em;">
+  </form>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-bottom:1.5em;">
+    <button class="home-btn" data-tab="wiki" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">language</span>
+      Wikipedia
+    </button>
+    <button class="home-btn" data-tab="dic" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">dictionary</span>
+      Dictionary
+    </button>
+    <button class="home-btn" data-tab="thes" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">library_books</span>
+      Thesaurus
+    </button>
+    <button class="home-btn" data-tab="weather" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">partly_cloudy_day</span>
+      Weather
+    </button>
+    <button class="home-btn" data-tab="compound" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">search</span>
+      Compound Search
+    </button>
+    <button class="home-btn" data-tab="bookmarks" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">bookmarks</span>
+      Bookmarks
+    </button>
+    <button class="home-btn" data-tab="sett" style="padding:14px 28px;border-radius:35px;background:royalblue;color:#fff;font-size:1.1em;border:none;cursor:pointer;">
+      <span class="material-symbols-rounded" style="vertical-align:middle;margin-right:8px;">settings</span>
+      Settings
+    </button>
+  </div>
+  <button id="view-changelog-btn" style="padding:14px 28px;border-radius:35px;background:#fff;color:royalblue;font-size:1.1em;border:2px solid royalblue;cursor:pointer;display:flex;align-items:center;gap:8px;margin-bottom:1.5em;">
+    <span class="material-symbols-rounded" style="vertical-align:middle;">history</span>
+    View Changelog
+  </button>
+  <div style="margin-top:2.5em;font-size:0.95em;color:#888;">&copy; 2025 by Liam Smalley</div>
+  <div id="changelog-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.7);z-index:999999;align-items:center;justify-content:center;">
+    <div style="background:#fff;color:#222;max-width:420px;width:90vw;padding:28px 20px 18px 20px;border-radius:22px;box-shadow:0 4px 32px rgba(0,0,0,0.25);position:relative;">
+      <button id="close-changelog-btn" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.5em;cursor:pointer;color:#888;">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+      <div id="changelog-content"></div>
+    </div>
+  </div>
+  <style>
+@media (max-width: 600px) {
+  #compendium-home h1 {
+    font-size: 1.15em !important;
+    margin-bottom: 0.15em !important;
+    text-align: center;
+    padding: 0 12px;
+    font-weight: 700;
+  }
+
+}  </style>
+`;
+
+document.body.appendChild(home);
+
+// Changelog modal logic
+const changelogBtn = home.querySelector("#view-changelog-btn");
+const changelogModal = home.querySelector("#changelog-modal");
+const changelogContent = home.querySelector("#changelog-content");
+const closeChangelogBtn = home.querySelector("#close-changelog-btn");
+
+// Use the same changelog as your versionDetails
+const changelogHTML = `
+  <div style="position: relative;">
+    <strong>v.3.0 changes:</strong>
+    <ul>
+      <li>Added Home Page</li>
+      <li>Minor improvements for URL parameter handling</li>
+      <li>Added more features in the Weather Tab</li>
+      <li>Added two custom fonts</li>
+      <ul>Fonts:
+        <li>Backwords (Sans-Serif)</li>
+        <li>Backwords Serif (Serif)</li>
+      </ul>
+      <li>Updated changelog</li>
+    </ul>
+      <strong><a href="https://feedback.compendiumofeverything.org/" target="_blank">Report Bugs or Request Features</a></strong>
+<br>
+      <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: royalblue; text-decoration: none;">View project on GitHub</a>
+    <br>
+    <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: royalblue; text-decoration: none;">View Beta version</a>
+    <p style="color: grey; font-family: Roboto, sans-serif; font-size: 0.9em;">See <a href="https://www.compendiumofeverything.org/?settings" style="color: royalblue; text-decoration: none;">Settings Tab</a> for more past versions</p>
+  </div>
+`;
+
+if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
+  changelogBtn.addEventListener("click", () => {
+    changelogContent.innerHTML = changelogHTML;
+    changelogModal.style.display = "flex";
+  });
+  closeChangelogBtn.addEventListener("click", () => {
+    changelogModal.style.display = "none";
+  });
+  changelogModal.addEventListener("click", (e) => {
+    if (e.target === changelogModal) changelogModal.style.display = "none";
+  });
+}
+
+    // Button navigation
+    home.querySelectorAll(".home-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const tab = btn.dataset.tab;
+        let param = "";
+        if (tab === "wiki") param = "?wikipedia";
+        else if (tab === "dic") param = "?dictionary";
+        else if (tab === "thes") param = "?thesaurus";
+        else if (tab === "weather") param = "?weather";
+        else if (tab === "compound") param = "?comp";
+        else if (tab === "bookmarks") param = "?bookmarks";
+        else if (tab === "sett") param = "?settings";
+        window.location.search = param;
+      });
+    });
+
+    // Search form
+    home.querySelector("#home-search-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const q = home.querySelector("#home-search").value.trim();
+      if (q) {
+        window.location.search = "?comp=" + encodeURIComponent(q);
+      }
+    });
+  }
+
+  // --- Show home page if no URL params ---
+  if (!window.location.search || window.location.search === "?") {
+    showHomePage();
+    return; // Do not run the main app
+  }
+
+  const existing = document.getElementById("compendium-app");
+  if (existing) existing.remove();
+
+  const style = document.createElement("style");
+  style.textContent = `
+
+  @import url('https://cdn.compendiumofeverything.org/fonts/fonts.css');
+
+  @font-face {
+  font-family: 'Backwords';
+  src: url('https://cdn.compendiumofeverything.org/fonts/Backwords-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Backwords Serif';
+  src: url('https://cdn.compendiumofeverything.org/fonts/BackwordsSerif-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Backwords Serif';
+  src: url('https://cdn.compendiumofeverything.org/fonts/BackwordsSerifItalic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+     .font-selector {
+      width: 100%;
+      padding: 8px 14px;
+      border-radius: 16px;
+      border: 2px solid var(--accent-color);
+      background: var(--bg-color, #f0f0f8);
+      color: var(--text-color);
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-left: 10px;
+      outline: none;
+      }
+     .font-selector:focus {
+      border-color: var(--accent-color, royalblue);
+      box-shadow: 0 0 0 2px var(--accent-color, royalblue);
+      }
+     .setting-item label[for="font-family-select"] {
+      min-width: 60px;
+      font-size: 1em;
+      color: var(--text-color, #222);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      margin-right: 10px;
+      }
+     .setting-item select.font-selector optgroup {
+      font-style: normal;
+      font-weight: bold;
+      color: #444;
+      background: #f0f0f8;
+      }
+     .setting-item select.font-selector option {
+      font-size: 1em;
+      color: #222;
+      background: #fff;
+      }
+
+     #compendium-app {
+      position: static;
+      top: unset;
+      left: unset;
+      width: 100vw;
+      height: 100vh;
+      min-width: 320px;
+      min-height: 100vh;
+      background-color: var(--bg-color, #fff);
+      color: var(--text-color, #000);
+      display: flex;
+      flex-direction: row;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      z-index: 999999999;
+      overflow: hidden;
+      font-size: var(--font-size, 16px);
+    }
+   
+    @media (max-width: 768px) {
+     #compendium-app {
+      position: static;
+      top: unset;
+      left: unset;
+      width: 100vw;
+      height: 100vh;
+      min-width: 320px;
+      min-height: 100vh;
+      background-color: var(--bg-color, #fff);
+      color: var(--text-color, #000);
+      display: flex;
+      flex-direction: column;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      z-index: 999999999;
+      overflow: hidden;
+      font-size: var(--font-size, 16px);
+    }
+  }
+     .compendium-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.4em;
+      font-weight: bold;
+      font-style: italic;
+      text-align: left;
+      margin: 10px 0 20px 0;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--accent-color);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      justify-content: flex-start;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    @media (max-width: 768px) {
+     .compendium-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.4em;
+      font-weight: bold;
+      font-style: italic;
+      text-align: center;
+      margin: 10px 0 20px 0;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--text-color);
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      padding-left: 0;
+      padding-right: 0;
+      justify-content: center;
+    }
+  }
+     #compendium-title-icon {
+      font-size: 1.2em;
+      color: var(--accent-color);
+    }
+
+      #compendium-app.dark {
+      --bg-color: #121212;
+      --text-color: #eee;
+      --accent-color: royalblue;
+      --text-font: var(--text-font, 'Roboto'), sans-serif;
+    }
+
+      #compendium-app.light {
+      --bg-color: #fff;
+      --text-color: #000;
+      --accent-color: royalblue;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+     #compendium-app header {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 200px;
+      min-width: 190px;
+      height: 100vh;
+      padding: 12px 0;
+      margin-left: 5px;
+      border-right: 2px solid var(--accent-color);
+      background-color: var(--bg-color);
+      position: static;
+      top: unset;
+      left: unset;
+      z-index: 10;
+    }
+
+     #compendium-app header .tab {
+      flex: 0 0 auto;
+      text-align: left;
+      justify-content: flex-start;
+      width: 100%;
+      cursor: pointer;
+      font-weight: 500;
+      padding: 14px 8px 8px 18px;
+      color: var(--text-color);
+      transition: color 0.3s;
+      user-select: none;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    @media (max-width: 768px) {
+     #compendium-app header {
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      height: auto;
+      padding: 12px 0;
+      border-right: none;
+      border-bottom: 2px solid var(--accent-color);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+     #compendium-app header .tab {
+      flex: 1;
+      text-align: center;
+      padding: 6px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+     #compendium-app header .tab:hover {
+      color: var(--accent-color, royalblue);
+    }
+
+     .tab-label {
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: inherit;
+      white-space: nowrap;
+    }
+
+
+     #compendium-app header .tab.selected {
+      color: var(--accent-color, royalblue);
+      font-weight: 700;
+    }
+
+     .material-symbols-rounded {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+      font-size: 28px;
+      user-select: none;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      box-sizing: content-box;
+    }
+
+     #compendium-app main {
+      flex: 1;
+      padding: 10px 16px 120px 16px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      max-height:100vh;
+      box-sizing: border-box;
+    }
+
+     #compendium-app input[type="search"] {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 24px;
+      border: 2px solid var(--accent-color);
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      box-sizing: border-box;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      outline-offset: 2px;
+      outline-color: var(--accent-color, royalblue);
+      transition: border-color 0.3s;
+    }
+
+     #compendium-app input[type="search"]::placeholder {
+      color: var(--text-color);
+      opacity: 0.5;
+    }
+
+     .results, .content {
+      margin-top: 14px;
+      margin-bottom: 1.5em;
+      line-height: 1.5;
+      max-width: 100%;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+    }
+    
+     header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+    }
+
+      header .tab {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+     #compendium-app input[type="search"] {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+     .version-details {
+      user-select: none;
+      position: absolute;
+      bottom: 50px;   
+      left: 20px;
+      max-width: 400px;
+      padding: 10px 15px;
+      background: var(--bg-color);
+      border: 2px solid var(--accent-color);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-size: 14px;
+      color: var(--text-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      border-radius: 18px;
+      z-index: 1000000000;
+      white-space: normal;
+    }
+
+    @media (max-width: 768px) {
+      .version-details {
+        max-width: 300px;
+      }
+  }
+
+     .version-label {
+      cursor: pointer;
+      user-select: none;
+      position: absolute;
+      bottom: 24px;
+      left: 20px;
+      font-size: var(--font-size);
+      font-style: italic;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: #808080;
+      z-index: 1000;
+    }
+
+     .author-title {
+      font-size: var(--font-size);
+      position: absolute;
+      bottom: 5px;
+      left: 20px;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-style: italic;
+      color: #808080;
+      z-index: 1000;
+    }
+
+     .result-item {
+      padding: 8px 10px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      user-select: none;
+      font-weight: 500;
+    }
+
+     .result-item:hover {
+      background-color: var(--accent-color, royalblue);
+      color: #fff;
+    }
+
+     .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 10px 0;
+      display: block;
+    }
+
+     .content audio,
+     .content video {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      margin: 18px auto 18px auto;
+      border-radius: 25px;
+      border: var(--accent-color, royalblue);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+      background: var(--accent-color, royalblue);
+    }
+
+     .content audio {
+      height: 38px;
+      min-width: 180px;
+      outline: none;
+    }
+
+     .content audio::-webkit-media-controls-enclosure {
+      border-radius: 25px;
+      overflow: hidden;
+    }
+     .content audio::-webkit-media-controls-panel {
+      background: var(--bg-color, #fff);
+    }
+     .content video {
+      max-height: 340px;
+      background: #000;
+}
+
+    @media (max-width: 600px) {
+      .content audio,
+      .content video {
+        max-width: 98vw;
+    }
+  }
+
+     .setting-item {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 500;
+    }
+
+     .setting-item label {
+      cursor: pointer;
+    }
+
+      .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      background-color: #ccc;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: var(--accent-color);
+    }
+
+     .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+     .toggle-slider {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      transform: translateX(18px);
+      background-color: var(--accent-color, royalblue);
+    }
+
+      input[type="range"] {
+      width: 140px;
+    }
+
+    #content.weather-content {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 8px;
+      background: linear-gradient(to bottom, #ffffff, #f0f8ff);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+  }
+
+    #content.weather-content h3 {
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      color: #333;
+  }
+
+    #content.weather-content img {
+      margin: 1rem 0;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
+  }
+
+    #content.weather-content p {
+      margin: 0.3rem 0;
+      font-size: 1rem;
+      color: #444;
+  }
+
+     .input-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 1em;
+  }
+
+     #location-input {
+      height: 22px;
+      border: 2px solid var(--accent-color);
+      border-radius: 12px 0 0 12px;
+      padding: 0 8px;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      background-color: var(--bg-color);
+      font-size: var(--font-size);
+      margin: 0;
+      box-sizing: border-box;
+      line-height: normal;
+  }
+  
+     #get-weather-btn {
+      height: 22px;
+      border: 2px solid var(--accent-color);
+      border-left: none;
+      border-radius: 0 12px 12px 0;
+      background-color: royalblue;
+      color: white;
+      margin: 0;
+      padding: 0 8px;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+      box-sizing: border-box;
+      line-height: normal;
+  }
+     #get-weather-btn:hover {
+      background-color: #3a50c1;
+  }
+
+     .input-group {
+      text-align: center;
+      margin-bottom: 1em;
+  }
+
+     .input-group input {
+      padding: 0.5em 1em;
+      font-size: 1rem;
+      width: 250px;
+      max-width: 90vw;
+      margin-right: 0.5em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      border: 2px solid var(--accent-color);
+      border-radius: 4px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+     .input-group button {
+      padding: 0.5em 1.2em;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+  }
+
+     .unit-toggle {
+      text-align: center;
+      margin-bottom: 1em;
+      font-size: 0.9rem;
+      user-select: none;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--accent-color);
+    }
+     .unit-toggle input[type="checkbox"] {
+      margin-right: 0.4em;
+      transform: scale(1.2);
+      cursor: pointer;
+  }
+
+     .weather-card {
+      background: var(--bg-color);
+      border-radius: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1.2em 1.5em;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--text-color);
+  }
+
+     .weather-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6em;
+      margin-bottom: 0.3em;
+  }
+
+     .weather-icon {
+      font-size: 2.4rem;
+      color: var(--text-color);
+  }
+
+     .loading-spinner {
+      font-size: 2rem;
+      animation: spin 1.5s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      color: var(--accent-color);
+  }
+
+      @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+  }
+
+     .wind-container {
+      margin-top: 1em;
+      user-select: none;
+  }
+
+     .wind-speed {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 0.2em;
+      color: var(--accent-color);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+ }
+
+      wind-compass {
+      display: block;
+      margin: 0 auto;
+      max-width: 100px;
+      height: 100px;
+      stroke-linejoin: round;
+  }
+
+      input:focus {
+      outline-color: var(--accent-color);
+      border-color: var(--accent-color);
+      box-shadow: 0 0 5px var(--accent-color);
+  }
+
+     .forecast-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      margin-top: 1em;
+  }
+     .forecast-day {
+      flex: 1 1 30%;
+      margin: 0 10px;
+      box-sizing: border-box;
+      text-align: center;
+  }
+     .forecast-day strong {
+      display: block;
+      margin-bottom: 0.8em;
+  }
+     .weather-icon {
+       font-size: 48px;
+  }
+     .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin: 0;
+  }
+
+     .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+  }
+
+     .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--accent-color);
+      transition: 0.4s;
+      border-radius: 24px;
+  }
+
+     .slider::before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+  }
+
+     .switch input:checked + .slider {
+      background-color: var(--accent-color);
+  }
+
+     .switch input:checked + .slider::before {
+      transform: translateX(26px);
+  }
+
+     #today-forecast {
+      border: 2px solid var(--accent-color);
+      background-color: var(--accent-color);
+      color: white;
+      border-radius: 12px;
+      padding: 6px;
+  }
+
+     #notepad-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 35px;
+      z-index: 1000;
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      cursor: pointer;
+      font-size: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+  }
+     #notepad-btn:hover {
+      background: #3a50c1;
+  }
+     #notepad-panel {
+      position: fixed;
+      bottom: 100px;
+      right: 40px;
+      width: 320px;
+      height: 260px;
+      background: var(--bg-color);
+      color: var(--text-color, #000);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      z-index: 1000002;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      border: 2px solid var(--accent-color);
+  }
+     .notepad-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      padding: 8px 14px;
+      font-weight: bold;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+  }
+     #notepad-panel textarea {
+      width: 100%;
+      height: 190px;
+      border: none;
+      resize: none;
+      padding: 12px;
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      background: transparent;
+      color: inherit;
+      outline: none;
+      box-sizing: border-box;
+  }
+     #close-notepad {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.3em;
+      cursor: pointer;
+  }
+
+     #notepad-btn {
+      position: fixed;
+      bottom: 70px;
+      right: 30px;
+      z-index: 1000001;
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      cursor: pointer;
+      font-size: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+  }
+     #notepad-btn:hover {
+      background: #3a50c1;
+  }
+     #notepad-panel {
+      position: fixed;
+      bottom: 140px;
+      right: 30px;
+      width: 300px;
+      height: 240px;
+      background: var(--bg-color, #fff);
+      color: var(--text-color, #000);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      z-index: 1000002;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+  }
+  
+     .about-panel {
+      position: absolute;
+      bottom: 50px;
+      left: 50px;
+      max-width: 320px;
+      min-width: 220px;
+      padding: 20px 18px 18px 18px;
+      background: var(--bg-color, #fff);
+      border: 2px solid var(--accent-color);
+      border-radius: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      color: var(--text-color, #222);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      z-index: 1001;
+      white-space: normal;
+      text-align: center;
+  }
+     .about-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 12px;
+      margin-bottom: 8px;
+  }
+     .about-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 1.4em;
+      color: var(--accent-color);
+      transition: color 0.2s;
+  }
+     .about-close:hover {
+      color: var(--accent-color, royalblue);
+  }
+
+    .notepad-header button {
+     background: #f5f5f7;
+     border: none;
+     border-radius: 12px;
+     margin-left: 6px;
+     padding: 6px 10px;
+     cursor: pointer;
+     font-size: 1.1em;
+     color: #333;
+     transition: background 0.2s, box-shadow 0.2s;
+     vertical-align: middle;
+     display: inline-flex;
+     align-items: center;
+  }
+
+    .notepad-header button:hover {
+     background: #e0e0e7;
+     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+    .notepad-header button:active {
+     background: #d0d0d7;
+  }
+
+    .notepad-header .material-symbols-rounded {
+     font-size: 1.3em;
+     margin-right: 2px;
+  }
+
+      .font-family-settings {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin-bottom: 1em;
+      font-family: Arial, sans-serif;
+  }
+
+     .font-family-settings #font-family-search {
+      padding: 6px 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      border: 2px solid var(--accent-color, royalblue);
+      border-radius: 15px;
+      transition: border-color 0.2s ease;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      font-size: var(--font-size);
+  }
+
+     .font-family-settings #font-family-search:focus {
+      border-color: #3a86ff;
+      box-shadow: 0 0 4px #3a86ffaa;
+  }
+
+     .font-family-settings #font-family-select {
+      font-size: 1rem;
+      background: var(--bg-color);
+      color: var(--text-color);
+      border-radius: 12px;
+      border: 2px solid var(--accent-color, royalblue);
+      font-size: var(--font-size)
+  }
+
+     #footer-overlay {
+      position: absolute;
+      left: 206px;
+      right: 16px;
+      bottom: 0;
+      height: 120px;
+      background: linear-gradient(
+        to top,
+        var(--bg-color) 0%,
+        var(--bg-color) 40px,
+        transparent 100%
+    );
+      z-index: 100;
+      pointer-events: none;
+      box-shadow: none;
+  }
+    @media (max-width: 768px) {
+     #footer-overlay {
+        left: 0;
+        right: 16px;
+    }
+}
+
+     .setting-item input[type="color"] {
+      appearance: none;
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+
+     .setting-item input[type="color"]:focus {
+      outline: none;
+      border-color: #3a86ff;
+      box-shadow: 0 0 0 2px #3a86ff44;
+  }
+     .setting-item label {
+      display: flex;
+      align-items: center;
+      font-size: 1em;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--text-color);
+  }
+
+     #reset-theme-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      padding: 6px 16px;
+      font-size: 1em;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s, box-shadow 0.2s;
+  }
+
+     #reset-theme-btn:hover, #reset-theme-btn:focus {
+      background: #3a50c1;
+      box-shadow: 0 2px 8px rgba(58,134,255,0.10);
+      outline: none;
+  }
+
+     .dropdown {
+      position: relative;
+      display: inline-block;
+      margin-top: 18px;
+  }
+
+     .dropdown-button {
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 25px;
+      font-family: var(--text-font);
+      font-size: var(--font-size);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(58,134,255,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+
+    .dropdown-button:hover,
+    .dropdown-button:focus {
+     background: #3a50c1;
+     box-shadow: 0 4px 16px rgba(58,134,255,0.15);
+     outline: none;
+     transform: translateY(-2px) scale(1.04);
+  }
+
+     .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 110%;
+      min-width: 180px;
+      background: var(--bg-color, #fff);
+      border: 2px solid var(--accent-color);
+      border-radius: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+      z-index: 1002;
+      padding: 8px 0;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+  }
+
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: block;
+  }
+
+     .dropdown-content a {
+      display: block;
+      padding: 10px 18px;
+      color: var(--text-color, #222);
+      text-decoration: none;
+      font-size: 1em;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+  }
+
+     .dropdown-content a:hover,
+     .dropdown-content a:focus {
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      outline: none;
+  }
+
+    .dropdown-warning {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background-color: #fff3cd;
+      color: #856404;
+      font-size: 13px;
+      border-bottom: 1px solid #f5c6cb;
+      font-style: italic;
+  }
+
+     .warning-icon {
+      font-size: 20px;
+      color: #f5a623; 
+  }
+
+     .citation-popup {
+      position: fixed;
+      z-index: 999999999999;
+      background: var(--accent-color);
+      color: white;
+      border: 2px solid white;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      padding: 10px 14px;
+      font-size: 0.98em;
+      max-width: 320px;
+      min-width: 180px;
+      pointer-events: none;
+      display: none;
+      line-height: 1.5;
+      font-family: var(--text-font);
+      word-break: break-word;
+      transition: opacity 0.15s;
+      backdrop-filter: blur(2px);
+    }
+    .citation-popup a {
+      color: white !important;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    .citation-popup img {
+      max-width: 320px;
+      max-height: 420px;
+      border-radius: 10px;
+      margin: 8px 0;
+      display: block;
+    }
+    .infobox {
+      float: right;
+      clear: right;
+      margin: 0 0 1em 1.5em;
+      width: 360px;
+      max-width: 100%;
+      font-size: 0.97em;
+      background: #f8f9fa;
+      color: #222;
+      border: 2px solid var(--accent-color);
+      border-radius: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 0.5em 0.8em 0.8em 0.8em;
+      line-height: 1.3;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+     .infobox {
+      margin: 0 0 1em 1.5em;
+      width: 100%;
+      max-width: 100%;
+      font-size: 0.97em;
+      background: #f8f9fa;
+      color: #222;
+      border: 2px solid var(--accent-color);
+      border-radius: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 0.5em 0.8em 0.8em 0.8em;
+      line-height: 1.3;
+      overflow: hidden;
+    }
+  }
+    .infobox caption {
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 0.4em;
+      color: #222;
+    }
+    .infobox th {
+      background: none;
+      font-weight: bold;
+      text-align: left;
+      padding: 4px 8px 4px 0;
+      border: none;
+      color: #222;
+      vertical-align: top;
+    }
+    .infobox td {
+      background: none;
+      padding: 4px 0 4px 0;
+      border: none;
+      color: #222;
+      vertical-align: top;
+    }
+    .infobox tr {
+      border: none;
+    }
+    .infobox .infobox-image,
+    .infobox .image {
+      text-align: center;
+      margin: 0.5em 0;
+    }
+    .infobox .infobox-image img,
+    .infobox .image img {
+      max-width: 220px;
+      height: auto;
+      border-radius: 8px;
+      margin: 0 auto;
+      display: block;
+    }
+    .infobox .infobox-label {
+      font-weight: bold;
+      color: #444;
+      padding-right: 0.5em;
+    }
+    .infobox .infobox-data {
+      color: #222;
+      font-size: var(--font-size);
+      font-family: var(--text-font), sans-serif;
+    }
+    .infobox .infobox-header {
+      font-size: 1.15em;
+      font-weight: bold;
+      text-align: center;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 25px;
+      padding: 8px;
+      margin-bottom: 0.5em;
+    }
+    .infobox .infobox-above {
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      background: var(--accent-color);
+      color: white;
+      border-radius: 25px;
+      padding: 6px;
+      margin-bottom: 0.3em;
+    }
+    .infobox .infobox-below {
+      font-size: 0.98em;
+      text-align: center;
+      color: #666;
+      margin-top: 0.5em;
+    }
+    .infobox .infobox-subheader {
+      font-size: 1em;
+      font-weight: bold;
+      text-align: center;
+      color: #444;
+      margin-bottom: 0.2em;
+    }
+    .infobox .infobox-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      color: #222;
+      margin-bottom: 0.2em;
+    }
+    .infobox .infobox-row {
+      border-top: 1px solid #e0e0e0;
+      margin-top: 0.2em;
+      padding-top: 0.2em;
+    }
+    .infobox .infobox-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .infobox .infobox-list li {
+      margin-bottom: 0.2em;
+    }
+    .infobox .infobox-hr {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      margin: 0.5em 0;
+    }
+    .infobox .infobox-signature img {
+      max-width: 120px;
+      height: auto;
+      margin: 0.2em auto;
+      display: block;
+    }
+    .infobox .infobox-website a {
+      color: var(--accent-color, royalblue);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    #compendium-app.dark .infobox {
+      background: #23272b;
+      color: #eee;
+    }
+    #compendium-app.dark .infobox th,
+    #compendium-app.dark .infobox td,
+    #compendium-app.dark .infobox .infobox-label,
+    #compendium-app.dark .infobox .infobox-header,
+    #compendium-app.dark .infobox .infobox-above,
+    #compendium-app.dark .infobox .infobox-title {
+      color: #eee;
+    }
+    #compendium-app.dark .infobox .infobox-header,
+    #compendium-app.dark .infobox .infobox-above {
+      background: #181a1b;
+    }
+    #compendium-app.dark .infobox .infobox-below {
+      color: #aaa;
+    }
+    #compendium-app.dark .infobox .infobox-hr {
+      border-top: 1px solid #444;
+    }
+    #compendium-app.dark .infobox .infobox-website a {
+      color: var(--accent-color, royalblue);
+    }
+/* --- End Infobox Styling --- */
+
+     #toc-toggle-btn {
+      position: fixed;
+      bottom: 70px;
+      left: 35px;
+      z-index: 1000;
+      background: var(--accent-color, royalblue);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      cursor: pointer;
+      font-size: 2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+     #toc-panel {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 240px;
+      max-height: 70%;
+      background: var(--bg-color, #fff);
+      color: var(--text-color);
+      border-radius: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+      z-index: 1001;
+      display: none;
+      flex-direction: column;
+      overflow: auto;
+      border: 2px solid var(--accent-color);
+      padding: 12px 0 12px 0;
+  }
+
+     .play-btn {
+      font-family: 'Material Symbols Rounded';
+      font-variation-settings: 'FILL' 100, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      font-size: 20px;
+      line-height: 1;
+      border: none;
+      background: var(--accent-color);
+      color: white;
+      cursor: pointer;
+      vertical-align: middle;
+      padding: 6px;
+      margin-left: 6px;
+      border-radius: 24px;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+    }
+     .play-btn:hover,
+     .play-btn:focus {
+      background-color: color-mix(in srgb, var(--accent-color) 70%, black 30%);
+      outline: none;
+    }
+
+     .sidebar-title {
+      font-size: 1.5em;
+      font-weight: 900;
+      font-style: italic;
+      font-family: var(--text-font, 'Roboto'), sans-serif;
+      color: var(--accent-color, royalblue);
+      text-align: left;
+      padding: 8px 8px 18px 8px;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      user-select: none;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.13);
+    }
+
+  `;
+
+  document.head.appendChild(style);
+
+const app = document.createElement("section");
+app.id = "compendium-app";
+app.classList.add("light");
+
+// --- Apply custom theme on load if present ---
+const savedTheme = localStorage.getItem("custom-theme");
+if (savedTheme) {
+  try {
+    const { accent, text, bg } = JSON.parse(savedTheme);
+    app.style.setProperty("--accent-color", accent);
+    app.style.setProperty("--text-color", text);
+    app.style.setProperty("--bg-color", bg);
+    app.classList.remove("dark");
+    app.classList.add("light");
+  } catch {}
+}
+
+// Define both layouts as template strings
+const htmlWide = `
+<header>
+  <div class="sidebar-title">The Compendium of Everything</div>
+  <div class="tab selected" data-tab="wiki" title="Wikipedia">
+    <span class="material-symbols-rounded" aria-label="Wikipedia">language</span>
+    <span class="tab-label">Wikipedia</span>
+  </div>
+  <div class="tab" data-tab="dic" title="Dictionary">
+    <span class="material-symbols-rounded" aria-label="Dictionary">dictionary</span>
+    <span class="tab-label">Dictionary</span>
+  </div>
+  <div class="tab" data-tab="thes" title="Thesaurus">
+    <span class="material-symbols-rounded" aria-label="Thesaurus">library_books</span>
+    <span class="tab-label">Thesaurus</span>
+  </div>
+  <div class="tab" data-tab="weather" title="Weather">
+    <span class="material-symbols-rounded" aria-label="Weather">partly_cloudy_day</span>
+    <span class="tab-label">Weather</span>
+  </div>
+    <div class="tab" data-tab="compound" title="Compound Search">
+  <span class="material-symbols-rounded" aria-label="Compound Search">search</span>
+  <span class="tab-label">Compound Search</span>
+</div>
+  <div class="tab" data-tab="bookmarks" title="Bookmarks">
+    <span class="material-symbols-rounded" aria-label="Bookmarks">bookmarks</span>
+    <span class="tab-label">Bookmarks</span>
+  </div>
+  <div class="tab" data-tab="sett" title="Settings">
+    <span class="material-symbols-rounded" aria-label="Settings">settings</span>
+    <span class="tab-label">Settings</span>
+  </div>
+</header>
+<main>
+  <div class="main-header">
+    <div class="compendium-title" id="compendium-title">
+      <span class="material-symbols-rounded" id="compendium-title-icon">language</span>
+      <span id="compendium-title-label">Wikipedia</span>
+    </div>
+    <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
+    <div class="results"></div>
+    <div class="content"></div>
+    <div class="settings" style="display:none;"></div>
+    <div class="version-label" id="versionLabel">v.3.1</div>
+    <div id="versionDetails" class="version-details" style="display:none;"></div>
+    <div class="author-title">Made by L. Smalley</div>
+    <div id="footer-overlay"></div>
+  </div>
+</main>
+`;
+
+const htmlNarrow = `
+  <header>
+  <div class="tab selected" data-tab="wiki" title="Wikipedia">
+    <span class="material-symbols-rounded" aria-label="Wikipedia">language</span>
+  </div>
+  <div class="tab" data-tab="dic" title="Dictionary">
+    <span class="material-symbols-rounded" aria-label="Dictionary">dictionary</span>
+  </div>
+  <div class="tab" data-tab="thes" title="Thesaurus">
+    <span class="material-symbols-rounded" aria-label="Thesaurus">library_books</span>
+  </div>
+  <div class="tab" data-tab="weather" title="Weather">
+    <span class="material-symbols-rounded" aria-label="Weather">partly_cloudy_day</span>
+  </div>
+  <div class="tab" data-tab="compound" title="Compound Search">
+    <span class="material-symbols-rounded" aria-label="Compound Search">search</span>
+  </div>
+  <div class="tab" data-tab="bookmarks" title="Bookmarks">
+    <span class="material-symbols-rounded" aria-label="Bookmarks">bookmarks</span>
+  </div>
+  <div class="tab" data-tab="sett" title="Settings">
+    <span class="material-symbols-rounded" aria-label="Settings">settings</span>
+  </div>
+</header>
+    <main>
+      <div class="compendium-title">The Compendium of Everything</div>
+      <input type="search" placeholder="Search Encyclopedia..." id="search-input" autocomplete="off" />
+      <div class="results"></div>
+      <div class="content"></div>
+      <div class="settings" style="display:none;"></div>
+      <div id="clock-container">
+      <div id="time"></div>
+      <div id="date"></div>
+    </div>
+
+      <div class="version-label" id="versionLabel">v.3.1</div>
+      <div id="versionDetails" class="version-details" style="display:none;"></div>
+      <div class="author-title">Made by L. Smalley</div>
+      <div id="footer-overlay"></div>
+    </main>
+`;
+
+// Function to set the correct layout
+function setAppHTML() {
+  if (window.innerWidth < 768) {
+    app.innerHTML = htmlNarrow;
+  } else {
+    app.innerHTML = htmlWide;
+  }
+}
+
+// Set initial layout
+setAppHTML();
+
+  document.body.appendChild(app);
+
+  // Make sidebar title clickable to go to homepage
+const sidebarTitle = app.querySelector('.sidebar-title');
+if (sidebarTitle) {
+  sidebarTitle.style.cursor = "pointer";
+  sidebarTitle.title = "Go to Home";
+  sidebarTitle.addEventListener("click", () => {
+    window.location.search = "";
+  });
+}
+
+const notepadBtn = document.createElement("button");
+notepadBtn.id = "notepad-btn";
+notepadBtn.title = "Open Notepad";
+notepadBtn.innerHTML = `<span class="material-symbols-rounded">edit_note</span>`;
+app.appendChild(notepadBtn);
+
+const notepadPanel = document.createElement("div");
+notepadPanel.id = "notepad-panel";
+notepadPanel.innerHTML = `
+<div class="notepad-header">
+  <span>Notepad</span>
+  <div>
+    <button id="export-notes" title="Export Notes"><span class="material-symbols-rounded">download</span></button>
+    <button id="import-notes" title="Import Notes"><span class="material-symbols-rounded">upload</span></button>
+    <button id="close-notepad" title="Close"><span class="material-symbols-rounded">close</span></button>
+  </div>
+</div>
+<textarea id="notepad-text" placeholder="Type your notes here..."></textarea>
+
+`;
+app.appendChild(notepadPanel);
+
+
+notepadPanel.querySelector("#export-notes").addEventListener("click", exportNotes);
+notepadPanel.querySelector("#import-notes").addEventListener("click", importNotes);
+
+
+// Notepad logic
+const notepadText = notepadPanel.querySelector("#notepad-text");
+const closeNotepad = notepadPanel.querySelector("#close-notepad");
+
+// Load saved notes
+notepadText.value = localStorage.getItem("compendium-notepad") || "";
+
+// Save notes on input
+notepadText.addEventListener("input", () => {
+  localStorage.setItem("compendium-notepad", notepadText.value);
+});
+
+// Show/hide panel
+notepadBtn.addEventListener("click", () => {
+  notepadPanel.style.display = "flex";
+});
+closeNotepad.addEventListener("click", () => {
+  notepadPanel.style.display = "none";
+});
+
+// Export notes as .txt file
+function exportNotes() {
+  const text = localStorage.getItem("compendium-notepad") || "";
+  const blob = new Blob([text], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "compendium-notes.txt";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 0);
+}
+
+// Import notes from .txt file
+function importNotes() {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".txt,text/plain";
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const text = evt.target.result;
+      localStorage.setItem("compendium-notepad", text);
+      notepadText.value = text;
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+const tabs = app.querySelectorAll(".tab");
+const searchInput = app.querySelector("#search-input");
+const resultsDiv = app.querySelector(".results");
+const contentDiv = app.querySelector(".content");
+const settingsDiv = app.querySelector(".settings");
+
+const words = []; // Will be populated via fetch
+
+// Load words dynamically from MIT wordlist (via CORS proxy)
+fetch('https://corsproxy.io/?https://www.mit.edu/~ecprice/wordlist.10000')
+  .then(res => res.text())
+  .then(text => {
+    words.push(...text.split('\n').map(w => w.trim()).filter(Boolean));
+  })
+  .catch(() => {}); // Silently ignore errors
+
+const suggestionBox = document.createElement('div');
+suggestionBox.className = 'suggestions';
+suggestionBox.style.position = 'absolute';
+suggestionBox.style.display = 'none';
+suggestionBox.style.zIndex = '10000';
+const autocompleteStyle = document.getElementById('compendium-app');
+autocompleteStyle.appendChild(suggestionBox);
+
+const acStyle = document.createElement('style');
+acStyle.textContent = `
+  .suggestions {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-height: 150px;
+    overflow-y: auto;
+    font-family: var(--text-font);
+    font-size: 1em;
+    color: var(--text-color);
+  }
+  .suggestions div {
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .suggestions div:hover {
+    background: var(--accent-color);
+    color: white;
+  }
+`;
+document.head.appendChild(acStyle);
+
+
+
+function getLastWordInfo(str) {
+  const wordsArray = str.split(/\s+/);
+  const lastWord = wordsArray[wordsArray.length - 1];
+  const lastWordStart = str.lastIndexOf(lastWord);
+  return { lastWord, lastWordStart };
+}
+
+searchInput.addEventListener('input', () => {
+  const val = searchInput.value;
+  const { lastWord, lastWordStart } = getLastWordInfo(val);
+  const lowerLastWord = lastWord ? lastWord.toLowerCase() : "";
+
+  suggestionBox.innerHTML = '';
+  if (!lastWord) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  const matches = words
+    .filter(w => w.toLowerCase().startsWith(lowerLastWord))
+    .slice(0, 5);
+
+  if (matches.length === 0) {
+    suggestionBox.style.display = 'none';
+    return;
+  }
+
+  matches.forEach(match => {
+    const div = document.createElement('div');
+    div.innerHTML = `<strong>${match.substr(0, lastWord.length)}</strong>${match.substr(lastWord.length)}`;
+    
+    function fillSuggestion(e) {
+      e.preventDefault();
+      const before = val.substring(0, lastWordStart);
+      searchInput.value = before + match;
+      suggestionBox.style.display = 'none';
+      searchInput.focus();
+      searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    div.addEventListener('mousedown', fillSuggestion);
+    div.addEventListener('click', fillSuggestion);
+    suggestionBox.appendChild(div);
+  });
+
+  const rect = searchInput.getBoundingClientRect();
+  suggestionBox.style.top = (rect.bottom + window.scrollY) + 'px';
+  suggestionBox.style.left = (rect.left + window.scrollX) + 'px';
+  suggestionBox.style.width = rect.width + 'px';
+  suggestionBox.style.display = 'block';
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    const val = searchInput.value;
+    const { lastWord, lastWordStart } = getLastWordInfo(val);
+    if (searchInput.selectionStart === val.length && lastWord) {
+      if (suggestionBox.style.display === 'block' && suggestionBox.firstChild) {
+        e.preventDefault();
+        const firstSuggestion = suggestionBox.firstChild.textContent;
+        const before = val.substring(0, lastWordStart);
+        searchInput.value = before + firstSuggestion;
+        suggestionBox.style.display = 'none';
+        searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
+      }
+    }
+  }
+});
+
+document.addEventListener('click', e => {
+  if (e.target !== searchInput && !suggestionBox.contains(e.target)) {
+    suggestionBox.style.display = 'none';
+  }
+});
+
+let currentTab = "wiki";
+
+let darkMode = false;
+let fontSize = 14; // px
+let appSize = 1.25; //scale
+let fontFamily = "Roboto";
+
+// Store content for each tab
+const tabContents = {
+  wiki: { results: "", content: ""},
+  dic: { results: "", content: ""},
+  thes: { results: "", content: ""},
+  weather: { results: "", content: ""},
+  compound: { results: "", content: ""},
+  sett: { results: "", content: ""}
+};
+
+// Keyboard shortcuts for tab switching
+document.addEventListener("keydown", (e) => {
+  if (e.altKey && e.shiftKey) {
+    switch (e.key.toLowerCase()) {
+      case "w":
+        switchTab("wiki");
+        break;
+      case "d":
+        switchTab("dic");
+        break;
+      case "t":
+        switchTab("thes");
+        break;
+      case "l":
+        switchTab("weather");
+        break;
+      case "c":
+        switchTab("compound");
+        break;
+      case "b":
+        switchTab("bookmarks");
+        break;
+      case "s":
+        switchTab("sett");
+        break;
+    }
+  }
+});
+
+function initContentPopupsAndLinks() {
+  // Always get fresh reference
+  const contentDiv = app.querySelector(".content");
+  // Citation popups
+  let popup = document.getElementById("citation-popup");
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.className = "citation-popup";
+    popup.id = "citation-popup";
+    const citationPopupDiv = document.getElementById('compendium-app');
+    citationPopupDiv.appendChild(popup);
+  }
+
+  // Function to remove leading ^ symbols from citation text
+function cleanCitationText(text) {
+  return text.replace(/^\s*\^+/, '').replace(/^\s+/, '');
+}
+
+// Update citation popups to clean text
+contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
+  ref.addEventListener("mouseenter", (e) => {
+    const href = ref.getAttribute("href");
+    const note = contentDiv.querySelector(href);
+    if (note) {
+        const cleanedText = cleanCitationText(note.innerHTML);
+        popup.innerHTML = cleanedText;
+        popup.style.display = "block";
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(mouseY - 10, 10) + "px";
+      } else {
+        popup.innerHTML = `<span style="color: #888;">Citation not found</span>`;
+        popup.style.display = "block";
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      }
+  });
+    ref.addEventListener("mousemove", (e) => {
+      popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+      popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+    });
+    ref.addEventListener("mouseleave", () => {
+      popup.style.display = "none";
+    });
+  });
+
+  // Article summary popups and disable navigation
+  contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
+    const href = link.getAttribute("href");
+    if (
+      href.startsWith("/wiki/File:") ||
+      href.startsWith("/wiki/Special:") ||
+      href.startsWith("/wiki/Help:") ||
+      href.startsWith("/wiki/Category:") ||
+      href.startsWith("/wiki/Talk:") ||
+      href.startsWith("/wiki/Template:") ||
+      href.startsWith("/wiki/Portal:") ||
+      href.startsWith("/wiki/Wikipedia:") ||
+      href.startsWith("/wiki/Main_Page") ||
+      href.startsWith("/wiki/Citation_needed")
+    ) return;
+
+    let fetchTimeout, lastTitle = "";
+
+    link.addEventListener("mouseenter", (e) => {
+      const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+      fetchTimeout = setTimeout(async () => {
+        if (lastTitle === articleTitle) return;
+        lastTitle = articleTitle;
+        popup.innerHTML = `<span style="color: white;">Loading summary...</span>`;
+        popup.style.display = "block";
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+        try {
+          const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
+          if (!resp.ok) throw new Error("No summary found");
+          const data = await resp.json();
+          let imgHtml = "";
+          if (data.thumbnail && data.thumbnail.source) {
+            imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+          }
+          popup.innerHTML = `
+            <div style="min-width:180px;max-width:320px;overflow:hidden;">
+              ${imgHtml}
+              <b>${data.title}</b><br>
+              <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
+            </div>
+          `;
+        } catch {
+          popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
+        }
+      }, 200);
+    });
+
+    link.addEventListener("mousemove", (e) => {
+      popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+      popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+    });
+
+    link.addEventListener("mouseleave", () => {
+      clearTimeout(fetchTimeout);
+      lastTitle = "";
+      popup.style.display = "none";
+    });
+
+    // Disable navigation for all wiki links
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      return false;
+    });
+  });
+}
+
+function switchTab(tab) {
+  // Always get fresh references in case DOM was rebuilt
+  const resultsDiv = app.querySelector(".results");
+  const contentDiv = app.querySelector(".content");
+  const settingsDiv = app.querySelector(".settings");
+
+  // Save current tab's content and scroll position
+  if (tabContents[currentTab]) {
+    tabContents[currentTab].results = resultsDiv.innerHTML;
+    tabContents[currentTab].content = contentDiv.innerHTML;
+    tabContents[currentTab].scroll = contentDiv.scrollTop; // Save scroll position
+  }
+
+  const tabNames = {
+    wiki: "Wikipedia",
+    dic: "Dictionary",
+    thes: "Thesaurus",
+    weather: "Weather",
+    compound: "Compound Search",
+    bookmarks: "Bookmarks",
+    sett: "Settings"
+  };
+  const tabData = {
+    wiki: { label: "Wikipedia", icon: "language" },
+    dic: { label: "Dictionary", icon: "dictionary" },
+    thes: { label: "Thesaurus", icon: "library_books" },
+    weather: { label: "Weather", icon: "partly_cloudy_day" },
+    compound: { label: "Compound Search", icon: "search" },
+    bookmarks: { label: "Bookmarks", icon: "bookmark" },
+    sett: { label: "Settings", icon: "settings" }
+  };
+  const titleIcon = document.getElementById("compendium-title-icon");
+  const titleLabel = document.getElementById("compendium-title-label");
+  if (titleIcon && titleLabel && tabData[tab]) {
+    titleIcon.textContent = tabData[tab].icon;
+    titleLabel.textContent = tabData[tab].label;
+  }
+
+  currentTab = tab;
+  tabs.forEach((t) => t.classList.toggle("selected", t.dataset.tab === tab));
+  settingsDiv.style.display = "none";
+  searchInput.style.display = "block";
+  searchInput.value = "";
+
+  // Restore content for the new tab
+  if (tab === "wiki") {
+    searchInput.placeholder = "Search Wikipedia...";
+    searchInput.disabled = false;
+    resultsDiv.innerHTML = tabContents.wiki.results;
+    contentDiv.innerHTML = tabContents.wiki.content;
+    settingsDiv.style.display = "none";
+    // Re-initialize popups/links
+    initContentPopupsAndLinks();
+    // Restore scroll
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.wiki.scroll || 0;
+    }, 0);
+  } else if (tab === "dic") {
+    searchInput.placeholder = "Search Dictionary...";
+    searchInput.disabled = false;
+    resultsDiv.innerHTML = tabContents.dic.results;
+    contentDiv.innerHTML = tabContents.dic.content;
+    settingsDiv.style.display = "none";
+    initContentPopupsAndLinks();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.dic.scroll || 0;
+    }, 0);
+  } else if (tab === "thes") {
+    searchInput.placeholder = "Search Thesaurus...";
+    searchInput.disabled = false;
+    resultsDiv.innerHTML = tabContents.thes.results;
+    contentDiv.innerHTML = tabContents.thes.content;
+    settingsDiv.style.display = "none";
+    initContentPopupsAndLinks();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.thes.scroll || 0;
+    }, 0);
+  } else if (tab === "weather") {
+    searchInput.style.display = "none";
+    resultsDiv.innerHTML = tabContents.weather.results;
+    contentDiv.innerHTML = tabContents.weather.content;
+    settingsDiv.style.display = "none";
+    if (!contentDiv.innerHTML) loadWeather();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.weather.scroll || 0;
+    }, 0);
+
+    // --- Weather auto-refresh: start timer when entering weather tab ---
+    if (typeof weatherRefreshTimer !== "undefined" && weatherRefreshTimer) {
+      clearInterval(weatherRefreshTimer);
+      weatherRefreshTimer = null;
+    }
+    weatherRefreshTimer = setInterval(() => {
+      if (typeof lastWeatherLocation !== "undefined" && lastWeatherLocation) {
+        // Ensure unit toggle matches last used unit
+        const unitToggle = document.getElementById("unit-toggle");
+        if (unitToggle && typeof lastWeatherUnit !== "undefined") {
+          unitToggle.checked = lastWeatherUnit;
+        }
+        fetchWeather(lastWeatherLocation, true);
+      }
+    }, 120000); // 2 minutes
+  } else if (tab === "compound") {
+    searchInput.placeholder = "Search Wikipedia, Dictionary, Thesaurus...";
+    searchInput.disabled = false;
+    resultsDiv.innerHTML = tabContents.compound.results;
+    contentDiv.innerHTML = tabContents.compound.content;
+    settingsDiv.style.display = "none";
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.compound.scroll || 0;
+      // Re-attach event listeners to compound-wiki-link
+      contentDiv.querySelectorAll('.compound-wiki-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const title = decodeURIComponent(link.getAttribute('data-title'));
+          switchTab('wiki');
+          searchInput.value = title;
+          wikiLoadArticle(title);
+        });
+      });
+    }, 0);
+  } else if (tab === "bookmarks") {
+    searchInput.style.display = "none";
+    settingsDiv.style.display = "none";
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = renderBookmarks();
+    // Attach remove event listeners
+    setTimeout(() => {
+      contentDiv.querySelectorAll('.remove-bookmark-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const title = btn.getAttribute('data-title');
+          removeBookmark(title);
+          contentDiv.innerHTML = renderBookmarks();
+        });
+      });
+      contentDiv.querySelectorAll('.bookmark-title-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          switchTab('wiki');
+          searchInput.value = link.getAttribute('data-title');
+          wikiLoadArticle(link.getAttribute('data-title'));
+        });
+      });
+    }, 0);
+  } else if (tab === "sett") {
+    searchInput.style.display = "none";
+    settingsDiv.style.display = "block";
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+    loadSettings();
+    setTimeout(() => {
+      contentDiv.scrollTop = tabContents.sett.scroll || 0;
+    }, 0);
+  }
+}
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => switchTab(tab.dataset.tab));
+});
+
+
+// Wikipedia API
+async function wikiLoadArticles(query) {
+  if (!query) {
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+    return;
+  }
+
+  resultsDiv.innerHTML = "Searching...";
+  contentDiv.innerHTML = "";
+
+  try {
+    const searchRes = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${encodeURIComponent(
+        query
+      )}&utf8=1&srlimit=10`
+    );
+    const searchData = await searchRes.json();
+
+    let searchResults = searchData.query.search;
+    const titles = searchResults.map(item => item.title);
+
+    const thumbRes = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&titles=${encodeURIComponent(
+        titles.join("|")
+      )}&piprop=thumbnail&pithumbsize=80`
+    );
+    const thumbData = await thumbRes.json();
+    const pagesWithThumbs = thumbData.query.pages;
+
+    const thumbnailMap = {};
+    for (const pageId in pagesWithThumbs) {
+      const page = pagesWithThumbs[pageId];
+      if (page.thumbnail) {
+        thumbnailMap[page.title] = page.thumbnail.source;
+      }
+    }
+
+    let resultsArr = [];
+    if (
+      query.trim().toLowerCase().includes("compendium of everything") ||
+      query.trim().toLowerCase() === "compendium"
+    ) {
+      resultsArr.push({
+        title: "The Compendium of Everything",
+        isEasterEgg: true,
+        thumbnail: "https://cdn.compendiumofeverything.org/images/Compendium_Logo.png"
+      });
+    }
+
+    resultsArr = resultsArr.concat(
+      searchResults.map(item => ({
+        title: item.title,
+        isEasterEgg: false,
+        thumbnail: thumbnailMap[item.title] || "https://cdn.compendiumofeverything.org/images/No_Image_Available_alt.png"
+      }))
+    );
+
+    if (!resultsArr.length) {
+      resultsDiv.innerHTML = "<i>No results found.</i>";
+      return;
+    }
+
+    resultsDiv.innerHTML = "";
+    resultsArr.forEach((item) => {
+      const div = document.createElement("div");
+      div.className = "result-item";
+      div.setAttribute("style", `
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+      `);
+
+      const thumb = document.createElement("img");
+      thumb.src = item.thumbnail;
+      thumb.alt = "";
+      thumb.setAttribute("style", `
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 15px;
+        flex-shrink: 0;
+      `);
+
+      const title = document.createElement("span");
+      title.textContent = item.title;
+
+      div.appendChild(thumb);
+      div.appendChild(title);
+      div.addEventListener("click", () => wikiLoadArticle(item.title));
+
+      resultsDiv.appendChild(div);
+    });
+  } catch (e) {
+    resultsDiv.innerHTML = `<i>Error fetching Wikipedia results.</i>`;
+  }
+}
+
+async function wikiLoadArticle(title) {
+  resultsDiv.innerHTML = "";
+  contentDiv.innerHTML = "Loading article...";
+
+  if (title.trim().toLowerCase() === "the compendium of everything") {
+    contentDiv.innerHTML = `
+    <!--Ommited for brevity-->
+    `;
+    return;
+  }
+
+  try {
+    const articleRes = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(title)}&prop=text`
+    );
+    const data = await articleRes.json();
+    let html = data?.parse?.text?.["*"] || "<i>Could not load content.</i>";
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    // Remove edit section links
+    doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
+
+    // Fix image URLs
+doc.querySelectorAll("img").forEach((img) => {
+  let src = img.getAttribute("src") || img.getAttribute("data-src") || "";
+
+  // If src is missing, broken, or a placeholder, use srcset if available
+  if (
+    (!src || src === "" || src === "undefined" || src.startsWith("data:") || src.includes("wiki/Special:") || src.includes("question")) &&
+    img.getAttribute("srcset")
+  ) {
+    // Use the largest image in srcset (last one)
+    const srcsetArr = img.getAttribute("srcset").split(",");
+    src = srcsetArr[srcsetArr.length - 1].trim().split(" ")[0];
+  }
+
+  // If still missing, try srcset first image
+  if (!src && img.getAttribute("srcset")) {
+    src = img.getAttribute("srcset").split(",")[0].trim().split(" ")[0];
+  }
+
+  // Ensure protocol
+  if (src.startsWith("//")) src = "https:" + src;
+  else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+  else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
+
+  // Remove Wikipedia thumbnail cropping (but keep SVGs!)
+  const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
+  if (thumbMatch && !src.endsWith(".svg")) {
+    src = `${thumbMatch[1]}/${thumbMatch[2]}`;
+  }
+
+  img.src = src;
+  img.removeAttribute("srcset");
+  img.onerror = function () {
+    this.style.display = "none";
+  };
+});
+
+// Remove links that wrap images
+    doc.querySelectorAll("a > img").forEach(img => {
+      const a = img.parentElement;
+      if (a && a.tagName === "A") {
+        a.replaceWith(img);
+      }
+    });
+
+    // === Fix links ===
+    doc.querySelectorAll("a[href]").forEach((a) => {
+      const href = a.getAttribute("href");
+
+      if (!href) return;
+
+      // Internal Wikipedia links
+      if (
+        href.startsWith("/wiki/") ||
+        href.startsWith("#cite_note")
+      ) {
+        a.style.cursor = "pointer";
+        a.style.color = "var(--accent-color, royalblue)";
+        a.style.textDecoration = "underline";
+        if (href.startsWith("/wiki/")) a.removeAttribute("title");
+        return;
+      }
+
+      // External links
+      if (href.startsWith("http") || href.startsWith("//")) {
+        a.setAttribute("target", "_blank");
+        a.setAttribute("rel", "noopener noreferrer");
+        a.style.color = "var(--accent-color, royalblue)";
+        a.style.textDecoration = "underline";
+        a.style.cursor = "pointer";
+        return;
+      }
+
+      // Unknown/weird links — disable
+      a.removeAttribute("href");
+      a.style.cursor = "default";
+      a.style.color = "inherit";
+      a.style.textDecoration = "none";
+    });
+
+    contentDiv.innerHTML = doc.body.innerHTML;
+
+    if (typeof window !== "undefined") {
+  const param = encodeURIComponent(title.trim().replace(/ /g, "-"));
+  const newUrl = `${window.location.pathname}?wikipedia=${param}`;
+  window.history.replaceState({}, "", newUrl);
+}
+
+    (function injectInfoboxMap() {
+  const infobox = contentDiv.querySelector('.infobox');
+  if (!infobox) return;
+
+  let lat = null, lon = null;
+  // Try <span class="geo">lat; lon</span>
+  const geoSpan = infobox.querySelector('.geo');
+  if (geoSpan) {
+    const parts = geoSpan.textContent.split(';').map(s => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      lat = parts[0];
+      lon = parts[1];
+    }
+  }
+  // Try <span class="latitude">lat</span> <span class="longitude">lon</span>
+  if (!lat || !lon) {
+    const latSpan = infobox.querySelector('.latitude');
+    const lonSpan = infobox.querySelector('.longitude');
+    if (latSpan && lonSpan) {
+      lat = parseFloat(latSpan.textContent);
+      lon = parseFloat(lonSpan.textContent);
+    }
+  }
+  if (!lat || !lon || isNaN(lat) || isNaN(lon)) return;
+
+  // Find the map image (alt="Map" or alt contains "location")
+  let mapImg = Array.from(infobox.querySelectorAll('img')).find(img =>
+    img.alt && (
+      img.alt.toLowerCase() === "map" ||
+      img.alt.toLowerCase().includes("location")
+    )
+  );
+
+  // Create map container
+  const mapDiv = document.createElement('div');
+  mapDiv.className = 'infobox-map';
+  mapDiv.style = 'width:100%;height:220px;margin:10px 0;border-radius:12px;overflow:hidden;';
+
+  // Replace map image with mapDiv, or insert after first image if not found
+  if (mapImg && mapImg.parentNode) {
+    mapImg.parentNode.replaceChild(mapDiv, mapImg);
+  } else {
+    const firstImg = infobox.querySelector('img');
+    if (firstImg && firstImg.parentNode) {
+      firstImg.parentNode.insertBefore(mapDiv, firstImg.nextSibling);
+    } else {
+      infobox.prepend(mapDiv);
+    }
+  }
+
+  // --- Optimized Leaflet loader ---
+  function ensureLeafletLoaded(callback) {
+    if (window.L && typeof window.L.map === "function") {
+      callback();
+      return;
+    }
+    if (window._leafletLoading) {
+      document.addEventListener("leafletLoaded", callback, { once: true });
+      return;
+    }
+    window._leafletLoading = true;
+
+    if (!document.querySelector('link[href*="leaflet.css"]')) {
+      const leafletCSS = document.createElement('link');
+      leafletCSS.rel = 'stylesheet';
+      leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(leafletCSS);
+    }
+
+    if (!document.querySelector('script[src*="leaflet.js"]')) {
+      const leafletJS = document.createElement('script');
+      leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      leafletJS.onload = () => {
+        window._leafletLoading = false;
+        document.dispatchEvent(new Event("leafletLoaded"));
+        callback();
+      };
+      document.body.appendChild(leafletJS);
+    }
+  }
+
+function renderMap() {
+  // Remove previous map instance if present
+  if (mapDiv._leaflet_map) {
+    mapDiv._leaflet_map.remove();
+    mapDiv._leaflet_map = null;
+    mapDiv.innerHTML = '';
+  }
+  const map = L.map(mapDiv, {
+    zoomControl: true,
+    attributionControl: false,
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    tap: false,
+    touchZoom: false,
+  }).setView([lat, lon], 13);
+
+  mapDiv._leaflet_map = map; // Save reference for cleanup
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+  }).addTo(map);
+
+  L.marker([lat, lon])
+    .addTo(map)
+    .bindPopup(infobox.querySelector('.infobox-title')?.textContent || 'Location')
+    .openPopup();
+}
+  ensureLeafletLoaded(renderMap);
+})();
+
+// --- Add QR Code and Bookmark buttons at the top ---
+    // QR Code Button
+    const qrBtn = document.createElement("button");
+    qrBtn.className = "qr-btn";
+    qrBtn.title = "Share this article (QR Code)";
+    qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+    qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+    qrBtn.addEventListener("click", () => showQrLightboxStyled(title));
+
+    // Bookmark Button
+    const bookmarkBtn = document.createElement("button");
+    bookmarkBtn.className = "bookmark-btn";
+    bookmarkBtn.title = "Bookmark this article";
+    bookmarkBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+    bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark</span>`;
+
+    // Check if already bookmarked
+    const bookmarks = getBookmarks();
+    if (bookmarks.some(b => b.title === title)) {
+      bookmarkBtn.disabled = true;
+      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>`;
+      bookmarkBtn.style.opacity = "0.7";
+    }
+    bookmarkBtn.addEventListener("click", () => {
+      addBookmark({
+        title,
+        html: contentDiv.innerHTML
+      });
+      bookmarkBtn.disabled = true;
+      bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>`;
+      bookmarkBtn.style.opacity = "0.7";
+    });
+
+    // Insert both buttons at the top
+    contentDiv.prepend(bookmarkBtn);
+    contentDiv.prepend(qrBtn);
+
+    // Remove leading ^ symbols
+    (function removeLeadingCaret() {
+      let node = contentDiv.firstChild;
+      while (node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          node.textContent = node.textContent.replace(/^\s*\^+/, '').replace(/^\s+/, '');
+          if (node.textContent.trim().length > 0) break;
+        }
+        node = node.nextSibling;
+      }
+    })();
+
+    // Remove ^ from citation entries
+    contentDiv.querySelectorAll('ol.references li, .references li').forEach(li => {
+      li.innerHTML = li.innerHTML.replace(/\^+/g, '');
+    });
+
+    // === Citation Popup System ===
+    if (!document.getElementById("citation-popup-style")) {
+      const popupStyle = document.createElement("style");
+      popupStyle.id = "citation-popup-style";
+      document.head.appendChild(popupStyle);
+    }
+
+    let popup = document.getElementById("citation-popup");
+    if (!popup) {
+      popup = document.createElement("div");
+      popup.className = "citation-popup";
+      popup.id = "citation-popup";
+      document.body.appendChild(popup);
+    }
+
+    contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
+      ref.addEventListener("mouseenter", (e) => {
+        const href = ref.getAttribute("href");
+        const note = contentDiv.querySelector(href);
+        if (note) {
+          popup.innerHTML = note.innerHTML;
+          popup.style.display = "block";
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          popup.style.left = Math.min(mouseX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(mouseY - 10, 10) + "px";
+        }
+      });
+      ref.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+      ref.addEventListener("mouseleave", () => {
+        popup.style.display = "none";
+      });
+    });
+
+    // === Internal Article Popups and Navigation ===
+    contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
+      const href = link.getAttribute("href");
+      if (
+        href.startsWith("/wiki/File:") ||
+        href.startsWith("/wiki/Special:") ||
+        href.startsWith("/wiki/Help:") ||
+        href.startsWith("/wiki/Category:") ||
+        href.startsWith("/wiki/Talk:") ||
+        href.startsWith("/wiki/Template:") ||
+        href.startsWith("/wiki/Portal:") ||
+        href.startsWith("/wiki/Wikipedia:") ||
+        href.startsWith("/wiki/Main_Page") ||
+        href.startsWith("/wiki/Citation_needed")
+      ) return;
+
+      let fetchTimeout, lastTitle = "";
+
+      link.addEventListener("mouseenter", (e) => {
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        fetchTimeout = setTimeout(async () => {
+          if (lastTitle === articleTitle) return;
+          lastTitle = articleTitle;
+          popup.innerHTML = `<span style="color: white;">Loading summary...</span>`;
+          popup.style.display = "block";
+          popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+          popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+          try {
+            const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(articleTitle)}`);
+            if (!resp.ok) throw new Error("No summary found");
+            const data = await resp.json();
+            let imgHtml = "";
+            if (data.thumbnail && data.thumbnail.source) {
+              imgHtml = `<img src="${data.thumbnail.source}" alt="${data.title}" style="max-width:80px;max-height:80px;float:right;margin-left:12px;border-radius:8px;">`;
+            }
+            popup.innerHTML = `
+              <div style="min-width:180px;max-width:320px;overflow:hidden;">
+                ${imgHtml}
+                <b>${data.title}</b><br>
+                <span style="font-size:0.98em;">${data.extract || "<i>No summary available.</i>"}</span>
+              </div>
+            `;
+          } catch {
+            popup.innerHTML = `<span style="color:#888;">No summary available.</span>`;
+          }
+        }, 200);
+      });
+
+      link.addEventListener("mousemove", (e) => {
+        popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
+        popup.style.top = Math.max(e.clientY - 10, 10) + "px";
+      });
+
+      link.addEventListener("mouseleave", () => {
+        clearTimeout(fetchTimeout);
+        lastTitle = "";
+        popup.style.display = "none";
+      });
+
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        if (popup) popup.style.display = "none";
+        const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
+        searchInput.value = articleTitle;
+        wikiLoadArticle(articleTitle);
+
+        // --- Update URL param when navigating to a new article ---
+        const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
+        const newUrl = `${window.location.pathname}?wikipedia=${param}`;
+        window.history.replaceState({}, "", newUrl);
+      });
+    });
+
+    // === Table of Contents ===
+    const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
+    if (oldBtn) oldBtn.remove();
+    const oldPanel = contentDiv.querySelector("#toc-panel");
+    if (oldPanel) oldPanel.remove();
+
+    const tocBtn = document.createElement("button");
+    tocBtn.id = "toc-toggle-btn";
+    tocBtn.title = "Show Table of Contents";
+    tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
+
+    const tocPanel = document.createElement("div");
+    tocPanel.id = "toc-panel";
+    tocPanel.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 18px 8px 18px;font-weight:bold;">
+        <span>Contents</span>
+        <button id="toc-close-btn" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:#888;">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+      <div id="toc-scroll" style="flex:1;overflow:auto;border-radius:18px;">
+        <div id="toc-list" style="padding:0 18px;"></div>
+      </div>
+    `;
+
+    contentDiv.appendChild(tocBtn);
+    contentDiv.appendChild(tocPanel);
+
+    tocBtn.onclick = () => {
+      tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
+    };
+    tocPanel.querySelector("#toc-close-btn").onclick = () => {
+      tocPanel.style.display = "none";
+    };
+
+    const tocList = tocPanel.querySelector("#toc-list");
+    tocList.innerHTML = "";
+    const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
+    if (headings.length) {
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = "toc-h-" + i;
+        const indent = h.tagName === "H2" ? 0 : h.tagName === "H3" ? 1 : 2;
+        const a = document.createElement("a");
+        a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
+        a.style.marginLeft = `${indent * 16}px`;
+        a.style.display = "block";
+        a.style.color = "var(--accent-color)";
+        a.style.textDecoration = "underline";
+        a.style.marginBottom = "6px";
+        a.style.cursor = "pointer";
+        a.href = "#" + h.id;
+        a.onclick = (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: "smooth", block: "start" });
+          tocPanel.style.display = "none";
+        };
+        tocList.appendChild(a);
+      });
+    } else {
+      tocBtn.style.display = "none";
+    }
+
+    const imageLightbox = document.getElementById('compendium-app');
+    // === Lightbox ===
+    contentDiv.querySelectorAll("img").forEach(img => {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", function handler(e) {
+        e.stopPropagation();
+
+        // Remove existing overlay if present
+        let overlay = document.getElementById("img-lightbox-overlay");
+        if (overlay) overlay.remove();
+
+        // Create overlay
+        overlay = document.createElement("div");
+        overlay.id = "img-lightbox-overlay";
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0,0,0,0.85)";
+        overlay.style.display = "flex";
+        overlay.style.alignItems = "center";
+        overlay.style.justifyContent = "center";
+        overlay.style.zIndex = "999999999";
+        overlay.style.cursor = "zoom-in";
+
+        // Helper to extract original Wikimedia Commons filename
+        function extractCommonsFilename(url) {
+          const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
+          if (thumbMatch && thumbMatch[1]) {
+            return decodeURIComponent(thumbMatch[1]);
+          }
+          const parts = url.split("/");
+          return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
+        }
+
+        // Create Download button with Material Symbols Rounded icon
+        const downloadBtn = document.createElement("button");
+        downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
+        downloadBtn.style.position = "fixed";
+        downloadBtn.style.top = "10px";
+        downloadBtn.style.left = "10px";
+        downloadBtn.style.padding = "6px 10px";
+        downloadBtn.style.fontSize = "18px";
+        downloadBtn.style.border = "none";
+        downloadBtn.style.borderRadius = "15px";
+        downloadBtn.style.background = "none";
+        downloadBtn.style.color = "var(--accent-color)";
+        downloadBtn.style.cursor = "pointer";
+        downloadBtn.style.zIndex = "1000000";
+        downloadBtn.style.userSelect = "none";
+        downloadBtn.style.display = "flex";
+        downloadBtn.style.alignItems = "center";
+        downloadBtn.style.justifyContent = "center";
+
+        downloadBtn.addEventListener("click", async (event) => {
+          event.stopPropagation();
+
+          let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
+          filename = filename.replace(/\.[^.]+$/, ".png");
+
+          try {
+            const response = await fetch(bigImg.src, {mode: 'cors'});
+            if (!response.ok) throw new Error("Network response was not ok");
+
+            const blob = await response.blob();
+
+            const imgBitmap = await createImageBitmap(blob);
+            const canvas = document.createElement("canvas");
+            canvas.width = imgBitmap.width;
+            canvas.height = imgBitmap.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imgBitmap, 0, 0);
+
+            canvas.toBlob((pngBlob) => {
+              const url = URL.createObjectURL(pngBlob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = filename;
+              document.body.appendChild(link);
+              link.click();
+              setTimeout(() => {
+                URL.revokeObjectURL(url);
+                link.remove();
+              }, 100);
+            }, "image/png");
+
+          } catch (error) {
+            alert("Failed to download image: " + error.message);
+          }
+        });
+
+        overlay.appendChild(downloadBtn);
+
+        // Create big image
+        const bigImg = document.createElement("img");
+        bigImg.src = img.src;
+        bigImg.alt = img.alt || "";
+        bigImg.style.maxWidth = "90vw";
+        bigImg.style.maxHeight = "90vh";
+        bigImg.style.borderRadius = "16px";
+        bigImg.style.boxShadow = "0 4px 32px rgba(0,0,0,0.5)";
+        bigImg.style.background = "#fff";
+        bigImg.style.transition = "transform 0.2s ease";
+        bigImg.style.transformOrigin = "center center";
+        bigImg.style.cursor = "zoom-in";
+
+        let zoomedIn = false;
+        const zoomScale = 4;
+        let isDragging = false;
+        let startX = 0, startY = 0, currentX = 0, currentY = 0;
+
+        bigImg.addEventListener("click", (e) => {
+          e.stopPropagation();
+          zoomedIn = !zoomedIn;
+
+          if (zoomedIn) {
+            bigImg.style.transform = `scale(${zoomScale})`;
+            bigImg.style.cursor = "grab";
+            overlay.style.cursor = "default";
+          } else {
+            bigImg.style.transform = "scale(1)";
+            bigImg.style.left = "0";
+            bigImg.style.top = "0";
+            currentX = 0;
+            currentY = 0;
+            bigImg.style.cursor = "zoom-in";
+            overlay.style.cursor = "zoom-out";
+          }
+        });
+
+        bigImg.addEventListener("mousedown", (e) => {
+          if (!zoomedIn) return;
+          isDragging = true;
+          startX = e.clientX - currentX;
+          startY = e.clientY - currentY;
+          bigImg.style.cursor = "grabbing";
+          e.preventDefault();
+        });
+
+        document.addEventListener("mousemove", (e) => {
+          if (!isDragging) return;
+          currentX = e.clientX - startX;
+          currentY = e.clientY - startY;
+          bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
+        });
+
+        document.addEventListener("mouseup", () => {
+          if (isDragging) {
+            isDragging = false;
+            bigImg.style.cursor = "grab";
+          }
+        });
+
+        overlay.addEventListener("click", () => {
+          overlay.remove();
+        });
+
+        document.addEventListener("keydown", function escCloser(e) {
+          if (e.key === "Escape") {
+            overlay.remove();
+            document.removeEventListener("keydown", escCloser);
+          }
+        });
+
+        overlay.appendChild(bigImg);
+        imageLightbox.appendChild(overlay);
+      });
+    });
+
+  } catch (e) {
+    contentDiv.innerHTML = `
+  Error fetching content: ${e.message || e}
+  <br>Stack trace: ${e.stack || 'No stack available'}
+`;
+
+  }
+}
+
+// ---- QR Lightbox with Styled Canvas (matches your p5js QR style) ----
+function showQrLightboxStyled(articleTitle) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
+  const url = `https://www.compendiumofeverything.org/?wikipedia=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer (matches your p5js code) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+// --- Helper: Draw rounded rectangles ---
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+// --- Helper: Position Markers (7x7) ---
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+// --- Helper: Alignment Markers (5x5) ---
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  // Create offscreen canvas
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  // Return as Image
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
+
+// Function to setup Table of Contents
+function setupTableOfContents() {
+  const contentDiv = document.querySelector(".content");
+  const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
+  if (oldBtn) oldBtn.remove();
+  const oldPanel = contentDiv.querySelector("#toc-panel");
+  if (oldPanel) oldPanel.remove();
+
+  const tocBtn = document.createElement("button");
+  tocBtn.id = "toc-toggle-btn";
+  tocBtn.title = "Show Table of Contents";
+  tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
+
+  const tocPanel = document.createElement("div");
+  tocPanel.id = "toc-panel";
+  tocPanel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:0 18px 8px 18px;font-weight:bold;">
+      <span>Contents</span>
+      <button id="toc-close-btn" style="background:none;border:none;font-size:1.3em;cursor:pointer;color:var(--accent-color, royalblue);">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+    <div id="toc-scroll" style="flex:1;overflow:auto;border-radius:18px;">
+      <div id="toc-list" style="padding:0 18px;"></div>
+    </div>
+  `;
+
+  contentDiv.appendChild(tocBtn);
+  contentDiv.appendChild(tocPanel);
+
+  tocBtn.onclick = () => {
+    tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
+  };
+  tocPanel.querySelector("#toc-close-btn").onclick = () => {
+    tocPanel.style.display = "none";
+  };
+
+  const tocList = tocPanel.querySelector("#toc-list");
+  tocList.innerHTML = "";
+  const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
+  if (headings.length) {
+    headings.forEach((h, i) => {
+      if (!h.id) h.id = "toc-h-" + i;
+      const indent = h.tagName === "H2" ? 0 : h.tagName === "H3" ? 1 : 2;
+      const a = document.createElement("a");
+      a.textContent = h.textContent.replace(/\[.*\]/, "").trim();
+      a.style.marginLeft = `${indent * 16}px`;
+      a.style.display = "block";
+      a.style.color = "var(--accent-color, royalblue)";
+      a.style.textDecoration = "underline";
+      a.style.marginBottom = "6px";
+      a.style.cursor = "pointer";
+      a.href = "#" + h.id;
+      a.onclick = (e) => {
+        e.preventDefault();
+        h.scrollIntoView({ behavior: "smooth", block: "start" });
+        tocPanel.style.display = "none";
+      };
+      tocList.appendChild(a);
+    });
+  } else {
+    tocBtn.style.display = "none";
+  }
+
+}
+
+
+
+// Main dictionary search function
+async function dicSearch(query) {
+  if (!query || !query.trim()) {
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+    return;
+  }
+
+  const cleanQuery = query.trim();
+
+  resultsDiv.innerHTML = "Searching...";
+  contentDiv.innerHTML = "";
+
+  try {
+    const res = await fetch(
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanQuery)}`
+    );
+
+    if (res.status === 404) {
+      resultsDiv.innerHTML = "<i>No definitions found.</i>";
+      return;
+    }
+
+    const data = await res.json();
+
+    resultsDiv.innerHTML = "";
+
+    displayDictionary(data[0]);
+
+    if (query && typeof window !== "undefined") {
+  const param = encodeURIComponent(query.trim());
+  const newUrl = `${window.location.pathname}?dictionary=${param}`;
+  window.history.replaceState({}, "", newUrl);
+}
+
+  }
+    catch (e) {
+    resultsDiv.innerHTML = "<i>Error fetching dictionary data.</i>";
+  }
+}
+
+// Display dictionary data with play button icons
+function displayDictionary(entry) {
+  if (!entry) {
+    contentDiv.innerHTML = "<i>No data.</i>";
+    return;
+  }
+  let html = `<h2 style="margin-top:0;">${entry.word}</h2>`;
+
+  if (entry.phonetics && entry.phonetics.length) {
+    html += `<p><i>Pronunciations:</i></p><ul style="margin-top: 0; margin-bottom: 1em;">`;
+    entry.phonetics.forEach((phon) => {
+      if (phon.text) html += `<li>${phon.text}`;
+      if (phon.audio) {
+        html += ` <button class="play-btn" onclick="new Audio('${phon.audio}').play()" aria-label="Play pronunciation">play_arrow</button>`;
+      }
+      html += `</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  if (entry.meanings && entry.meanings.length) {
+    entry.meanings.forEach((meaning) => {
+      html += `<h3 style="margin-bottom: 0;">${meaning.partOfSpeech}</h3><ul>`;
+      meaning.definitions.forEach((def) => {
+        html += `<li>${def.definition}`;
+        if (def.example) html += `<br><em>Example: ${def.example}</em>`;
+        html += `</li>`;
+      });
+      html += `</ul>`;
+    });
+  }
+
+  contentDiv.innerHTML = html;
+
+  // --- Add QR Code Button at the Top ---
+  // (QR is for this dictionary entry, using a URL param ?dictionary=word)
+  const qrBtn = document.createElement("button");
+  qrBtn.className = "qr-btn";
+  qrBtn.title = "Share this word (QR Code)";
+  qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+  qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+  qrBtn.addEventListener("click", () => showQrLightboxDictionary(entry.word));
+
+  // Insert QR button at the very top
+  contentDiv.prepend(qrBtn);
+
+  injectPlayButtonStyles();
+}
+
+// ---- QR Lightbox for Dictionary Entries ----
+// Uses the same styling and logic as your main QR renderer
+function showQrLightboxDictionary(word) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(word.trim().replace(/ /g, "-"));
+  const url = `https://www.compendiumofeverything.org/?dictionary=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers (same as previous answers) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
+
+function injectPlayButtonStyles() {
+  if (document.getElementById('play-btn-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'play-btn-styles';
+  document.head.appendChild(style);
+}
+
+  // Thesaurus API (Datamuse API)
+  async function thesSearch(query) {
+    if (!query) {
+      resultsDiv.innerHTML = "";
+      contentDiv.innerHTML = "";
+      return;
+    }
+
+    resultsDiv.innerHTML = "Searching...";
+    contentDiv.innerHTML = "";
+
+    try {
+      const [synRes, antRes] = await Promise.all([
+        fetch(
+          `https://api.datamuse.com/words?rel_syn=${encodeURIComponent(
+            query
+          )}&max=20`
+        ),
+        fetch(
+          `https://api.datamuse.com/words?rel_ant=${encodeURIComponent(
+            query
+          )}&max=20`
+        ),
+      ]);
+
+      const synData = await synRes.json();
+      const antData = await antRes.json();
+
+      resultsDiv.innerHTML = "";
+
+      let html = `<h2>Thesaurus for "${query}"</h2>`;
+
+      if (synData.length) {
+        html +=
+          `<h3>Synonyms</h3><ul>` +
+          synData.map((w) => `<li>${w.word}</li>`).join("") +
+          `</ul>`;
+      } else {
+        html += `<h3>Synonyms</h3><p><i>No synonyms found.</i></p>`;
+      }
+
+      if (antData.length) {
+        html +=
+          `<h3>Antonyms</h3><ul>` +
+          antData.map((w) => `<li>${w.word}</li>`).join("") +
+          `</ul>`;
+      } else {
+        html += `<h3>Antonyms</h3><p><i>No antonyms found.</i></p>`;
+      }
+
+      contentDiv.innerHTML = html;
+
+    // --- Add QR Code Button at the Top ---
+    // (QR is for this thesaurus entry, using a URL param ?thesaurus=word)
+    const qrBtn = document.createElement("button");
+    qrBtn.className = "qr-btn";
+    qrBtn.title = "Share this word (QR Code)";
+    qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+    qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+    qrBtn.addEventListener("click", () => showQrLightboxThesaurus(query));
+
+    // Insert QR button at the very top
+    contentDiv.prepend(qrBtn);
+
+    if (query && typeof window !== "undefined") {
+      const param = encodeURIComponent(query.trim());
+      const newUrl = `${window.location.pathname}?thesaurus=${param}`;
+      window.history.replaceState({}, "", newUrl);
+    }
+
+  } catch (e) {
+    resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
+  }
+}
+
+// ---- QR Lightbox for Thesaurus Queries ----
+function showQrLightboxThesaurus(word) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(word.trim());
+  const url = `https://www.compendiumofeverything.org/?thesaurus=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers (same as previous answers) ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
+
+  function getBookmarks() {
+  try {
+    return JSON.parse(localStorage.getItem("compendium-bookmarks") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveBookmarks(arr) {
+  localStorage.setItem("compendium-bookmarks", JSON.stringify(arr));
+}
+
+function addBookmark(obj) {
+  const arr = getBookmarks();
+  if (!arr.some(b => b.title === obj.title)) {
+    arr.push(obj);
+    saveBookmarks(arr);
+  }
+}
+
+function removeBookmark(title) {
+  let arr = getBookmarks();
+  arr = arr.filter(b => b.title !== title);
+  saveBookmarks(arr);
+}
+
+function renderBookmarks() {
+  const arr = getBookmarks();
+  if (!arr.length) return `<div style="text-align:center;margin-top:2em;"><span class="material-symbols-rounded" style="font-size:2em;color:var(--accent-color);">bookmarks</span><br><i>No bookmarks yet.</i></div>`;
+  return `<h2><span class="material-symbols-rounded" style="vertical-align:middle;">bookmarks</span> Bookmarked Articles</h2>
+    <ul style="list-style:none;padding-left:0;">${
+      arr.map(b => `
+        <li style="margin-bottom:1em;">
+          <a href="#" class="bookmark-title-link" data-title="${b.title}" style="font-weight:bold;font-size:1.1em;color:var(--accent-color,royalblue);text-decoration:underline;cursor:pointer;">${b.title}</a>
+          <button class="remove-bookmark-btn" data-title="${b.title}" title="Remove bookmark" style="margin-left:12px;background:var(--accent-color);color:white;border:none;border-radius:25px;padding:4px 10px;cursor:pointer;font-size:1.2em;display:inline-flex;align-items:center;">
+            <span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_remove</span>
+          </button>
+        </li>
+      `).join("")
+    }</ul>`;
+}
+
+// Weather tab (Open-Meteo API)
+// ...inside loadWeather()...
+async function loadWeather() {
+  contentDiv.innerHTML = `
+    <div class="input-group">
+      <input type="text" id="location-input" placeholder="Enter ZIP or City">
+      <button id="get-weather-btn">Get Weather</button>
+    </div>
+    <div class="unit-toggle">
+      <span>Metric</span>
+      <label class="switch">
+        <input type="checkbox" id="unit-toggle">
+        <span class="slider"></span>
+      </label>
+      <span>Imperial</span>
+    </div>
+    <div id="weather-output" class="weather-card" style="text-align:center;">
+      <i>Enter a location to get weather.</i>
+    </div>
+    <style>
+      .compendium-weather-main {
+        max-width: 370px;
+        margin: 1.5em auto 0 auto;
+        background: linear-gradient(to bottom, #eaf3ff 80%, #dbe7ff 100%);
+        border-radius: 28px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+        padding: 1.5em 1.2em 1.2em 1.2em;
+        font-family: var(--text-font, 'Roboto'), sans-serif;
+        color: var(--text-color);
+        position: relative;
+      }
+      .compendium-weather-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.7em;
+        margin-bottom: 0.2em;
+      }
+      .compendium-weather-header .weather-icon {
+        font-size: 3.2em;
+        color: var(--accent-color);
+      }
+      .compendium-weather-temp {
+        font-size: 3.5em;
+        font-weight: 700;
+        margin: 0.1em 0 0.1em 0;
+        letter-spacing: -2px;
+      }
+      .compendium-weather-desc {
+        font-size: 1.2em;
+        color: #555;
+        margin-bottom: 0.5em;
+      }
+      .compendium-weather-hi-lo {
+        font-size: 1em;
+        color: #888;
+        margin-bottom: 0.7em;
+      }
+      .compendium-weather-summary {
+        font-size: 1em;
+        color: #444;
+        margin-bottom: 1.2em;
+      }
+      .compendium-weather-hourly {
+        display: flex;
+        gap: 0.7em;
+        overflow-x: auto;
+        margin-bottom: 1.2em;
+        padding-bottom: 0.5em;
+      }
+      .compendium-weather-hour {
+        flex: 0 0 auto;
+        text-align: center;
+        min-width: 54px;
+        padding: 0.4em 0.2em;
+        border-radius: 16px;
+        background: var(--bg-color);
+        color: var(--text-color);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        font-size: 1em;
+      }
+      .compendium-weather-hour.current {
+        background: var(--accent-color);
+        color: #fff;
+        font-weight: bold;
+      }
+      .compendium-weather-hour .material-symbols-rounded {
+        font-size: 1.5em;
+        margin: 0 0.1em 0 0.1em;
+      }
+      .compendium-weather-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1em;
+        justify-content: space-between;
+        margin-bottom: 1.2em;
+      }
+      .compendium-weather-detail {
+        flex: 1 1 40%;
+        background: #f5f8ff;
+        border-radius: 14px;
+        padding: 0.7em 1em;
+        margin-bottom: 0.5em;
+        font-size: 1em;
+        color: #333;
+        min-width: 120px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .compendium-weather-detail strong {
+        display: flex;
+        align-items: center;
+        gap: 0.3em;
+        font-size: 1.1em;
+        margin-bottom: 0.2em;
+        color: var(--accent-color);
+        justify-content: center;
+      }
+      .compendium-weather-forecast {
+        margin-top: 1.2em;
+      }
+      .compendium-weather-forecast-title {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 0.5em;
+        color: var(--accent-color);
+      }
+      .compendium-weather-forecast-list {
+        display: flex;
+        gap: 0.7em;
+        justify-content: space-between;
+      }
+      .compendium-weather-forecast-day {
+        flex: 1 1 30%;
+        text-align: center;
+        background: #f5f8ff;
+        border-radius: 14px;
+        padding: 0.7em 0.5em;
+        font-size: 1em;
+        color: #333;
+        min-width: 80px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        transition: background 0.2s, color 0.2s;
+      }
+      .compendium-weather-forecast-day strong {
+        display: block;
+        margin-bottom: 0.2em;
+        color: var(--text-color);
+      }
+      .compendium-weather-forecast-day.current {
+        background: var(--accent-color, royalblue);
+        color: #fff;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(65,105,225,0.13);
+      }
+      #compendium-app.dark .compendium-weather-forecast-day.current {
+        background: var(--accent-color, royalblue);
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(65,105,225,0.13);
+    }
+
+      @media (max-width: 768px) {
+        .compendium-weather-main { max-width: 99vw; }
+      }
+      #compendium-app.dark .compendium-weather-main {
+        background: linear-gradient(to bottom, #23293a 80%, #181c2a 100%);
+        color: #eee;
+      }
+      #compendium-app.dark .compendium-weather-detail,
+      #compendium-app.dark .compendium-weather-forecast-day {
+        background: #23293a;
+        color: #eee;
+      }
+      #compendium-app.dark .compendium-weather-hour.current {
+        background: var(--accent-color, royalblue);
+        color: #fff;
+      }
+      .wind-compass {
+        margin: 0.7em auto 0.2em auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 120px;
+        height: 120px;
+        position: relative;
+        justify-content: center;
+      }
+      .wind-compass-svg {
+        width: 120px;
+        height: 120px;
+        display: block;
+      }
+      .wind-compass-label {
+        font-size: 1.1em;
+        color: #888;
+        margin-top: 0.1em;
+        text-align: center;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+      .wind-arrow {
+        transition: transform 0.7s cubic-bezier(.4,2,.6,1);
+        transform-origin: 60px 60px;
+      }
+    </style>
+  `;
+
+  let lastWeatherLocation = "";
+  let lastWeatherUnit = false;
+  let weatherRefreshTimer = null;
+
+  const input = document.getElementById("location-input");
+  const button = document.getElementById("get-weather-btn");
+  const output = document.getElementById("weather-output");
+  const unitToggle = document.getElementById("unit-toggle");
+
+  const windDirDegrees = {
+    N: 0, NNE: 22.5, NE: 45, ENE: 67.5,
+    E: 90, ESE: 112.5, SE: 135, SSE: 157.5,
+    S: 180, SSW: 202.5, SW: 225, WSW: 247.5,
+    W: 270, WNW: 292.5, NW: 315, NNW: 337.5,
+  };
+
+  const weatherIcons = {
+    Clear: "wb_sunny",
+    "Partly cloudy": "partly_cloudy_day",
+    Overcast: "cloud_queue",
+    Cloudy: "cloud",
+    Fog: "foggy",
+    Mist: "foggy",
+    Drizzle: "rainy",
+    Rain: "rainy",
+    Snow: "snowing",
+    Thunderstorm: "thunderstorm",
+    default: "wb_cloudy",
+  };
+
+  const weatherCodeDescriptions = {
+    0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
+    45: "Fog", 48: "Depositing rime fog", 51: "Light drizzle",
+    53: "Moderate drizzle", 55: "Dense drizzle", 56: "Light freezing drizzle",
+    57: "Dense freezing drizzle", 61: "Slight rain", 63: "Moderate rain",
+    65: "Heavy rain", 66: "Light freezing rain", 67: "Heavy freezing rain",
+    71: "Slight snowfall", 73: "Moderate snowfall", 75: "Heavy snowfall",
+    77: "Snow grains", 80: "Slight rain showers", 81: "Moderate rain showers",
+    82: "Violent rain showers", 85: "Slight snow showers", 86: "Heavy snow showers",
+    95: "Thunderstorm", 96: "Thunderstorm with slight hail", 99: "Thunderstorm with heavy hail"
+  };
+
+  function describeWeather(code) {
+    return weatherCodeDescriptions[code] || `Unknown (${code})`;
+  }
+
+  function getWindDirection(degrees) {
+    const dirs = Object.entries(windDirDegrees);
+    let closest = "N";
+    let minDiff = 360;
+    for (const [dir, deg] of dirs) {
+      const diff = Math.abs(deg - degrees);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closest = dir;
+      }
+    }
+    return closest;
+  }
+
+  function getWeatherIcon(desc) {
+    for (const key in weatherIcons) {
+      if (desc.toLowerCase().includes(key.toLowerCase()))
+        return weatherIcons[key];
+    }
+    return weatherIcons["default"];
+  }
+
+  function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const day = date.getDate();
+    const month = date.toLocaleString("en-GB", { month: "short" });
+    const weekday = date.toLocaleString("en-GB", { weekday: "short" });
+    const year = date.getFullYear();
+
+    function getOrdinalSuffix(n) {
+      if (n >= 11 && n <= 13) return "th";
+      switch (n % 10) {
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
+      }
+    }
+    return `${weekday}, ${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
+  }
+
+  function formatTimeNoHangingZero(dateStr) {
+    // Remove leading zero from hour, keep 2-digit minute
+    const d = new Date(dateStr);
+    let h = d.getHours();
+    let m = d.getMinutes();
+    let ampm = "";
+    if (window.navigator.language.startsWith("en")) {
+      ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12;
+      if (h === 0) h = 12;
+      return `${h}:${m.toString().padStart(2, "0")} ${ampm}`;
+    }
+    return `${h}:${m.toString().padStart(2, "0")}`;
+  }
+
+  async function fetchWeather(query, silent = false) {
+    if (!query) {
+      output.innerHTML = `<i>Please enter a location.</i>`;
+      return;
+    }
+
+    if (!silent) {
+      output.innerHTML = `
+      <span class="material-symbols-rounded loading-spinner">autorenew</span>
+      <div>Loading weather...</div>`;
+    }
+
+    try {
+      // 1. Geocode location
+      const geoRes = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1`
+      );
+      if (!geoRes.ok) throw new Error("Location lookup failed (network error).");
+      const geoData = await geoRes.json();
+      if (!geoData.results || geoData.results.length === 0)
+        throw new Error("Location not found.");
+
+      const loc = geoData.results[0];
+      const lat = loc.latitude;
+      const lon = loc.longitude;
+      const locationName = `${loc.name}${loc.admin1 ? ", " + loc.admin1 : ""}${loc.country ? ", " + loc.country : ""}`;
+      const useImperial = unitToggle.checked;
+
+      // 2. Get weather data (add hourly fields)
+      const weatherRes = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,pressure_msl,uv_index,visibility,precipitation_probability,weathercode&timezone=auto`
+      );
+      if (!weatherRes.ok) throw new Error("Weather fetch failed (network error).");
+      const weatherData = await weatherRes.json();
+
+      if (!weatherData.current_weather) throw new Error("No weather data for this location.");
+      if (!weatherData.daily || !Array.isArray(weatherData.daily.time) || weatherData.daily.time.length < 1)
+        throw new Error("No forecast data for this location.");
+
+      const cw = weatherData.current_weather;
+      const desc = describeWeather(cw.weathercode);
+      const iconName = getWeatherIcon(desc);
+
+      const tempC = cw.temperature;
+      const windKmph = cw.windspeed;
+      const windDirDeg = cw.winddirection;
+      const windDir = getWindDirection(windDirDeg);
+
+      const temp = useImperial
+        ? `${Math.round((tempC * 9) / 5 + 32)}°F`
+        : `${Math.round(tempC)}°C`;
+
+      const windSpeed = useImperial
+        ? (windKmph * 0.621371).toFixed(1)
+        : windKmph.toFixed(1);
+
+      const windUnit = useImperial ? "mph" : "km/h";
+
+      // --- Extract extra info ---
+      // Find the current hour index (use local time, not UTC)
+      const now = new Date();
+      function pad(n) { return n < 10 ? '0' + n : n; }
+      const localHourStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}`;
+      const hourlyTimes = weatherData.hourly?.time || [];
+      let hourIdx = -1;
+      for (let i = 0; i < hourlyTimes.length; i++) {
+        if (hourlyTimes[i].slice(0, 13) === localHourStr) {
+          hourIdx = i;
+          break;
+        }
+      }
+      // Fallback: closest hour
+      if (hourIdx === -1) {
+        hourIdx = hourlyTimes.findIndex(t => t >= localHourStr);
+        if (hourIdx === -1) hourIdx = 0;
+      }
+      const humidity = hourIdx >= 0 ? weatherData.hourly.relative_humidity_2m[hourIdx] : null;
+      const pressure = hourIdx >= 0 ? weatherData.hourly.pressure_msl[hourIdx] : null;
+      const feelsLike = hourIdx >= 0 ? weatherData.hourly.apparent_temperature[hourIdx] : null;
+      const uv = hourIdx >= 0 ? weatherData.hourly.uv_index[hourIdx] : null;
+      const visibility = hourIdx >= 0 ? weatherData.hourly.visibility[hourIdx] : null;
+      const sunrise = weatherData.daily?.sunrise?.[0];
+      const sunset = weatherData.daily?.sunset?.[0];
+
+      // 3-day forecast
+      let forecastHTML = `<div class="compendium-weather-forecast"><div class="compendium-weather-forecast-title">3-Day Forecast</div><div class="compendium-weather-forecast-list">`;
+      const daily = weatherData.daily;
+      const days = Math.min(3, daily.time.length);
+      for (let i = 0; i < days; i++) {
+        const dayRaw = daily.time[i];
+        const formattedDate = formatDate(dayRaw);
+        const isToday = (new Date(dayRaw)).toDateString() === (new Date()).toDateString();
+        const maxC = daily.temperature_2m_max[i];
+        const minC = daily.temperature_2m_min[i];
+        const weatherCode = daily.weathercode[i];
+        const weatherDesc = describeWeather(weatherCode);
+        const forecastIcon = getWeatherIcon(weatherDesc);
+
+        const max = useImperial
+          ? `${Math.round((maxC * 9) / 5 + 32)}°F`
+          : `${Math.round(maxC)}°C`;
+        const min = useImperial
+          ? `${Math.round((minC * 9) / 5 + 32)}°F`
+          : `${Math.round(minC)}°C`;
+
+        forecastHTML += `
+          <div class="compendium-weather-forecast-day${isToday ? " current" : ""}">
+            <strong>${formattedDate.split(",")[0]}</strong>
+            <span class="material-symbols-rounded weather-icon">${forecastIcon}</span><br>
+            ${weatherDesc}<br>
+            <span style="color:var(--text-color);">H: ${max} / L: ${min}</span>
+          </div>`;
+      }
+      forecastHTML += `</div></div>`;
+
+      // --- Hourly forecast (next 6 hours) ---
+      let hourlyHTML = `<div class="compendium-weather-hourly">`;
+      for (let i = 0; i < 6; i++) {
+        const idx = hourIdx + i;
+        if (idx >= hourlyTimes.length) break;
+        const hourDate = new Date(hourlyTimes[idx]);
+        let hourLabel = hourDate.getHours();
+        let ampm = "";
+        if (window.navigator.language.startsWith("en")) {
+          ampm = hourLabel >= 12 ? "PM" : "AM";
+          hourLabel = hourLabel % 12;
+          if (hourLabel === 0) hourLabel = 12;
+          hourLabel = `${hourLabel}${ampm}`;
+        } else {
+          hourLabel = `${hourLabel}:00`;
+        }
+        const wcode = weatherData.hourly.weathercode[idx];
+        const wdesc = describeWeather(wcode);
+        const wicon = getWeatherIcon(wdesc);
+        const tempVal = weatherData.hourly.temperature_2m[idx];
+        const tempStr = useImperial
+          ? `${Math.round((tempVal * 9) / 5 + 32)}°F`
+          : `${Math.round(tempVal)}°C`;
+        const isCurrent = i === 0;
+        hourlyHTML += `
+          <div class="compendium-weather-hour${isCurrent ? " current" : ""}">
+            <div><span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">schedule</span> ${hourLabel}</div>
+            <span class="material-symbols-rounded">${wicon}</span>
+            <div>${tempStr}</div>
+          </div>
+        `;
+      }
+      hourlyHTML += `</div>`;
+
+      lastWeatherLocation = query;
+      lastWeatherUnit = unitToggle.checked;
+
+      // --- Add QR Code Button ---
+      const qrBtn = document.createElement("button");
+      qrBtn.className = "qr-btn";
+      qrBtn.title = "Share this weather (QR Code)";
+      qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
+      qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
+
+      qrBtn.addEventListener("click", () => showQrLightboxWeather(query));
+
+      // --- Wind Compass SVG (larger, centered) ---
+      function windCompassSVG(deg, label) {
+        return `
+          <div class="wind-compass" title="Wind direction" style="margin:0 auto;">
+            <svg class="wind-compass-svg" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="54" fill="#f5f8ff" stroke="#bbb" stroke-width="4"/>
+              <text x="60" y="22" text-anchor="middle" font-size="18" fill="#888" font-family="Roboto,Arial,sans-serif">N</text>
+              <text x="60" y="115" text-anchor="middle" font-size="18" fill="#888" font-family="Roboto,Arial,sans-serif">S</text>
+              <text x="15" y="68" text-anchor="middle" font-size="18" fill="#888" font-family="Roboto,Arial,sans-serif">W</text>
+              <text x="105" y="68" text-anchor="middle" font-size="18" fill="#888" font-family="Roboto,Arial,sans-serif">E</text>
+              <polygon class="wind-arrow" points="60,18 52,60 68,60" fill="var(--accent-color,royalblue)" style="transform: rotate(${deg}deg);"/>
+              <circle cx="60" cy="60" r="7" fill="#bbb"/>
+            </svg>
+            <div class="wind-compass-label">
+              <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">explore</span>
+              ${label}
+            </div>
+          </div>
+        `;
+      }
+
+      // Set the weather HTML (compendium Weather style)
+      output.innerHTML = `
+        <div class="compendium-weather-main">
+          <div class="compendium-weather-header">
+            <span class="material-symbols-rounded weather-icon">${iconName}</span>
+            <div>
+              <div style="font-size:1.2em;font-weight:600;">
+                <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">location_on</span>
+                ${locationName}
+              </div>
+              <div class="compendium-weather-desc">${desc}</div>
+            </div>
+          </div>
+          <div class="compendium-weather-temp">
+            <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">thermostat</span>
+            ${temp}
+          </div>
+          <div class="compendium-weather-hi-lo">
+            <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">arrow_upward</span>
+            H: ${useImperial ? Math.round((daily.temperature_2m_max[0] * 9) / 5 + 32) + "°F" : Math.round(daily.temperature_2m_max[0]) + "°C"}
+            &nbsp;/&nbsp;
+            <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">arrow_downward</span>
+            L: ${useImperial ? Math.round((daily.temperature_2m_min[0] * 9) / 5 + 32) + "°F" : Math.round(daily.temperature_2m_min[0]) + "°C"}
+          </div>
+          <div class="compendium-weather-summary">
+            <span class="material-symbols-rounded" style="vertical-align:middle;font-size:1.1em;">sunny</span>
+            ${desc} conditions will continue all day.
+          </div>
+          ${hourlyHTML}
+          <div class="compendium-weather-details">
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">device_thermostat</span> Feels Like</strong>
+              ${feelsLike !== null ? (useImperial ? Math.round((feelsLike * 9) / 5 + 32) + "°F" : Math.round(feelsLike) + "°C") : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">humidity_percentage</span> Humidity</strong>
+              ${humidity !== null ? humidity + "%" : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">speed</span> Pressure</strong>
+              ${pressure !== null ? pressure + " hPa" : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">light_mode</span> UV Index</strong>
+              ${uv !== null ? uv : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">visibility</span> Visibility</strong>
+              ${visibility !== null ? (useImperial ? (visibility/1609.34).toFixed(1) + " mi" : (visibility/1000).toFixed(1) + " km") : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">wb_twilight</span> Sunrise</strong>
+              ${sunrise ? formatTimeNoHangingZero(sunrise) : "N/A"}
+            </div>
+            <div class="compendium-weather-detail">
+              <strong><span class="material-symbols-rounded">nights_stay</span> Sunset</strong>
+              ${sunset ? formatTimeNoHangingZero(sunset) : "N/A"}
+            </div>
+            <div class="compendium-weather-detail" style="flex-basis:100%;align-items:center;justify-content:center;">
+              <strong><span class="material-symbols-rounded">air</span> Wind</strong>
+              <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <span style="font-size:1.1em;font-weight:500;">
+                  ${windSpeed} ${windUnit} (${windDir})
+                </span>
+                ${windCompassSVG(windDirDeg, windDir)}
+              </div>
+            </div>
+          </div>
+          ${forecastHTML}
+          <p style="font-size:0.9em;color:#666;margin-top:1em;">Data provided by <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:var(--accent-color);">Open-Meteo</a></p>
+        </div>
+      `;
+      // Insert the QR button at the very top
+      output.insertBefore(qrBtn, output.firstChild);
+
+      // Only update the URL if not running in a blob context (for p5js editor compatibility)
+      if (
+        typeof window !== "undefined" &&
+        window.location.protocol !== "blob:"
+      ) {
+        const param = encodeURIComponent(query.trim());
+        const newUrl = `${window.location.pathname}?weather=${param}`;
+        window.history.replaceState({}, "", newUrl);
+      }
+    } catch (err) {
+      if (!silent) {
+        output.innerHTML = `<i>${err.message || "Could not load weather. Try a ZIP code if City doesn't work."}</i>`;
+      }
+    }
+  }
+
+  button.addEventListener("click", () => fetchWeather(input.value));
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") fetchWeather(input.value);
+  });
+
+  unitToggle.addEventListener("change", () => {
+    if (input.value.trim()) {
+      fetchWeather(input.value);
+    }
+  });
+
+  if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
+  weatherRefreshTimer = setInterval(() => {
+    if (lastWeatherLocation) {
+      unitToggle.checked = lastWeatherUnit;
+      fetchWeather(lastWeatherLocation, true);
+    }
+  }, 120000);
+}
+
+// ---- QR Lightbox for Weather Location ----
+function showQrLightboxWeather(locationQuery) {
+  document.getElementById("qr-lightbox-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "qr-lightbox-overlay";
+  Object.assign(overlay.style, {
+    position: "fixed",
+    top: "0", left: "0", width: "100vw", height: "100vh",
+    background: "rgba(0,0,0,0.85)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    zIndex: "999999999"
+  });
+
+  const box = document.createElement("div");
+  Object.assign(box.style, {
+    background: "#fff",
+    borderRadius: "18px",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.5)",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "relative"
+  });
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "×";
+  closeBtn.title = "Close QR Code";
+  Object.assign(closeBtn.style, {
+    position: "absolute", top: "12px", right: "12px",
+    background: "rgba(0,0,0,0.1)", border: "none", borderRadius: "50%",
+    width: "36px", height: "36px", fontSize: "1.6em", cursor: "pointer"
+  });
+  closeBtn.onclick = () => overlay.remove();
+  box.appendChild(closeBtn);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 400;
+  canvas.height = 400;
+  canvas.style.display = "block";
+  box.appendChild(canvas);
+
+  const label = document.createElement("div");
+
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  const param = encodeURIComponent(locationQuery.trim());
+  const url = `https://www.compendiumofeverything.org/?weather=${param}`;
+  const logoImg = new window.Image();
+  logoImg.crossOrigin = "anonymous";
+  logoImg.onload = function() {
+    const processedLogo = processLogoImage(logoImg);
+    if (typeof window.qrcode !== "function") {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js";
+      script.onload = () => renderStyledQrToCanvas(canvas, url, processedLogo);
+      document.body.appendChild(script);
+    } else {
+      renderStyledQrToCanvas(canvas, url, processedLogo);
+    }
+  };
+  logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
+}
+
+// --- Canvas QR renderer and helpers ---
+function renderStyledQrToCanvas(canvas, url, processedLogo) {
+  const ctx = canvas.getContext('2d');
+  const size = canvas.width;
+  let typeNumber = 0;
+  let errorCorrectionLevel = 'H';
+  let qr = qrcode(typeNumber, errorCorrectionLevel);
+  qr.addData(url);
+  qr.make();
+  let qrSize = qr.getModuleCount();
+  let cellSize = Math.floor(size / qrSize);
+  let qrRenderSize = qrSize * cellSize;
+  let offsetX = (size - qrRenderSize) / 2;
+  let offsetY = (size - qrRenderSize) / 2;
+  ctx.clearRect(0, 0, size, size);
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, size, size);
+
+  // Version for alignment pattern lookup
+  let version = (qrSize - 21) / 4 + 1;
+
+  // Main QR modules (rounded rects, spacing)
+  for (let row = 0; row < qrSize; row++) {
+    for (let col = 0; col < qrSize; col++) {
+      if (
+        isInPositionMarkerArea(row, col, qrSize) ||
+        isInAnyAlignmentMarkerArea(row, col, version, qrSize)
+      ) continue;
+      if (qr.isDark(row, col)) {
+        let x = offsetX + col * cellSize;
+        let y = offsetY + row * cellSize;
+        ctx.fillStyle = "#000";
+        drawRoundRect(ctx, x + cellSize * 0.1, y + cellSize * 0.1, cellSize * 0.8, cellSize * 0.8, cellSize * 0.2);
+      }
+    }
+  }
+
+  // Position Markers (7x7)
+  drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
+  drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
+
+  // Alignment Markers (5x5)
+  let alignmentPositions = getAlignmentPatternPositions(version);
+  for (let row of alignmentPositions) {
+    for (let col of alignmentPositions) {
+      if ((row === 6 && col === 6) ||
+          (row === 6 && col === qrSize - 7) ||
+          (row === qrSize - 7 && col === 6)) {
+        continue;
+      }
+      drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
+    }
+  }
+
+  // Logo in center (processed, high-contrast, alpha kept)
+  let maxLogoSize = qrRenderSize * 0.25;
+  let aspect = processedLogo.width / processedLogo.height;
+  let logoW = aspect > 1 ? maxLogoSize : maxLogoSize * aspect;
+  let logoH = aspect > 1 ? maxLogoSize / aspect : maxLogoSize;
+  let logoX = size / 2 - logoW / 2;
+  let logoY = size / 2 - logoH / 2;
+  ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
+}
+
+function drawRoundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 7,
+    cellSize * 7,
+    cellSize * 2.5
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.5
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize
+  );
+}
+
+function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize,
+    offsetY + startRow * cellSize,
+    cellSize * 5,
+    cellSize * 5,
+    cellSize * 1.2
+  );
+  let borderThickness = cellSize * 0.3;
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + startCol * cellSize + borderThickness,
+    offsetY + startRow * cellSize + borderThickness,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 5 - borderThickness * 2,
+    cellSize * 0.8
+  );
+  ctx.fillStyle = "#fff";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 1) * cellSize,
+    offsetY + (startRow + 1) * cellSize,
+    cellSize * 3,
+    cellSize * 3,
+    cellSize * 0.3
+  );
+  ctx.fillStyle = "#000";
+  drawRoundRect(ctx,
+    offsetX + (startCol + 2) * cellSize,
+    offsetY + (startRow + 2) * cellSize,
+    cellSize,
+    cellSize,
+    cellSize * 0.3
+  );
+}
+
+function isInPositionMarkerArea(row, col, qrSize) {
+  return (
+    (row >= 0 && row < 7 && col >= 0 && col < 7) ||
+    (row >= 0 && row < 7 && col >= qrSize - 7 && col < qrSize) ||
+    (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
+  );
+}
+
+function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
+  let positions = getAlignmentPatternPositions(version);
+  for (let r of positions) {
+    for (let c of positions) {
+      if ((r === 6 && c === 6) || (r === 6 && c === qrSize - 7) || (r === qrSize - 7 && c === 6)) {
+        continue;
+      }
+      if (row >= r - 2 && row <= r + 2 && col >= c - 2 && col <= c + 2) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function getAlignmentPatternPositions(version) {
+  const table = {
+    1: [],
+    2: [6, 18],
+    3: [6, 22],
+    4: [6, 26],
+    5: [6, 30],
+    6: [6, 34],
+    7: [6, 22, 38],
+    8: [6, 24, 42],
+    9: [6, 26, 46],
+    10: [6, 28, 50],
+    11: [6, 30, 54],
+    12: [6, 32, 58],
+    13: [6, 34, 62]
+  };
+  return table[version] || [];
+}
+
+// --- Logo Preprocessing: high contrast, alpha preserved ---
+function processLogoImage(logoImg) {
+  const canvas = document.createElement("canvas");
+  canvas.width = logoImg.width;
+  canvas.height = logoImg.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(logoImg, 0, 0);
+  let imageData = ctx.getImageData(0, 0, logoImg.width, logoImg.height);
+  let d = imageData.data;
+  let bwThreshold = 120;
+  for (let i = 0; i < d.length; i += 4) {
+    let r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+    let avgBrightness = (r + g + b) / 3;
+    let bw = avgBrightness > bwThreshold ? 255 : 0;
+    d[i] = d[i + 1] = d[i + 2] = bw;
+    d[i + 3] = a;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  const processed = new window.Image();
+  processed.src = canvas.toDataURL();
+  processed.width = logoImg.width;
+  processed.height = logoImg.height;
+  return processed;
+}
+
+
+async function compoundSearch(query) {
+  if (!query) {
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+    return;
+  }
+  resultsDiv.innerHTML = "Searching all sources...";
+  contentDiv.innerHTML = "";
+
+  // Update URL with query parameter
+    if (query && typeof window !== "undefined") {
+    const param = encodeURIComponent(query.trim());
+    const newUrl = `${window.location.pathname}?comp=${param}`;
+    window.history.replaceState({}, "", newUrl);
+  }
+
+  try {
+    // Run all three searches in parallel
+    const [wiki, dic, thes] = await Promise.all([
+      (async () => {
+        try {
+          const res = await fetch(
+            `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${encodeURIComponent(query)}&utf8=1&srlimit=5`
+          );
+          const data = await res.json();
+          return data.query.search || [];
+        } catch { return []; }
+      })(),
+      (async () => {
+        try {
+          const res = await fetch(
+            `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query)}`
+          );
+          if (!res.ok) return null;
+          const data = await res.json();
+          return data[0] || null;
+        } catch { return null; }
+      })(),
+      (async () => {
+        try {
+          const [synRes, antRes] = await Promise.all([
+            fetch(`https://api.datamuse.com/words?rel_syn=${encodeURIComponent(query)}&max=20`),
+            fetch(`https://api.datamuse.com/words?rel_ant=${encodeURIComponent(query)}&max=20`)
+          ]);
+          const syn = await synRes.json();
+          const ant = await antRes.json();
+          return { syn, ant };
+        } catch { return { syn: [], ant: [] }; }
+      })()
+    ]);
+
+    let html = "";
+
+    // Wikipedia
+    html += `<h2><span class="material-symbols-rounded" style="vertical-align:middle;">language</span> Wikipedia</h2>`;
+    if (wiki.length) {
+      html += "<ul>";
+      wiki.forEach(item => {
+        // Title as clickable link
+        html += `<li>
+          <a href="#" class="compound-wiki-link" data-title="${encodeURIComponent(item.title)}" style="font-weight:bold; color:var(--accent-color,royalblue); text-decoration:underline; cursor:pointer;">
+            ${item.title}
+          </a>
+          <br>
+          <span style="font-size:0.95em;">${item.snippet.replace(/<\/?span[^>]*>/g, "")}</span>
+        </li>`;
+      });
+      html += "</ul>";
+    } else {
+      html += "<i>No Wikipedia results found.</i>";
+    }
+
+    // Dictionary (full)
+    html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">dictionary</span> Dictionary</h2>`;
+    if (dic) {
+      html += `<h3 style="margin-top:0;">${dic.word}</h3>`;
+      if (dic.phonetics && dic.phonetics.length) {
+        html += `<p><i>Pronunciations:</i></p><ul style="margin-top: 0; margin-bottom: 1em;">`;
+        dic.phonetics.forEach((phon) => {
+          if (phon.text) html += `<li>${phon.text}`;
+          if (phon.audio) {
+            html += ` <button class="play-btn" onclick="new Audio('${phon.audio}').play()" aria-label="Play pronunciation">play_arrow</button>`;
+          }
+          html += `</li>`;
+        });
+        html += `</ul>`;
+      }
+      if (dic.meanings && dic.meanings.length) {
+        dic.meanings.forEach((meaning) => {
+          html += `<h4 style="margin-bottom: 0;">${meaning.partOfSpeech}</h4><ul>`;
+          meaning.definitions.forEach((def) => {
+            html += `<li>${def.definition}`;
+            if (def.example) html += `<br><em>Example: ${def.example}</em>`;
+            html += `</li>`;
+          });
+          html += `</ul>`;
+        });
+      }
+    } else {
+      html += "<i>No dictionary entry found.</i>";
+    }
+
+    // Thesaurus (full)
+    html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">library_books</span> Thesaurus</h2>`;
+    if ((thes.syn && thes.syn.length) || (thes.ant && thes.ant.length)) {
+      if (thes.syn && thes.syn.length) {
+        html += `<h4>Synonyms</h4><ul>`;
+        html += thes.syn.map(w => `<li>${w.word}</li>`).join("");
+        html += `</ul>`;
+      } else {
+        html += `<h4>Synonyms</h4><p><i>No synonyms found.</i></p>`;
+      }
+      if (thes.ant && thes.ant.length) {
+        html += `<h4>Antonyms</h4><ul>`;
+        html += thes.ant.map(w => `<li>${w.word}</li>`).join("");
+        html += `</ul>`;
+      } else {
+        html += `<h4>Antonyms</h4><p><i>No antonyms found.</i></p>`;
+      }
+    } else {
+      html += "<i>No synonyms or antonyms found.</i>";
+    }
+
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = html;
+
+    // Add event listeners to Wikipedia links
+    contentDiv.querySelectorAll('.compound-wiki-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const title = decodeURIComponent(link.getAttribute('data-title'));
+        switchTab('wiki');
+        searchInput.value = title;
+        wikiLoadArticle(title);
+      });
+    });
+
+    injectPlayButtonStyles();
+
+  } catch {
+    resultsDiv.innerHTML = "<i>Error fetching compound search results.</i>";
+    contentDiv.innerHTML = "";
+  }
+}
+
+
+function loadSettings() {
+  // Get current theme values or defaults
+  const accentColor = app.style.getPropertyValue("--accent-color") || "royalblue";
+  const textColor = app.style.getPropertyValue("--text-color") || "#000000";
+  const bgColor = app.style.getPropertyValue("--bg-color") || "#ffffff";
+
+  settingsDiv.innerHTML = `
+    <div class="setting-item">
+      <label for="dark-mode-toggle">Dark Mode</label>
+      <label class="toggle-switch">
+        <input type="checkbox" id="dark-mode-toggle" ${darkMode ? "checked" : ""} ${localStorage.getItem("custom-theme") ? "disabled" : ""}>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    <div class="setting-item">
+      <label for="font-size-range">Text Size (${fontSize}px)</label>
+      <input type="range" id="font-size-range" min="10" max="25" value="${fontSize}">
+    </div>
+    <div class="setting-item" style="flex-direction:column;align-items:flex-start;">
+      <div style="font-weight:bold;margin-bottom:6px;">Theme</div>
+      <label style="margin-bottom:4px;">Accent Color: <input type="color" id="accent-color-picker" value="${accentColor.trim() || "#4169e1"}"></label>
+      <label style="margin-bottom:4px;">Text Color: <input type="color" id="text-color-picker" value="${textColor.trim() || "#000000"}"></label>
+      <label style="margin-bottom:4px;">Background Color: <input type="color" id="bg-color-picker" value="${bgColor.trim() || "#ffffff"}"></label>
+      <button id="reset-theme-btn" style="margin-top:6px; font-family: var(--text-font, 'Roboto'), sans-serif;">Reset to Default</button>
+      <div style="font-size:0.9em;color:#888;margin-top:2px;">Custom theme disables dark mode toggle.</div>
+    </div>
+    <div class="setting-item font-family-settings">
+      <label for="font-family-search">Search Fonts:</label>
+      <input type="text" id="font-family-search" placeholder="Type to filter fonts…" autocomplete="off" style="font-family: var(--text-font, 'Roboto'), sans-serif;" />
+      <label for="font-family-select">Font Family:</label>
+      <select id="font-family-select" class="font-selector" size="10">
+        <optgroup label="Sans-Serif">
+          <option value="Backwords" style="font-family:Backwords, sans-serif; background: var(--bg-color); color: var(--text-color);">Backwords</option>
+          <option value="Roboto" style="font-family:Roboto, sans-serif; background: var(--bg-color); color: var(--text-color);">Roboto</option>
+          <option value="'Open Sans', sans-serif" style="font-family:'Open Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Open Sans</option>
+          <option value="'Montserrat', sans-serif" style="font-family:'Montserrat', sans-serif; background: var(--bg-color); color: var(--text-color);">Montserrat</option>
+          <option value="'Lato', sans-serif" style="font-family:'Lato', sans-serif; background: var(--bg-color); color: var(--text-color);">Lato</option>
+          <option value="'Nunito', sans-serif" style="font-family:'Nunito', sans-serif; background: var(--bg-color); color: var(--text-color);">Nunito</option>
+          <option value="'Quicksand', sans-serif" style="font-family:'Quicksand', sans-serif; background: var(--bg-color); color: var(--text-color);">Quicksand</option>
+          <option value="'Raleway', sans-serif" style="font-family:'Raleway', sans-serif; background: var(--bg-color); color: var(--text-color);">Raleway</option>
+          <option value="'Work Sans', sans-serif" style="font-family:'Work Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Work Sans</option>
+          <option value="'Source Sans 3', sans-serif" style="font-family:'Source Sans 3', sans-serif; background: var(--bg-color); color: var(--text-color);">Source Sans 3</option>
+          <option value="'Ubuntu', sans-serif" style="font-family:'Ubuntu', sans-serif; background: var(--bg-color); color: var(--text-color);">Ubuntu</option>
+          <option value="'Inter', sans-serif" style="font-family:'Inter', sans-serif; background: var(--bg-color); color: var(--text-color);">Inter</option>
+          <option value="'Mulish', sans-serif" style="font-family:'Mulish', sans-serif; background: var(--bg-color); color: var(--text-color);">Mulish</option>
+          <option value="'Cabin', sans-serif" style="font-family:'Cabin', sans-serif; background: var(--bg-color); color: var,--text-color);">Cabin</option>
+          <option value="'Barlow', sans-serif" style="font-family:'Barlow', sans-serif; background: var(--bg-color); color: var(--text-color);">Barlow</option>
+          <option value="'Asap', sans-serif" style="font-family:'Asap', sans-serif; background: var(--bg-color); color: var(--text-color);">Asap</option>
+          <option value="'Karla', sans-serif" style="font-family:'Karla', sans-serif; background: var(--bg-color); color: var(--text-color);">Karla</option>
+          <option value="'Manrope', sans-serif" style="font-family:'Manrope', sans-serif; background: var(--bg-color); color: var(--text-color);">Manrope</option>
+          <option value="'Titillium Web', sans-serif" style="font-family:'Titillium Web', sans-serif; background: var(--bg-color); color: var(--text-color);">Titillium Web</option>
+          <option value="'Exo 2', sans-serif" style="font-family:'Exo 2', sans-serif; background: var(--bg-color); color: var(--text-color);">Exo 2</option>
+          <option value="'Signika', sans-serif" style="font-family:'Signika', sans-serif; background: var(--bg-color); color: var(--text-color);">Signika</option>
+          <option value="'Hind', sans-serif" style="font-family:'Hind', sans-serif; background: var(--bg-color); color: var(--text-color);">Hind</option>
+          <option value="'Archivo', sans-serif" style="font-family:'Archivo', sans-serif; background: var(--bg-color); color: var(--text-color);">Archivo</option>
+          <option value="'Questrial', sans-serif" style="font-family:'Questrial', sans-serif; background: var(--bg-color); color: var,--text-color);">Questrial</option>
+          <option value="'Heebo', sans-serif" style="font-family:'Heebo', sans-serif; background: var(--bg-color); color: var(--text-color);">Heebo</option>
+          <option value="'Fira Sans', sans-serif" style="font-family:'Fira Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Fira Sans</option>
+          <option value="'Assistant', sans-serif" style="font-family:'Assistant', sans-serif; background: var(--bg-color); color: var(--text-color);">Assistant</option>
+          <option value="'Lexend', sans-serif" style="font-family:'Lexend', sans-serif; background: var(--bg-color); color: var(--text-color);">Lexend</option>
+          <option value="'Public Sans', sans-serif" style="font-family:'Public Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">Public Sans</option>
+          <option value="'DM Sans', sans-serif" style="font-family:'DM Sans', sans-serif; background: var(--bg-color); color: var(--text-color);">DM Sans</option>
+          <option value="'OpenDyslexic', sans-serif" style="font-family:'OpenDyslexic', sans-serif; background: var(--bg-color); color: var(--text-color);">OpenDyslexic</option>
+        </optgroup>
+        <optgroup label="Serif">
+          <option value="'Backwords Serif', serif" style="font-family:'Backwords Serif', serif; background: var(--bg-color); color: var,--text-color);">Backwords Serif</option>
+          <option value="'EB Garamond', serif" style="font-family:'EB Garamond', serif; background: var(--bg-color); color: var,--text-color);">EB Garamond</option>
+          <option value="'Merriweather', serif" style="font-family:'Merriweather', serif; background: var(--bg-color); color: var(--text-color);">Merriweather</option>
+          <option value="'Playfair Display', serif" style="font-family:'Playfair Display', serif; background: var(--bg-color); color: var(--text-color);">Playfair Display</option>
+          <option value="'Roboto Serif', serif" style="font-family:'Roboto Serif', serif; background: var(--bg-color); color: var(--text-color);">Roboto Serif</option>
+          <option value="'PT Serif', serif" style="font-family:'PT Serif', serif; background: var(--bg-color); color: var(--text-color);">PT Serif</option>
+          <option value="'Crimson Text', serif" style="font-family:'Crimson Text', serif; background: var(--bg-color); color: var(--text-color);">Crimson Text</option>
+          <option value="'Libre Baskerville', serif" style="font-family:'Libre Baskerville', serif; background: var(--bg-color); color: var(--text-color);">Libre Baskerville</option>
+          <option value="'Source Serif 4', serif" style="font-family:'Source Serif 4', serif; background: var(--bg-color); color: var,--text-color);">Source Serif 4</option>
+          <option value="'Domine', serif" style="font-family:'Domine', serif; background: var(--bg-color); color: var(--text-color);">Domine</option>
+          <option value="'Spectral', serif" style="font-family:'Spectral', serif; background: var(--bg-color); color: var(--text-color);">Spectral</option>
+          <option value="'Cardo', serif" style="font-family:'Cardo', serif; background: var(--bg-color); color: var(--text-color);">Cardo</option>
+          <option value="'Vollkorn', serif" style="font-family:'Vollkorn', serif; background: var(--bg-color); color: var(--text-color);">Vollkorn</option>
+          <option value="'Crete Round', serif" style="font-family:'Crete Round', serif; background: var(--bg-color); color: var,--text-color);">Crete Round</option>
+          <option value="'Arvo', serif" style="font-family:'Arvo', serif; background: var(--bg-color); color: var(--text-color);">Arvo</option>
+          <option value="'Old Standard TT', serif" style="font-family:'Old Standard TT', serif; background: var(--bg-color); color: var(--text-color);">Old Standard TT</option>
+          <option value="'Prata', serif" style="font-family:'Prata', serif; background: var(--bg-color); color: var(--text-color);">Prata</option>
+          <option value="'Zilla Slab', serif" style="font-family:'Zilla Slab', serif; background: var(--bg-color); color: var(--text-color);">Zilla Slab</option>
+          <option value="'Alice', serif" style="font-family:'Alice', serif; background: var(--bg-color); color: var(--text-color);">Alice</option>
+          <option value="'Gloock', serif" style="font-family:'Gloock', serif; background: var(--bg-color); color: var(--text-color);">Gloock</option>
+          <option value="'Trirong', serif" style="font-family:'Trirong', serif; background: var(--bg-color); color: var(--text-color);">Trirong</option>
+          <option value="'Noticia Text', serif" style="font-family:'Noticia Text', serif; background: var(--bg-color); color: var(--text-color);">Noticia Text</option>
+          <option value="'Abhaya Libre', serif" style="font-family:'Abhaya Libre', serif; background: var(--bg-color); color: var(--text-color);">Abhaya Libre</option>
+          <option value="'Libre Caslon Text', serif" style="font-family:'Libre Caslon Text', serif; background: var(--bg-color); color: var(--text-color);">Libre Caslon Text</option>
+          <option value="'Martel', serif" style="font-family:'Martel', serif; background: var(--bg-color); color: var(--text-color);">Martel</option>
+        </optgroup>
+        <optgroup label="Monospace">
+          <option value="'Fira Mono', monospace" style="font-family:'Fira Mono', monospace; background: var(--bg-color); color: var(--text-color);">Fira Mono</option>
+          <option value="'JetBrains Mono', monospace" style="font-family:'JetBrains Mono', monospace; background: var(--bg-color); color: var(--text-color);">JetBrains Mono</option>
+          <option value="'Roboto Mono', monospace" style="font-family:'Roboto Mono', monospace; background: var(--bg-color); color: var(--text-color);">Roboto Mono</option>
+          <option value="'Source Code Pro', monospace" style="font-family:'Source Code Pro', monospace; background: var(--bg-color); color: var(--text-color);">Source Code Pro</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace; background: var(--bg-color); color: var(--text-color);">IBM Plex Mono</option>
+          <option value="'Space Mono', monospace" style="font-family:'Space Mono', monospace; background: var(--bg-color); color: var(--text-color);">Space Mono</option>
+          <option value="'Cascadia Code', monospace" style="font-family:'Cascadia Code', monospace; background: var(--bg-color); color: var(--text-color);">Cascadia Code</option>
+          <option value="'Inconsolata', monospace" style="font-family:'Inconsolata', monospace; background: var(--bg-color); color: var(--text-color);">Inconsolata</option>
+          <option value="'Ubuntu Mono', monospace" style="font-family:'Ubuntu Mono', monospace; background: var(--bg-color); color: var(--text-color);">Ubuntu Mono</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace; background: var(--bg-color); color: var(--text-color);">Anonymous Pro</option>
+          <option value="'Share Tech Mono', monospace" style="font-family:'Share Tech Mono', monospace; background: var(--bg-color); color: var(--text-color);">Share Tech Mono</option>
+          <option value="'Cutive Mono', monospace" style="font-family:'Cutive Mono', monospace; background: var(--bg-color); color: var(--text-color);">Cutive Mono</option>
+          <option value="'Oxygen Mono', monospace" style="font-family:'Oxygen Mono', monospace; background: var(--bg-color); color: var(--text-color);">Oxygen Mono</option>
+          <option value="'Overpass Mono', monospace" style="font-family:'Overpass Mono', monospace; background: var(--bg-color); color: var(--text-color);">Overpass Mono</option>
+          <option value="'Major Mono Display', monospace" style="font-family:'Major Mono Display', monospace; background: var(--bg-color); color: var(--text-color);">Major Mono Display</option>
+          <option value="'Nanum Gothic Coding', monospace" style="font-family:'Nanum Gothic Coding', monospace; background: var(--bg-color); color: var(--text-color);">Nanum Gothic Coding</option>
+          <option value="'Red Hat Mono', monospace" style="font-family:'Red Hat Mono', monospace; background: var(--bg-color); color: var(--text-color);">Red Hat Mono</option>
+          <option value="'VT323', monospace" style="font-family:'VT323', monospace; background: var(--bg-color); color: var(--text-color);">VT323</option>
+          <option value="'Syne Mono', monospace" style="font-family:'Syne Mono', monospace; background: var(--bg-color); color: var(--text-color);">Syne Mono</option>
+          <option value="'Recursive', monospace" style="font-family:'Recursive', monospace; background: var(--bg-color); color: var(--text-color);">Recursive</option>
+          <option value="'Nova Mono', monospace" style="font-family:'Nova Mono', monospace; background: var(--bg-color); color: var(--text-color);">Nova Mono</option>
+          <option value="'Enriqueta', monospace" style="font-family:'Enriqueta', monospace; background: var(--bg-color); color: var(--text-color);">Enriqueta</option>
+          <option value="'Special Elite', monospace" style="font-family:'Special Elite', monospace; background: var(--bg-color); color: var(--text-color);">Special Elite</option>
+          <option value="'Mononoki', monospace" style="font-family:'Mononoki', monospace; background: var(--bg-color); color: var(--text-color);">Mononoki</option>
+          <option value="'IBM Plex Mono', monospace" style="font-family:'IBM Plex Mono', monospace; background: var(--bg-color); color: var(--text-color);">IBM Plex Mono</option>
+          <option value="'PT Mono', monospace" style="font-family:'PT Mono', monospace; background: var(--bg-color); color: var(--text-color);">PT Mono</option>
+          <option value="'Fira Code', monospace" style="font-family:'Fira Code', monospace; background: var(--bg-color); color: var(--text-color);">Fira Code</option>
+          <option value="'Anonymous Pro', monospace" style="font-family:'Anonymous Pro', monospace; background: var(--bg-color); color: var(--text-color);">Anonymous Pro</option>
+          <option value="'Courier Prime', monospace" style="font-family:'Courier Prime', monospace; background: var(--bg-color); color: var(--text-color);">Courier Prime</option>
+        </optgroup>
+      </select>
+    </div>
+<div class="dropdown">
+  <button class="dropdown-button">Versions</button>
+  <div class="dropdown-content">
+    <div class="dropdown-warning">
+      <span class="material-symbols-rounded warning-icon">warning</span>
+      These past versions may be buggy, unstable, and may try to unionize. Proceed with caution.
+    </div>
+    <a href="https://www.compendiumofeverything.org/versions/beta/">Beta 1.0</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.1/">Beta 1.1</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.2/">Beta 1.2</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.3/">Beta 1.3</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.4/">Beta 1.4</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.5/">Beta 1.5</a>
+    <a href="https://www.compendiumofeverything.org/versions/beta/1.6/">Beta 1.6</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.0/">2.0</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.1/">2.1</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.2/">2.2</a>
+    <a href="https://www.compendiumofeverything.org/versions/2.3/">2.3</a>
+  </div>
+</div>
+
+
+`;
+
+  // Theme pickers logic
+  const accentPicker = document.getElementById("accent-color-picker");
+  const textPicker = document.getElementById("text-color-picker");
+  const bgPicker = document.getElementById("bg-color-picker");
+  const resetBtn = document.getElementById("reset-theme-btn");
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+
+  function setThemeVars(accent, text, bg) {
+    app.style.setProperty("--accent-color", accent);
+    app.style.setProperty("--text-color", text);
+    app.style.setProperty("--bg-color", bg);
+    localStorage.setItem("custom-theme", JSON.stringify({accent, text, bg}));
+    // Disable dark mode toggle when custom theme is set
+    darkModeToggle.disabled = true;
+    app.classList.remove("dark");
+    app.classList.add("light");
+  }
+
+function resetThemeVars() {
+  // Remove inline custom theme variables so class-based ones take effect
+  app.style.removeProperty("--accent-color");
+  app.style.removeProperty("--text-color");
+  app.style.removeProperty("--bg-color");
+  localStorage.removeItem("custom-theme");
+  darkModeToggle.disabled = false;
+  darkModeToggle.removeAttribute("disabled");
+  darkModeToggle.checked = darkMode; // Sync toggle state with darkMode variable
+
+  // Restore dark/light mode
+  if (darkMode) {
+    app.classList.add("dark");
+    app.classList.remove("light");
+  } else {
+    app.classList.remove("dark");
+    app.classList.add("light");
+  }
+
+  // Force a change event to ensure the UI and logic are in sync
+  const event = new Event('change', { bubbles: true });
+  darkModeToggle.dispatchEvent(event);
+}
+  accentPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+  textPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+  bgPicker.addEventListener("input", () => {
+    setThemeVars(accentPicker.value, textPicker.value, bgPicker.value);
+  });
+resetBtn.addEventListener("click", () => {
+  resetThemeVars();
+  accentPicker.value = "#4169e1";
+  textPicker.value = "#000000";
+  bgPicker.value = "#ffffff";
+});
+
+  // On load, apply custom theme if present
+  const savedTheme = localStorage.getItem("custom-theme");
+  if (savedTheme) {
+    const {accent, text, bg} = JSON.parse(savedTheme);
+    setThemeVars(accent, text, bg);
+    accentPicker.value = accent;
+    textPicker.value = text;
+    bgPicker.value = bg;
+  }
+
+  // Font search filter
+  const searchInput = document.getElementById('font-family-search');
+  const fontSelect = document.getElementById('font-family-select');
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.toLowerCase();
+    for (const option of fontSelect.options) {
+      if (option.tagName === 'OPTION') {
+        const text = option.textContent.toLowerCase();
+        option.style.display = text.includes(filter) ? '' : 'none';
+      }
+    }
+  });
+  
+
+  // Dark mode toggle
+  settingsDiv
+    .querySelector("#dark-mode-toggle")
+    .addEventListener("change", (e) => {
+      darkMode = e.target.checked;
+      if (darkMode) {
+        app.classList.add("dark");
+        app.classList.remove("light");
+      } else {
+        app.classList.remove("dark");
+        app.classList.add("light");
+      }
+    });
+
+  // Font size slider
+  settingsDiv
+    .querySelector("#font-size-range")
+    .addEventListener("input", (e) => {
+      fontSize = e.target.value;
+      app.style.setProperty("--font-size", `${fontSize}px`);
+      e.target.previousElementSibling.textContent = `Text Size (${fontSize}px)`;
+    });
+
+  // Font family selector
+  settingsDiv
+    .querySelector("#font-family-select")
+    .addEventListener("change", (e) => {
+      fontFamily = e.target.value;
+      app.style.setProperty("--text-font", fontFamily);
+    });
+
+  // Set font on load
+  app.style.setProperty("--text-font", fontFamily);
+}
+  let debounceTimer;
+searchInput.addEventListener("input", () => {
+  clearTimeout(debounceTimer);
+  const q = searchInput.value.trim();
+  debounceTimer = setTimeout(() => {
+    if (currentTab === "wiki") {
+      wikiLoadArticles(q);
+      // Update URL for Wikipedia search
+      if (q) {
+        const param = encodeURIComponent(q.replace(/ /g, "-"));
+        window.history.replaceState({}, "", `${window.location.pathname}?wikipedia=${param}`);
+      }
+    } else if (currentTab === "dic") {
+      dicSearch(q);
+      // Update URL for Dictionary search
+      if (q) {
+        const param = encodeURIComponent(q);
+        window.history.replaceState({}, "", `${window.location.pathname}?dictionary=${param}`);
+      }
+    } else if (currentTab === "thes") {
+      thesSearch(q);
+      // Update URL for Thesaurus search
+      if (q) {
+        const param = encodeURIComponent(q);
+        window.history.replaceState({}, "", `${window.location.pathname}?thesaurus=${param}`);
+      }
+    } else if (currentTab === "compound") {
+      compoundSearch(q);
+      // Update URL for Compound search
+      if (q) {
+        const param = encodeURIComponent(q);
+        window.history.replaceState({}, "", `${window.location.pathname}?comp=${param}`);
+      }
+    }
+  }, 400);
+});
+
+  switchTab("wiki");
+
+// Handle URL parameters for initial loading
+function handleURLParams() {
+  const params = new URLSearchParams(window.location.search);
+
+if (params.has("wikipedia")) {
+  let article = params.get("wikipedia");
+  if (article && article.trim()) {
+    article = article.replace(/-/g, " ");
+    switchTab("wiki");
+    searchInput.value = article;
+    wikiLoadArticle(article);
+  } else {
+    switchTab("wiki");
+    searchInput.value = "";
+    resultsDiv.innerHTML = "";
+    contentDiv.innerHTML = "";
+  }
+} else if (params.has("dictionary")) {
+    const word = params.get("dictionary");
+    switchTab("dic");
+    searchInput.value = word;
+    dicSearch(word);
+  } else if (params.has("thesaurus")) {
+    const word = params.get("thesaurus");
+    switchTab("thesaurus");
+    searchInput.value = word;
+    thesSearch(word);
+  } else if (params.has("weather")) {
+    const location = params.get("weather");
+    switchTab("weather");
+    setTimeout(() => {
+      const input = document.getElementById("location-input");
+      if (input) {
+        input.value = location;
+        document.getElementById("get-weather-btn").click();
+      }
+    }, 500);
+  } else if (params.has("comp")) {
+    const word = params.get("comp");
+    switchTab("compound");
+    searchInput.value = word;
+    compoundSearch(word);
+  } else if (params.has("bookmarks")) {
+    switchTab("bookmarks");
+  } else if (params.has("settings")) {
+    switchTab("sett");
+  }
+  else {
+    // Default to Wikipedia if no params
+    switchTab("wiki");
+  }
+
+}
+
+
+handleURLParams();
+
+  // Initialise theme
+  app.classList.add("light");
+  app.style.setProperty("--font-size", `${fontSize}px`);
+  app.style.setProperty("--text-font", fontFamily);
+
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const versionLabel = document.getElementById("versionLabel");
+  const versionDetails = document.getElementById("versionDetails");
+
+  const updates = `
+    <div style="position: relative;">
+      <strong>v.3.1 changes:</strong>
+    <ul>
+      <li>Added Home Page</li>
+      <li>Minor improvements for URL parameter handling</li>
+      <li>Added more features in the Weather Tab</li>
+      <li>Added two custom fonts</li>
+      <ul>Fonts:
+        <li>Backwords (Sans-Serif)</li>
+        <li>Backwords Serif (Serif)</li>
+      </ul>
+      <li>Updated changelog</li>
+    </ul>
+      <strong><a href="https://feedback.compendiumofeverything.org/" target="_blank">Report Bugs or Request Features</a></strong>
+<br>
+      <a href="https://github.com/Pidgeron/The-Compendium-of-Everything/tree/main" target="_blank" style="color: var(--accent-color); text-decoration: none;">View project on GitHub</a>
+        <br>
+        <a href="https://www.compendiumofeverything.org/versions/beta" target="_blank" style="color: var(--accent-color); text-decoration: none;">View Beta version</a>
+      <p style="color: grey; font-family: var(--text-font); font-size: 0.9em;"">See <a href="https://www.compendiumofeverything.org/?settings" style="color: var(--accent-color); text-decoration: none;">Settings Tab</a> for more past versions</p>
+      <span id="closeUpdates" class="material-symbols-rounded" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-size: 1.4em; font-family: var(--text-font 'Roboto'), sans-serif;">close</span>
+    </div>
+  `;
+
+  versionLabel.addEventListener("click", () => {
+    if (versionDetails.style.display === "none" || !versionDetails.style.display) {
+      versionDetails.innerHTML = updates;
+      versionDetails.style.display = "block";
+
+      const closeBtn = document.getElementById("closeUpdates");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+          versionDetails.style.display = "none";
+        });
+      }
+    } else {
+      versionDetails.style.display = "none";
+    }
+  });
+});
+
+
+
+// About panel logic
+const authorTitle = document.querySelector('.author-title');
+const versionDetails = document.getElementById("versionDetails");
+
+// Create about panel
+const aboutPanel = document.createElement('div');
+aboutPanel.id = "aboutPanel";
+aboutPanel.className = "about-panel";
+aboutPanel.style.display = "none";
+aboutPanel.innerHTML = `
+  <div style="position: relative;">
+    <img src="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png" alt="Compendium Logo" class="about-logo">
+    <h2 style="margin-top:10px;">The Compendium of Everything</h2>
+    <p>
+      A multi-tool web app for quick access to Wikipedia, dictionary, thesaurus, weather, and more.<br>
+      Created by <b>Liam C. Smalley</b>.<br>
+      <span style="font-size:13px; color:#888;">Copyright &copy; 2025</span>
+    </p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Wikipedia articles provided by <a href="https://en.wikipedia.org" target="_blank" rel="noopener" style="color:var(--accent-color);">Wikipedia API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Dictionary entries provided by <a href="https://api.dictionaryapi.dev/" target="_blank" rel="noopener" style="color:var(--accent-color);">Free Dictionary API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Thesaurus entries provided by <a href="https://api.datamuse.com" target="_blank" rel="noopener" style="color:var(--accent-color);">Datamuse API</a></p>
+    <p style="font-size:0.9em;color:#666;margin-top:1em;">Weather data provided by <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:var(--accent-color);">Open-Meteo API</a></p>
+    <span id="closeAbout" class="material-symbols-rounded about-close">close</span>
+  </div>
+`;
+
+const aboutHTML = document.getElementById('compendium-app')
+aboutHTML.appendChild(aboutPanel);
+
+// Show/hide About panel, ensure only one panel is open
+authorTitle.addEventListener("click", () => {
+  // Hide version panel if open
+  versionDetails.style.display = "none";
+  // Toggle about panel
+  aboutPanel.style.display = aboutPanel.style.display === "block" ? "none" : "block";
+});
+
+aboutPanel.querySelector("#closeAbout").addEventListener("click", () => {
+  aboutPanel.style.display = "none";
+});
+
+// Hide about panel if version label is clicked
+document.getElementById("versionLabel").addEventListener("click", () => {
+  aboutPanel.style.display = "none";
+});
+
+//Copyright 2025 by L. Smalley
+    </script>
+    </body>
+</html>
+
+
+` }} />
+  );
+}
