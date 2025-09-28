@@ -1,6 +1,10 @@
 export default function Home() {
   return (
-    <div dangerouslySetInnerHTML={{ __html: `<!DOCTYPE html>
+    <div
+      dangerouslySetInnerHTML={{
+        __html: `
+          <section id="compendium-home" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-color,#fff);color:var(--text-color,#000);font-family:'Roboto',sans-serif;">
+            <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,6 +49,7 @@ export default function Home() {
 </noscript>
 
     <div id="app"></div>
+          </section>
 
     <script>
         (() => {
@@ -5590,10 +5595,8 @@ document.getElementById("versionLabel").addEventListener("click", () => {
 
 //Copyright 2025 by L. Smalley
     </script>
-    </body>
-</html>
-
-
-` }} />
+        `
+      }}
+    />
   );
 }
