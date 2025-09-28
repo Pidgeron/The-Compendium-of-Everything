@@ -1,5 +1,5 @@
 {
-  "name": "the-compendium-of-everything",
+  "name": "compendium-of-everything",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,18 +8,18 @@
     "start": "next start",
     "lint": "next lint"
   },
-"dependencies": {
-  "next": "^14.2.1",
-  "react": "^18.3.0",
-  "react-dom": "^18.3.0",
-  "axios": "^1.6.0",
-  "swr": "^2.3.0"
-},
-"devDependencies": {
-  "eslint": "^9.9.0",
-  "eslint-config-next": "^14.2.1",
-  "prettier": "^3.2.0"
-},
+  "dependencies": {
+    "next": "^14.2.33",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "axios": "^1.6.0",
+    "swr": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-next": "^14.2.33",
+    "prettier": "^3.2.0"
+  },
   "engines": {
     "node": ">=18.0.0"
   }
