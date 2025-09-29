@@ -5539,6 +5539,7 @@ document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
 
+window.switchTab = switchTab;
 window.wikiLoadArticle = wikiLoadArticle;
 
 
