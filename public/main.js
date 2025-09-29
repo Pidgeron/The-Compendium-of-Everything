@@ -5539,4 +5539,7 @@ document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
 
+window.wikiLoadArticle = wikiLoadArticle;
+
+
 //Copyright 2025 by L. Smalley
