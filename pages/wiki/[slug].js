@@ -3,23 +3,27 @@ import { useRouter } from "next/router";
 
 export default function WikiSlugPage() {
   const router = useRouter();
-  const { slug } = router.query;
+  const slug = router.query.slug;
 
   useEffect(() => {
-    if (!slug) return;
-    const title = decodeURIComponent(slug.replace(/-/g, " "));
-
-    // Poll until the functions exist
-    const interval = setInterval(() => {
+    // Wait for your main app functions to exist
+    function tryLoad() {
       if (window.switchTab && window.wikiLoadArticle) {
-        clearInterval(interval);
+        // Switch to the Wikipedia tab
         window.switchTab("wiki");
-        window.wikiLoadArticle(title);
-      }
-    }, 50);
 
-    // Clean up
-    return () => clearInterval(interval);
+        // Convert slug to normal title
+        const title = slug ? slug.replace(/-/g, " ") : "";
+        if (title) {
+          window.wikiLoadArticle(title);
+        }
+      } else {
+        // Retry in 50ms if functions aren't ready yet
+        setTimeout(tryLoad, 50);
+      }
+    }
+
+    tryLoad();
   }, [slug]);
 
   return (
