@@ -1,4 +1,4 @@
-'use client'; // Disable SSR/prerendering
+'use client';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -8,21 +8,27 @@ export default function WikiSlug() {
   const { slug } = router.query;
 
   useEffect(() => {
-    // Only run once the SPA functions are ready
     function tryLoad() {
       if (typeof window === 'undefined') return;
+
       if (!window.switchTab || !window.wikiLoadArticle) {
         console.warn('WikiSlug: Waiting for required SPA functions...');
         setTimeout(tryLoad, 50);
         return;
       }
 
-      const title = slug ? decodeURIComponent(slug.replace(/-/g, ' ')) : '';
-      if (!title) return;
-
-      // Switch to wiki tab and load article
       window.switchTab('wiki');
-      window.wikiLoadArticle(title);
+
+      const title = slug ? decodeURIComponent(slug.replace(/-/g, ' ')) : '';
+      const contentDiv = document.querySelector('#app .content');
+
+      if (title) {
+        window.wikiLoadArticle(title);
+      } else if (contentDiv) {
+        contentDiv.innerHTML = `<p style="font-family: sans-serif; padding: 1rem;">
+          Welcome to the Wikipedia tab! Use the search box to find an article.
+        </p>`;
+      }
     }
 
     tryLoad();
