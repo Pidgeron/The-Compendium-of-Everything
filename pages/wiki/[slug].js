@@ -7,20 +7,19 @@ export default function WikiSlugPage() {
 
   useEffect(() => {
     if (!slug) return;
-
-    // Decode slug into actual Wikipedia title
     const title = decodeURIComponent(slug.replace(/-/g, " "));
 
-    // Ensure global functions exist
-    if (typeof window.switchTab === "function" && typeof window.wikiLoadArticle === "function") {
-      // Switch to the Wikipedia tab
-      window.switchTab("wiki");
+    // Poll until the functions exist
+    const interval = setInterval(() => {
+      if (window.switchTab && window.wikiLoadArticle) {
+        clearInterval(interval);
+        window.switchTab("wiki");
+        window.wikiLoadArticle(title);
+      }
+    }, 50);
 
-      // Load the article
-      window.wikiLoadArticle(title);
-    } else {
-      console.error("Required functions not found on window: switchTab or wikiLoadArticle");
-    }
+    // Clean up
+    return () => clearInterval(interval);
   }, [slug]);
 
   return (
