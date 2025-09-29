@@ -1,53 +1,61 @@
-import { useRouter } from "next/router";
+// pages/wiki/[slug].js
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function WikiSlug() {
   const router = useRouter();
-  const { slug } = router.query;
-  const [mounted, setMounted] = useState(false);
+  const { slug } = router.query; // e.g., "Douglas-Adams"
+  const [content, setContent] = useState("<p>Loading Wikipedia Article...</p>");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Ensure this only runs in the browser
-    setMounted(true);
-  }, []);
+    if (!slug) return;
 
-  useEffect(() => {
-    if (!mounted || !slug) return;
+    async function fetchArticle() {
+      try {
+        const title = decodeURIComponent(slug.replace(/-/g, " "));
+        const res = await fetch(
+          `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(
+            title
+          )}&prop=text`
+        );
 
-    // Retry until your functions and app element exist
-    const interval = setInterval(() => {
-      if (
-        typeof window.switchTab === "function" &&
-        typeof window.wikiLoadArticle === "function" &&
-        document.getElementById("app")
-      ) {
-        clearInterval(interval);
+        const data = await res.json();
+        if (!data.parse || !data.parse.text) {
+          setError("Could not load article content.");
+          return;
+        }
 
-        // Switch to the Wikipedia tab
-        window.switchTab("wiki");
+        let html = data.parse.text["*"];
 
-        // Decode slug back to normal title
-        const title = decodeURIComponent(slug).replace(/-/g, " ");
+        // Minimal sanitisation & basic modifications
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
 
-        // Load the article
-        window.wikiLoadArticle(title);
+        // Remove edit links
+        doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
+
+        // Fix images
+        doc.querySelectorAll("img").forEach((img) => {
+          let src = img.getAttribute("src") || "";
+          if (src.startsWith("//")) src = "https:" + src;
+          else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
+          img.src = src;
+        });
+
+        setContent(doc.body.innerHTML);
+      } catch (e) {
+        console.error(e);
+        setError("Error fetching article.");
       }
-    }, 50);
+    }
 
-    return () => clearInterval(interval);
-  }, [mounted, slug]);
+    fetchArticle();
+  }, [slug]);
 
   return (
-    <div id="wiki-slug-wrapper">
-      <div id="app">
-        <div className="results"></div>
-        <div className="content">
-          <p style={{ fontFamily: "sans-serif", padding: "1rem" }}>
-            Loading Wikipedia Article...
-          </p>
-        </div>
-        <div className="settings" style={{ display: "none" }}></div>
-      </div>
+    <div style={{ padding: "1rem", fontFamily: "sans-serif" }}>
+      {error ? <p>{error}</p> : <div dangerouslySetInnerHTML={{ __html: content }} />}
     </div>
   );
 }
