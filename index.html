@@ -15,7 +15,6 @@
     overflow: hidden; /* Prevents unwanted scrollbars */
   }
   </style>
-
 </head>
 <body>
 <noscript>
@@ -41,16 +40,13 @@
       <p>This site requires JavaScript to function. For direct access, visit the sources above.</p>
   </main>
 </noscript>
-
     <div id="app"></div>
-
     <script>
         (() => {
             // --- HOME PAGE LOGIC ---
   function showHomePage() {
     // Remove app if present
     document.getElementById("compendium-app")?.remove();
-
     // Home page HTML
     const home = document.createElement("section");
     home.id = "compendium-home";
@@ -58,7 +54,6 @@
       min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
       background:var(--bg-color,#fff);color:var(--text-color,#000);font-family:'Roboto',sans-serif;
     `;
-
     if (!document.getElementById("material-symbols-home")) {
   const link = document.createElement("link");
   link.id = "material-symbols-home";
@@ -66,7 +61,6 @@
   link.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded";
   document.head.appendChild(link);
   }
-
   // Re-import Roboto font for home page
 if (!document.getElementById("roboto-home")) {
   const link = document.createElement("link");
@@ -75,7 +69,6 @@ if (!document.getElementById("roboto-home")) {
   link.href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap";
   document.head.appendChild(link);
 }
-
 home.innerHTML = `
   <img src="https://cdn.compendiumofeverything.org/images/Compendium_Logo.png" alt="Logo" style="width:120px;height:120px;border-radius:18px;margin-bottom:18px;">
   <h1 style="font-size:2.2em;margin-bottom:0.2em;">The Compendium of Everything</h1>
@@ -138,18 +131,14 @@ home.innerHTML = `
     padding: 0 12px;
     font-weight: 700;
   }
-
 }  </style>
 `;
-
 document.body.appendChild(home);
-
 // Changelog modal logic
 const changelogBtn = home.querySelector("#view-changelog-btn");
 const changelogModal = home.querySelector("#changelog-modal");
 const changelogContent = home.querySelector("#changelog-content");
 const closeChangelogBtn = home.querySelector("#close-changelog-btn");
-
 // Use the same changelog as your versionDetails
 const changelogHTML = `
   <div style="position: relative;">
@@ -173,7 +162,6 @@ const changelogHTML = `
     <p style="color: grey; font-family: Roboto, sans-serif; font-size: 0.9em;">See <a href="https://www.compendiumofeverything.org/?settings" style="color: royalblue; text-decoration: none;">Settings Tab</a> for more past versions</p>
   </div>
 `;
-
 if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
   changelogBtn.addEventListener("click", () => {
     changelogContent.innerHTML = changelogHTML;
@@ -186,7 +174,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
     if (e.target === changelogModal) changelogModal.style.display = "none";
   });
 }
-
     // Button navigation
     home.querySelectorAll(".home-btn").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -202,7 +189,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
         window.location.search = param;
       });
     });
-
     // Search form
     home.querySelector("#home-search-form").addEventListener("submit", e => {
       e.preventDefault();
@@ -212,21 +198,16 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       }
     });
   }
-
   // --- Show home page if no URL params ---
   if (!window.location.search || window.location.search === "?") {
     showHomePage();
     return; // Do not run the main app
   }
-
   const existing = document.getElementById("compendium-app");
   if (existing) existing.remove();
-
   const style = document.createElement("style");
   style.textContent = `
-
   @import url('https://cdn.compendiumofeverything.org/fonts/fonts.css');
-
   @font-face {
   font-family: 'Backwords';
   src: url('https://cdn.compendiumofeverything.org/fonts/Backwords-Regular.otf') format('opentype');
@@ -234,7 +215,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Backwords Serif';
   src: url('https://cdn.compendiumofeverything.org/fonts/BackwordsSerif-Regular.otf') format('opentype');
@@ -242,7 +222,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
   font-family: 'Backwords Serif';
   src: url('https://cdn.compendiumofeverything.org/fonts/BackwordsSerifItalic-Regular.otf') format('opentype');
@@ -250,7 +229,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
   font-style: italic;
   font-display: swap;
 }
-
      .font-selector {
       width: 100%;
       padding: 8px 14px;
@@ -287,7 +265,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       color: #222;
       background: #fff;
       }
-
      #compendium-app {
       position: static;
       top: unset;
@@ -305,7 +282,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       overflow: hidden;
       font-size: var(--font-size, 16px);
     }
-   
     @media (max-width: 768px) {
      #compendium-app {
       position: static;
@@ -363,14 +339,12 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       font-size: 1.2em;
       color: var(--accent-color);
     }
-
       #compendium-app.dark {
       --bg-color: #121212;
       --text-color: #eee;
       --accent-color: royalblue;
       --text-font: var(--text-font, 'Roboto'), sans-serif;
     }
-
       #compendium-app.light {
       --bg-color: #fff;
       --text-color: #000;
@@ -378,7 +352,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       background-color: var(--bg-color);
       color: var(--text-color);
     }
-
      #compendium-app header {
       display: flex;
       flex-direction: column;
@@ -395,7 +368,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       left: unset;
       z-index: 10;
     }
-
      #compendium-app header .tab {
       flex: 0 0 auto;
       text-align: left;
@@ -412,7 +384,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       align-items: flex-start;
       gap: 12px;
     }
-
     @media (max-width: 768px) {
      #compendium-app header {
       flex-direction: row;
@@ -426,7 +397,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       top: 0;
       z-index: 10;
     }
-
      #compendium-app header .tab {
       flex: 1;
       text-align: center;
@@ -440,20 +410,16 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
      #compendium-app header .tab:hover {
       color: var(--accent-color, royalblue);
     }
-
      .tab-label {
       font-size: 1em;
       font-family: var(--text-font, 'Roboto'), sans-serif;
       color: inherit;
       white-space: nowrap;
     }
-
-
      #compendium-app header .tab.selected {
       color: var(--accent-color, royalblue);
       font-weight: 700;
     }
-
      .material-symbols-rounded {
       font-variation-settings:
         'FILL' 0,
@@ -465,7 +431,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
       box-sizing: content-box;
     }
-
      #compendium-app main {
       flex: 1;
       padding: 10px 16px 120px 16px;
@@ -475,7 +440,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       max-height:100vh;
       box-sizing: border-box;
     }
-
      #compendium-app input[type="search"] {
       width: 100%;
       padding: 10px 14px;
@@ -490,12 +454,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       outline-color: var(--accent-color, royalblue);
       transition: border-color 0.3s;
     }
-
      #compendium-app input[type="search"]::placeholder {
       color: var(--text-color);
       opacity: 0.5;
     }
-
      .results, .content {
       margin-top: 14px;
       margin-bottom: 1.5em;
@@ -506,27 +468,23 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       overflow-wrap: break-word;
       font-family: var(--text-font, 'Roboto'), sans-serif;
     }
-    
      header {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 10px;
     }
-
       header .tab {
       display: inline-block;
       margin: 0 5px;
     }
-
      #compendium-app input[type="search"] {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-
      .version-details {
       user-select: none;
       position: absolute;
-      bottom: 50px;   
+      bottom: 50px;
       left: 20px;
       max-width: 400px;
       padding: 10px 15px;
@@ -540,13 +498,11 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       z-index: 1000000000;
       white-space: normal;
     }
-
     @media (max-width: 768px) {
       .version-details {
         max-width: 300px;
       }
   }
-
      .version-label {
       cursor: pointer;
       user-select: none;
@@ -559,7 +515,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       color: #808080;
       z-index: 1000;
     }
-
      .author-title {
       font-size: var(--font-size);
       position: absolute;
@@ -570,7 +525,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       color: #808080;
       z-index: 1000;
     }
-
      .result-item {
       padding: 8px 10px;
       border-radius: 30px;
@@ -579,12 +533,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       user-select: none;
       font-weight: 500;
     }
-
      .result-item:hover {
       background-color: var(--accent-color, royalblue);
       color: #fff;
     }
-
      .content img {
       max-width: 100%;
       height: auto;
@@ -592,7 +544,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       margin: 10px 0;
       display: block;
     }
-
      .content audio,
      .content video {
       display: block;
@@ -604,13 +555,11 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       box-shadow: 0 2px 10px rgba(0,0,0,0.10);
       background: var(--accent-color, royalblue);
     }
-
      .content audio {
       height: 38px;
       min-width: 180px;
       outline: none;
     }
-
      .content audio::-webkit-media-controls-enclosure {
       border-radius: 25px;
       overflow: hidden;
@@ -622,14 +571,12 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       max-height: 340px;
       background: #000;
 }
-
     @media (max-width: 600px) {
       .content audio,
       .content video {
         max-width: 98vw;
     }
   }
-
      .setting-item {
       margin-bottom: 16px;
       display: flex;
@@ -637,11 +584,9 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       justify-content: space-between;
       font-weight: 500;
     }
-
      .setting-item label {
       cursor: pointer;
     }
-
       .toggle-switch {
       position: relative;
       width: 40px;
@@ -652,14 +597,12 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       transition: background-color 0.3s;
       color: var(--accent-color);
     }
-
      .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
       position: absolute;
     }
-
      .toggle-slider {
       position: absolute;
       top: 1px;
@@ -670,16 +613,13 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-radius: 50%;
       transition: transform 0.3s;
     }
-
     .toggle-switch input:checked + .toggle-slider {
       transform: translateX(18px);
       background-color: var(--accent-color, royalblue);
     }
-
       input[type="range"] {
       width: 140px;
     }
-
     #content.weather-content {
       max-width: 400px;
       margin: 2rem auto;
@@ -690,24 +630,20 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       text-align: center;
       font-family: var(--text-font, 'Roboto'), sans-serif;
   }
-
     #content.weather-content h3 {
       margin-bottom: 1rem;
       font-size: 1.6rem;
       color: #333;
   }
-
     #content.weather-content img {
       margin: 1rem 0;
       filter: drop-shadow(0 0 5px rgba(0,0,0,0.2));
   }
-
     #content.weather-content p {
       margin: 0.3rem 0;
       font-size: 1rem;
       color: #444;
   }
-
      .input-group {
       display: flex;
       align-items: center;
@@ -715,7 +651,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       width: 100%;
       margin-bottom: 1em;
   }
-
      #location-input {
       height: 22px;
       border: 2px solid var(--accent-color);
@@ -728,7 +663,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       box-sizing: border-box;
       line-height: normal;
   }
-  
      #get-weather-btn {
       height: 22px;
       border: 2px solid var(--accent-color);
@@ -748,12 +682,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
      #get-weather-btn:hover {
       background-color: #3a50c1;
   }
-
      .input-group {
       text-align: center;
       margin-bottom: 1em;
   }
-
      .input-group input {
       padding: 0.5em 1em;
       font-size: 1rem;
@@ -765,7 +697,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-radius: 4px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
-
      .input-group button {
       padding: 0.5em 1.2em;
       font-size: 1rem;
@@ -777,7 +708,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-radius: 4px;
       transition: background-color 0.3s ease;
   }
-
      .unit-toggle {
       text-align: center;
       margin-bottom: 1em;
@@ -791,7 +721,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       transform: scale(1.2);
       cursor: pointer;
   }
-
      .weather-card {
       background: var(--bg-color);
       border-radius: 20px;
@@ -802,7 +731,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       font-family: var(--text-font, 'Roboto'), sans-serif;
       color: var(--text-color);
   }
-
      .weather-header {
       display: flex;
       align-items: center;
@@ -810,12 +738,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       gap: 0.6em;
       margin-bottom: 0.3em;
   }
-
      .weather-icon {
       font-size: 2.4rem;
       color: var(--text-color);
   }
-
      .loading-spinner {
       font-size: 2rem;
       animation: spin 1.5s linear infinite;
@@ -823,17 +749,14 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       vertical-align: middle;
       color: var(--accent-color);
   }
-
       @keyframes spin {
       0% { transform: rotate(0deg);}
       100% { transform: rotate(360deg);}
   }
-
      .wind-container {
       margin-top: 1em;
       user-select: none;
   }
-
      .wind-speed {
       font-weight: 600;
       font-size: 1.3rem;
@@ -841,7 +764,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       color: var(--accent-color);
       font-family: var(--text-font, 'Roboto'), sans-serif;
  }
-
       wind-compass {
       display: block;
       margin: 0 auto;
@@ -849,13 +771,11 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       height: 100px;
       stroke-linejoin: round;
   }
-
       input:focus {
       outline-color: var(--accent-color);
       border-color: var(--accent-color);
       box-shadow: 0 0 5px var(--accent-color);
   }
-
      .forecast-container {
       display: flex;
       justify-content: space-between;
@@ -883,13 +803,11 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       height: 24px;
       margin: 0;
   }
-
      .switch input {
       opacity: 0;
       width: 0;
       height: 0;
   }
-
      .slider {
       position: absolute;
       cursor: pointer;
@@ -898,7 +816,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       transition: 0.4s;
       border-radius: 24px;
   }
-
      .slider::before {
       position: absolute;
       content: "";
@@ -910,15 +827,12 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       transition: 0.4s;
       border-radius: 50%;
   }
-
      .switch input:checked + .slider {
       background-color: var(--accent-color);
   }
-
      .switch input:checked + .slider::before {
       transform: translateX(26px);
   }
-
      #today-forecast {
       border: 2px solid var(--accent-color);
       background-color: var(--accent-color);
@@ -926,7 +840,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-radius: 12px;
       padding: 6px;
   }
-
      #notepad-btn {
       position: fixed;
       bottom: 30px;
@@ -995,7 +908,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       font-size: 1.3em;
       cursor: pointer;
   }
-
      #notepad-btn {
       position: fixed;
       bottom: 70px;
@@ -1033,7 +945,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       flex-direction: column;
       overflow: hidden;
   }
-  
      .about-panel {
       position: absolute;
       bottom: 50px;
@@ -1070,7 +981,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
      .about-close:hover {
       color: var(--accent-color, royalblue);
   }
-
     .notepad-header button {
      background: #f5f5f7;
      border: none;
@@ -1085,21 +995,17 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
      display: inline-flex;
      align-items: center;
   }
-
     .notepad-header button:hover {
      background: #e0e0e7;
      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
-
     .notepad-header button:active {
      background: #d0d0d7;
   }
-
     .notepad-header .material-symbols-rounded {
      font-size: 1.3em;
      margin-right: 2px;
   }
-
       .font-family-settings {
       display: flex;
       flex-direction: column;
@@ -1107,7 +1013,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       margin-bottom: 1em;
       font-family: Arial, sans-serif;
   }
-
      .font-family-settings #font-family-search {
       padding: 6px 10px;
       margin-bottom: 8px;
@@ -1120,12 +1025,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       font-family: var(--text-font, 'Roboto'), sans-serif;
       font-size: var(--font-size);
   }
-
      .font-family-settings #font-family-search:focus {
       border-color: #3a86ff;
       box-shadow: 0 0 4px #3a86ffaa;
   }
-
      .font-family-settings #font-family-select {
       font-size: 1rem;
       background: var(--bg-color);
@@ -1134,7 +1037,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border: 2px solid var(--accent-color, royalblue);
       font-size: var(--font-size)
   }
-
      #footer-overlay {
       position: absolute;
       left: 206px;
@@ -1157,7 +1059,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
         right: 16px;
     }
 }
-
      .setting-item input[type="color"] {
       appearance: none;
       border: 2px solid var(--accent-color);
@@ -1171,7 +1072,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       transition: border-color 0.2s, box-shadow 0.2s;
       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   }
-
      .setting-item input[type="color"]:focus {
       outline: none;
       border-color: #3a86ff;
@@ -1184,7 +1084,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       font-family: var(--text-font, 'Roboto'), sans-serif;
       color: var(--text-color);
   }
-
      #reset-theme-btn {
       background: var(--accent-color);
       color: white;
@@ -1197,19 +1096,16 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       margin-top: 6px;
       transition: background 0.2s, box-shadow 0.2s;
   }
-
      #reset-theme-btn:hover, #reset-theme-btn:focus {
       background: #3a50c1;
       box-shadow: 0 2px 8px rgba(58,134,255,0.10);
       outline: none;
   }
-
      .dropdown {
       position: relative;
       display: inline-block;
       margin-top: 18px;
   }
-
      .dropdown-button {
       background: var(--accent-color, royalblue);
       color: #fff;
@@ -1222,7 +1118,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       box-shadow: 0 2px 8px rgba(58,134,255,0.08);
       transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
   }
-
     .dropdown-button:hover,
     .dropdown-button:focus {
      background: #3a50c1;
@@ -1230,7 +1125,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
      outline: none;
      transform: translateY(-2px) scale(1.04);
   }
-
      .dropdown-content {
       display: none;
       position: absolute;
@@ -1245,12 +1139,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       padding: 8px 0;
       font-family: var(--text-font, 'Roboto'), sans-serif;
   }
-
     .dropdown:hover .dropdown-content,
     .dropdown:focus-within .dropdown-content {
       display: block;
   }
-
      .dropdown-content a {
       display: block;
       padding: 10px 18px;
@@ -1260,14 +1152,12 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-radius: 8px;
       transition: background 0.15s, color 0.15s;
   }
-
      .dropdown-content a:hover,
      .dropdown-content a:focus {
       background: var(--accent-color, royalblue);
       color: #fff;
       outline: none;
   }
-
     .dropdown-warning {
       display: flex;
       align-items: center;
@@ -1279,12 +1169,10 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border-bottom: 1px solid #f5c6cb;
       font-style: italic;
   }
-
      .warning-icon {
       font-size: 20px;
-      color: #f5a623; 
+      color: #f5a623;
   }
-
      .citation-popup {
       position: fixed;
       z-index: 999999999999;
@@ -1493,7 +1381,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       color: var(--accent-color, royalblue);
     }
 /* --- End Infobox Styling --- */
-
      #toc-toggle-btn {
       position: fixed;
       bottom: 70px;
@@ -1513,7 +1400,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       justify-content: center;
       transition: background 0.2s;
     }
-
      #toc-panel {
       position: absolute;
       top: 24px;
@@ -1531,7 +1417,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       border: 2px solid var(--accent-color);
       padding: 12px 0 12px 0;
   }
-
      .play-btn {
       font-family: 'Material Symbols Rounded';
       font-variation-settings: 'FILL' 100, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -1558,7 +1443,6 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       background-color: color-mix(in srgb, var(--accent-color) 70%, black 30%);
       outline: none;
     }
-
      .sidebar-title {
       font-size: 1.5em;
       font-weight: 900;
@@ -1573,15 +1457,11 @@ if (changelogBtn && changelogModal && changelogContent && closeChangelogBtn) {
       user-select: none;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.13);
     }
-
   `;
-
   document.head.appendChild(style);
-
 const app = document.createElement("section");
 app.id = "compendium-app";
 app.classList.add("light");
-
 // --- Apply custom theme on load if present ---
 const savedTheme = localStorage.getItem("custom-theme");
 if (savedTheme) {
@@ -1594,7 +1474,6 @@ if (savedTheme) {
     app.classList.add("light");
   } catch {}
 }
-
 // Define both layouts as template strings
 const htmlWide = `
 <header>
@@ -1645,7 +1524,6 @@ const htmlWide = `
   </div>
 </main>
 `;
-
 const htmlNarrow = `
   <header>
   <div class="tab selected" data-tab="wiki" title="Wikipedia">
@@ -1680,14 +1558,12 @@ const htmlNarrow = `
       <div id="time"></div>
       <div id="date"></div>
     </div>
-
       <div class="version-label" id="versionLabel">v.3.1</div>
       <div id="versionDetails" class="version-details" style="display:none;"></div>
       <div class="author-title">Made by L. Smalley</div>
       <div id="footer-overlay"></div>
     </main>
 `;
-
 // Function to set the correct layout
 function setAppHTML() {
   if (window.innerWidth < 768) {
@@ -1696,12 +1572,9 @@ function setAppHTML() {
     app.innerHTML = htmlWide;
   }
 }
-
 // Set initial layout
 setAppHTML();
-
   document.body.appendChild(app);
-
   // Make sidebar title clickable to go to homepage
 const sidebarTitle = app.querySelector('.sidebar-title');
 if (sidebarTitle) {
@@ -1711,13 +1584,11 @@ if (sidebarTitle) {
     window.location.search = "";
   });
 }
-
 const notepadBtn = document.createElement("button");
 notepadBtn.id = "notepad-btn";
 notepadBtn.title = "Open Notepad";
 notepadBtn.innerHTML = `<span class="material-symbols-rounded">edit_note</span>`;
 app.appendChild(notepadBtn);
-
 const notepadPanel = document.createElement("div");
 notepadPanel.id = "notepad-panel";
 notepadPanel.innerHTML = `
@@ -1730,27 +1601,19 @@ notepadPanel.innerHTML = `
   </div>
 </div>
 <textarea id="notepad-text" placeholder="Type your notes here..."></textarea>
-
 `;
 app.appendChild(notepadPanel);
-
-
 notepadPanel.querySelector("#export-notes").addEventListener("click", exportNotes);
 notepadPanel.querySelector("#import-notes").addEventListener("click", importNotes);
-
-
 // Notepad logic
 const notepadText = notepadPanel.querySelector("#notepad-text");
 const closeNotepad = notepadPanel.querySelector("#close-notepad");
-
 // Load saved notes
 notepadText.value = localStorage.getItem("compendium-notepad") || "";
-
 // Save notes on input
 notepadText.addEventListener("input", () => {
   localStorage.setItem("compendium-notepad", notepadText.value);
 });
-
 // Show/hide panel
 notepadBtn.addEventListener("click", () => {
   notepadPanel.style.display = "flex";
@@ -1758,7 +1621,6 @@ notepadBtn.addEventListener("click", () => {
 closeNotepad.addEventListener("click", () => {
   notepadPanel.style.display = "none";
 });
-
 // Export notes as .txt file
 function exportNotes() {
   const text = localStorage.getItem("compendium-notepad") || "";
@@ -1774,7 +1636,6 @@ function exportNotes() {
     URL.revokeObjectURL(url);
   }, 0);
 }
-
 // Import notes from .txt file
 function importNotes() {
   const input = document.createElement("input");
@@ -1793,15 +1654,12 @@ function importNotes() {
   };
   input.click();
 }
-
 const tabs = app.querySelectorAll(".tab");
 const searchInput = app.querySelector("#search-input");
 const resultsDiv = app.querySelector(".results");
 const contentDiv = app.querySelector(".content");
 const settingsDiv = app.querySelector(".settings");
-
 const words = []; // Will be populated via fetch
-
 // Load words dynamically from MIT wordlist (via CORS proxy)
 fetch('https://corsproxy.io/?https://www.mit.edu/~ecprice/wordlist.10000')
   .then(res => res.text())
@@ -1809,7 +1667,6 @@ fetch('https://corsproxy.io/?https://www.mit.edu/~ecprice/wordlist.10000')
     words.push(...text.split('\n').map(w => w.trim()).filter(Boolean));
   })
   .catch(() => {}); // Silently ignore errors
-
 const suggestionBox = document.createElement('div');
 suggestionBox.className = 'suggestions';
 suggestionBox.style.position = 'absolute';
@@ -1817,7 +1674,6 @@ suggestionBox.style.display = 'none';
 suggestionBox.style.zIndex = '10000';
 const autocompleteStyle = document.getElementById('compendium-app');
 autocompleteStyle.appendChild(suggestionBox);
-
 const acStyle = document.createElement('style');
 acStyle.textContent = `
   .suggestions {
@@ -1843,40 +1699,31 @@ acStyle.textContent = `
   }
 `;
 document.head.appendChild(acStyle);
-
-
-
 function getLastWordInfo(str) {
   const wordsArray = str.split(/\s+/);
   const lastWord = wordsArray[wordsArray.length - 1];
   const lastWordStart = str.lastIndexOf(lastWord);
   return { lastWord, lastWordStart };
 }
-
 searchInput.addEventListener('input', () => {
   const val = searchInput.value;
   const { lastWord, lastWordStart } = getLastWordInfo(val);
   const lowerLastWord = lastWord ? lastWord.toLowerCase() : "";
-
   suggestionBox.innerHTML = '';
   if (!lastWord) {
     suggestionBox.style.display = 'none';
     return;
   }
-
   const matches = words
     .filter(w => w.toLowerCase().startsWith(lowerLastWord))
     .slice(0, 5);
-
   if (matches.length === 0) {
     suggestionBox.style.display = 'none';
     return;
   }
-
   matches.forEach(match => {
     const div = document.createElement('div');
     div.innerHTML = `<strong>${match.substr(0, lastWord.length)}</strong>${match.substr(lastWord.length)}`;
-    
     function fillSuggestion(e) {
       e.preventDefault();
       const before = val.substring(0, lastWordStart);
@@ -1886,19 +1733,16 @@ searchInput.addEventListener('input', () => {
       searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
       searchInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
-
     div.addEventListener('mousedown', fillSuggestion);
     div.addEventListener('click', fillSuggestion);
     suggestionBox.appendChild(div);
   });
-
   const rect = searchInput.getBoundingClientRect();
   suggestionBox.style.top = (rect.bottom + window.scrollY) + 'px';
   suggestionBox.style.left = (rect.left + window.scrollX) + 'px';
   suggestionBox.style.width = rect.width + 'px';
   suggestionBox.style.display = 'block';
 });
-
 searchInput.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') {
     const val = searchInput.value;
@@ -1915,20 +1759,16 @@ searchInput.addEventListener('keydown', (e) => {
     }
   }
 });
-
 document.addEventListener('click', e => {
   if (e.target !== searchInput && !suggestionBox.contains(e.target)) {
     suggestionBox.style.display = 'none';
   }
 });
-
 let currentTab = "wiki";
-
 let darkMode = false;
 let fontSize = 14; // px
 let appSize = 1.25; //scale
 let fontFamily = "Roboto";
-
 // Store content for each tab
 const tabContents = {
   wiki: { results: "", content: ""},
@@ -1938,7 +1778,6 @@ const tabContents = {
   compound: { results: "", content: ""},
   sett: { results: "", content: ""}
 };
-
 // Keyboard shortcuts for tab switching
 document.addEventListener("keydown", (e) => {
   if (e.altKey && e.shiftKey) {
@@ -1967,7 +1806,6 @@ document.addEventListener("keydown", (e) => {
     }
   }
 });
-
 function initContentPopupsAndLinks() {
   // Always get fresh reference
   const contentDiv = app.querySelector(".content");
@@ -1980,12 +1818,10 @@ function initContentPopupsAndLinks() {
     const citationPopupDiv = document.getElementById('compendium-app');
     citationPopupDiv.appendChild(popup);
   }
-
   // Function to remove leading ^ symbols from citation text
 function cleanCitationText(text) {
   return text.replace(/^\s*\^+/, '').replace(/^\s+/, '');
 }
-
 // Update citation popups to clean text
 contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
   ref.addEventListener("mouseenter", (e) => {
@@ -2014,7 +1850,6 @@ contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
       popup.style.display = "none";
     });
   });
-
   // Article summary popups and disable navigation
   contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
     const href = link.getAttribute("href");
@@ -2030,9 +1865,7 @@ contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
       href.startsWith("/wiki/Main_Page") ||
       href.startsWith("/wiki/Citation_needed")
     ) return;
-
     let fetchTimeout, lastTitle = "";
-
     link.addEventListener("mouseenter", (e) => {
       const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
       fetchTimeout = setTimeout(async () => {
@@ -2062,18 +1895,15 @@ contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
         }
       }, 200);
     });
-
     link.addEventListener("mousemove", (e) => {
       popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
       popup.style.top = Math.max(e.clientY - 10, 10) + "px";
     });
-
     link.addEventListener("mouseleave", () => {
       clearTimeout(fetchTimeout);
       lastTitle = "";
       popup.style.display = "none";
     });
-
     // Disable navigation for all wiki links
     link.addEventListener("click", e => {
       e.preventDefault();
@@ -2081,20 +1911,17 @@ contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
     });
   });
 }
-
 function switchTab(tab) {
   // Always get fresh references in case DOM was rebuilt
   const resultsDiv = app.querySelector(".results");
   const contentDiv = app.querySelector(".content");
   const settingsDiv = app.querySelector(".settings");
-
   // Save current tab's content and scroll position
   if (tabContents[currentTab]) {
     tabContents[currentTab].results = resultsDiv.innerHTML;
     tabContents[currentTab].content = contentDiv.innerHTML;
     tabContents[currentTab].scroll = contentDiv.scrollTop; // Save scroll position
   }
-
   const tabNames = {
     wiki: "Wikipedia",
     dic: "Dictionary",
@@ -2119,13 +1946,11 @@ function switchTab(tab) {
     titleIcon.textContent = tabData[tab].icon;
     titleLabel.textContent = tabData[tab].label;
   }
-
   currentTab = tab;
   tabs.forEach((t) => t.classList.toggle("selected", t.dataset.tab === tab));
   settingsDiv.style.display = "none";
   searchInput.style.display = "block";
   searchInput.value = "";
-
   // Restore content for the new tab
   if (tab === "wiki") {
     searchInput.placeholder = "Search Wikipedia...";
@@ -2168,7 +1993,6 @@ function switchTab(tab) {
     setTimeout(() => {
       contentDiv.scrollTop = tabContents.weather.scroll || 0;
     }, 0);
-
     // --- Weather auto-refresh: start timer when entering weather tab ---
     if (typeof weatherRefreshTimer !== "undefined" && weatherRefreshTimer) {
       clearInterval(weatherRefreshTimer);
@@ -2237,12 +2061,9 @@ function switchTab(tab) {
     }, 0);
   }
 }
-
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => switchTab(tab.dataset.tab));
 });
-
-
 // Wikipedia API
 async function wikiLoadArticles(query) {
   if (!query) {
@@ -2250,10 +2071,8 @@ async function wikiLoadArticles(query) {
     contentDiv.innerHTML = "";
     return;
   }
-
   resultsDiv.innerHTML = "Searching...";
   contentDiv.innerHTML = "";
-
   try {
     const searchRes = await fetch(
       `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${encodeURIComponent(
@@ -2261,10 +2080,8 @@ async function wikiLoadArticles(query) {
       )}&utf8=1&srlimit=10`
     );
     const searchData = await searchRes.json();
-
     let searchResults = searchData.query.search;
     const titles = searchResults.map(item => item.title);
-
     const thumbRes = await fetch(
       `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&titles=${encodeURIComponent(
         titles.join("|")
@@ -2272,7 +2089,6 @@ async function wikiLoadArticles(query) {
     );
     const thumbData = await thumbRes.json();
     const pagesWithThumbs = thumbData.query.pages;
-
     const thumbnailMap = {};
     for (const pageId in pagesWithThumbs) {
       const page = pagesWithThumbs[pageId];
@@ -2280,7 +2096,6 @@ async function wikiLoadArticles(query) {
         thumbnailMap[page.title] = page.thumbnail.source;
       }
     }
-
     let resultsArr = [];
     if (
       query.trim().toLowerCase().includes("compendium of everything") ||
@@ -2292,7 +2107,6 @@ async function wikiLoadArticles(query) {
         thumbnail: "https://cdn.compendiumofeverything.org/images/Compendium_Logo.png"
       });
     }
-
     resultsArr = resultsArr.concat(
       searchResults.map(item => ({
         title: item.title,
@@ -2300,12 +2114,10 @@ async function wikiLoadArticles(query) {
         thumbnail: thumbnailMap[item.title] || "https://cdn.compendiumofeverything.org/images/No_Image_Available_alt.png"
       }))
     );
-
     if (!resultsArr.length) {
       resultsDiv.innerHTML = "<i>No results found.</i>";
       return;
     }
-
     resultsDiv.innerHTML = "";
     resultsArr.forEach((item) => {
       const div = document.createElement("div");
@@ -2317,7 +2129,6 @@ async function wikiLoadArticles(query) {
         margin-bottom: 10px;
         cursor: pointer;
       `);
-
       const thumb = document.createElement("img");
       thumb.src = item.thumbnail;
       thumb.alt = "";
@@ -2328,49 +2139,39 @@ async function wikiLoadArticles(query) {
         border-radius: 15px;
         flex-shrink: 0;
       `);
-
       const title = document.createElement("span");
       title.textContent = item.title;
-
       div.appendChild(thumb);
       div.appendChild(title);
       div.addEventListener("click", () => wikiLoadArticle(item.title));
-
       resultsDiv.appendChild(div);
     });
   } catch (e) {
     resultsDiv.innerHTML = `<i>Error fetching Wikipedia results.</i>`;
   }
 }
-
 async function wikiLoadArticle(title) {
   resultsDiv.innerHTML = "";
   contentDiv.innerHTML = "Loading article...";
-
   if (title.trim().toLowerCase() === "the compendium of everything") {
     contentDiv.innerHTML = `
     <!--Ommited for brevity-->
     `;
     return;
   }
-
   try {
     const articleRes = await fetch(
       `https://en.wikipedia.org/w/api.php?action=parse&format=json&origin=*&page=${encodeURIComponent(title)}&prop=text`
     );
     const data = await articleRes.json();
     let html = data?.parse?.text?.["*"] || "<i>Could not load content.</i>";
-
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
-
     // Remove edit section links
     doc.querySelectorAll(".mw-editsection").forEach((el) => el.remove());
-
     // Fix image URLs
 doc.querySelectorAll("img").forEach((img) => {
   let src = img.getAttribute("src") || img.getAttribute("data-src") || "";
-
   // If src is missing, broken, or a placeholder, use srcset if available
   if (
     (!src || src === "" || src === "undefined" || src.startsWith("data:") || src.includes("wiki/Special:") || src.includes("question")) &&
@@ -2380,30 +2181,25 @@ doc.querySelectorAll("img").forEach((img) => {
     const srcsetArr = img.getAttribute("srcset").split(",");
     src = srcsetArr[srcsetArr.length - 1].trim().split(" ")[0];
   }
-
   // If still missing, try srcset first image
   if (!src && img.getAttribute("srcset")) {
     src = img.getAttribute("srcset").split(",")[0].trim().split(" ")[0];
   }
-
   // Ensure protocol
   if (src.startsWith("//")) src = "https:" + src;
   else if (src.startsWith("/")) src = "https://en.wikipedia.org" + src;
   else if (!src.startsWith("http")) src = "https://en.wikipedia.org/" + src.replace(/^\/*/, "");
-
   // Remove Wikipedia thumbnail cropping (but keep SVGs!)
   const thumbMatch = src.match(/^(.*)\/thumb\/(.*?\/.*?)(?:\/[^\/]+)?$/);
   if (thumbMatch && !src.endsWith(".svg")) {
     src = `${thumbMatch[1]}/${thumbMatch[2]}`;
   }
-
   img.src = src;
   img.removeAttribute("srcset");
   img.onerror = function () {
     this.style.display = "none";
   };
 });
-
 // Remove links that wrap images
     doc.querySelectorAll("a > img").forEach(img => {
       const a = img.parentElement;
@@ -2411,13 +2207,10 @@ doc.querySelectorAll("img").forEach((img) => {
         a.replaceWith(img);
       }
     });
-
     // === Fix links ===
     doc.querySelectorAll("a[href]").forEach((a) => {
       const href = a.getAttribute("href");
-
       if (!href) return;
-
       // Internal Wikipedia links
       if (
         href.startsWith("/wiki/") ||
@@ -2429,7 +2222,6 @@ doc.querySelectorAll("img").forEach((img) => {
         if (href.startsWith("/wiki/")) a.removeAttribute("title");
         return;
       }
-
       // External links
       if (href.startsWith("http") || href.startsWith("//")) {
         a.setAttribute("target", "_blank");
@@ -2439,26 +2231,21 @@ doc.querySelectorAll("img").forEach((img) => {
         a.style.cursor = "pointer";
         return;
       }
-
       // Unknown/weird links — disable
       a.removeAttribute("href");
       a.style.cursor = "default";
       a.style.color = "inherit";
       a.style.textDecoration = "none";
     });
-
     contentDiv.innerHTML = doc.body.innerHTML;
-
     if (typeof window !== "undefined") {
   const param = encodeURIComponent(title.trim().replace(/ /g, "-"));
   const newUrl = `${window.location.pathname}?wikipedia=${param}`;
   window.history.replaceState({}, "", newUrl);
 }
-
     (function injectInfoboxMap() {
   const infobox = contentDiv.querySelector('.infobox');
   if (!infobox) return;
-
   let lat = null, lon = null;
   // Try <span class="geo">lat; lon</span>
   const geoSpan = infobox.querySelector('.geo');
@@ -2479,7 +2266,6 @@ doc.querySelectorAll("img").forEach((img) => {
     }
   }
   if (!lat || !lon || isNaN(lat) || isNaN(lon)) return;
-
   // Find the map image (alt="Map" or alt contains "location")
   let mapImg = Array.from(infobox.querySelectorAll('img')).find(img =>
     img.alt && (
@@ -2487,12 +2273,10 @@ doc.querySelectorAll("img").forEach((img) => {
       img.alt.toLowerCase().includes("location")
     )
   );
-
   // Create map container
   const mapDiv = document.createElement('div');
   mapDiv.className = 'infobox-map';
   mapDiv.style = 'width:100%;height:220px;margin:10px 0;border-radius:12px;overflow:hidden;';
-
   // Replace map image with mapDiv, or insert after first image if not found
   if (mapImg && mapImg.parentNode) {
     mapImg.parentNode.replaceChild(mapDiv, mapImg);
@@ -2504,7 +2288,6 @@ doc.querySelectorAll("img").forEach((img) => {
       infobox.prepend(mapDiv);
     }
   }
-
   // --- Optimized Leaflet loader ---
   function ensureLeafletLoaded(callback) {
     if (window.L && typeof window.L.map === "function") {
@@ -2516,14 +2299,12 @@ doc.querySelectorAll("img").forEach((img) => {
       return;
     }
     window._leafletLoading = true;
-
     if (!document.querySelector('link[href*="leaflet.css"]')) {
       const leafletCSS = document.createElement('link');
       leafletCSS.rel = 'stylesheet';
       leafletCSS.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
       document.head.appendChild(leafletCSS);
     }
-
     if (!document.querySelector('script[src*="leaflet.js"]')) {
       const leafletJS = document.createElement('script');
       leafletJS.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
@@ -2535,7 +2316,6 @@ doc.querySelectorAll("img").forEach((img) => {
       document.body.appendChild(leafletJS);
     }
   }
-
 function renderMap() {
   // Remove previous map instance if present
   if (mapDiv._leaflet_map) {
@@ -2554,13 +2334,10 @@ function renderMap() {
     tap: false,
     touchZoom: false,
   }).setView([lat, lon], 13);
-
   mapDiv._leaflet_map = map; // Save reference for cleanup
-
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
   }).addTo(map);
-
   L.marker([lat, lon])
     .addTo(map)
     .bindPopup(infobox.querySelector('.infobox-title')?.textContent || 'Location')
@@ -2568,7 +2345,6 @@ function renderMap() {
 }
   ensureLeafletLoaded(renderMap);
 })();
-
 // --- Add QR Code and Bookmark buttons at the top ---
     // QR Code Button
     const qrBtn = document.createElement("button");
@@ -2576,16 +2352,13 @@ function renderMap() {
     qrBtn.title = "Share this article (QR Code)";
     qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
     qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
-
     qrBtn.addEventListener("click", () => showQrLightboxStyled(title));
-
     // Bookmark Button
     const bookmarkBtn = document.createElement("button");
     bookmarkBtn.className = "bookmark-btn";
     bookmarkBtn.title = "Bookmark this article";
     bookmarkBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
     bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark</span>`;
-
     // Check if already bookmarked
     const bookmarks = getBookmarks();
     if (bookmarks.some(b => b.title === title)) {
@@ -2602,11 +2375,9 @@ function renderMap() {
       bookmarkBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">bookmark_added</span>`;
       bookmarkBtn.style.opacity = "0.7";
     });
-
     // Insert both buttons at the top
     contentDiv.prepend(bookmarkBtn);
     contentDiv.prepend(qrBtn);
-
     // Remove leading ^ symbols
     (function removeLeadingCaret() {
       let node = contentDiv.firstChild;
@@ -2618,19 +2389,16 @@ function renderMap() {
         node = node.nextSibling;
       }
     })();
-
     // Remove ^ from citation entries
     contentDiv.querySelectorAll('ol.references li, .references li').forEach(li => {
       li.innerHTML = li.innerHTML.replace(/\^+/g, '');
     });
-
     // === Citation Popup System ===
     if (!document.getElementById("citation-popup-style")) {
       const popupStyle = document.createElement("style");
       popupStyle.id = "citation-popup-style";
       document.head.appendChild(popupStyle);
     }
-
     let popup = document.getElementById("citation-popup");
     if (!popup) {
       popup = document.createElement("div");
@@ -2638,7 +2406,6 @@ function renderMap() {
       popup.id = "citation-popup";
       document.body.appendChild(popup);
     }
-
     contentDiv.querySelectorAll('a[href^="#cite_note"]').forEach(ref => {
       ref.addEventListener("mouseenter", (e) => {
         const href = ref.getAttribute("href");
@@ -2660,7 +2427,6 @@ function renderMap() {
         popup.style.display = "none";
       });
     });
-
     // === Internal Article Popups and Navigation ===
     contentDiv.querySelectorAll('a[href^="/wiki/"]').forEach(link => {
       const href = link.getAttribute("href");
@@ -2676,9 +2442,7 @@ function renderMap() {
         href.startsWith("/wiki/Main_Page") ||
         href.startsWith("/wiki/Citation_needed")
       ) return;
-
       let fetchTimeout, lastTitle = "";
-
       link.addEventListener("mouseenter", (e) => {
         const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
         fetchTimeout = setTimeout(async () => {
@@ -2708,43 +2472,36 @@ function renderMap() {
           }
         }, 200);
       });
-
       link.addEventListener("mousemove", (e) => {
         popup.style.left = Math.min(e.clientX + 20, window.innerWidth - 340) + "px";
         popup.style.top = Math.max(e.clientY - 10, 10) + "px";
       });
-
       link.addEventListener("mouseleave", () => {
         clearTimeout(fetchTimeout);
         lastTitle = "";
         popup.style.display = "none";
       });
-
       link.addEventListener("click", e => {
         e.preventDefault();
         if (popup) popup.style.display = "none";
         const articleTitle = decodeURIComponent(href.replace(/^\/wiki\//, "")).replace(/_/g, " ");
         searchInput.value = articleTitle;
         wikiLoadArticle(articleTitle);
-
         // --- Update URL param when navigating to a new article ---
         const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
         const newUrl = `${window.location.pathname}?wikipedia=${param}`;
         window.history.replaceState({}, "", newUrl);
       });
     });
-
     // === Table of Contents ===
     const oldBtn = contentDiv.querySelector("#toc-toggle-btn");
     if (oldBtn) oldBtn.remove();
     const oldPanel = contentDiv.querySelector("#toc-panel");
     if (oldPanel) oldPanel.remove();
-
     const tocBtn = document.createElement("button");
     tocBtn.id = "toc-toggle-btn";
     tocBtn.title = "Show Table of Contents";
     tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
-
     const tocPanel = document.createElement("div");
     tocPanel.id = "toc-panel";
     tocPanel.innerHTML = `
@@ -2758,17 +2515,14 @@ function renderMap() {
         <div id="toc-list" style="padding:0 18px;"></div>
       </div>
     `;
-
     contentDiv.appendChild(tocBtn);
     contentDiv.appendChild(tocPanel);
-
     tocBtn.onclick = () => {
       tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
     };
     tocPanel.querySelector("#toc-close-btn").onclick = () => {
       tocPanel.style.display = "none";
     };
-
     const tocList = tocPanel.querySelector("#toc-list");
     tocList.innerHTML = "";
     const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
@@ -2795,18 +2549,15 @@ function renderMap() {
     } else {
       tocBtn.style.display = "none";
     }
-
     const imageLightbox = document.getElementById('compendium-app');
     // === Lightbox ===
     contentDiv.querySelectorAll("img").forEach(img => {
       img.style.cursor = "pointer";
       img.addEventListener("click", function handler(e) {
         e.stopPropagation();
-
         // Remove existing overlay if present
         let overlay = document.getElementById("img-lightbox-overlay");
         if (overlay) overlay.remove();
-
         // Create overlay
         overlay = document.createElement("div");
         overlay.id = "img-lightbox-overlay";
@@ -2821,7 +2572,6 @@ function renderMap() {
         overlay.style.justifyContent = "center";
         overlay.style.zIndex = "999999999";
         overlay.style.cursor = "zoom-in";
-
         // Helper to extract original Wikimedia Commons filename
         function extractCommonsFilename(url) {
           const thumbMatch = url.match(/\/thumb\/(?:[^\/]+\/){2}([^\/]+)\/[^\/]+$/);
@@ -2831,7 +2581,6 @@ function renderMap() {
           const parts = url.split("/");
           return decodeURIComponent(parts[parts.length - 1].split("?")[0]);
         }
-
         // Create Download button with Material Symbols Rounded icon
         const downloadBtn = document.createElement("button");
         downloadBtn.innerHTML = `<span class="material-symbols-rounded" style="font-variation-settings:'wght' 400; font-size: 20px;">download</span>`;
@@ -2850,26 +2599,20 @@ function renderMap() {
         downloadBtn.style.display = "flex";
         downloadBtn.style.alignItems = "center";
         downloadBtn.style.justifyContent = "center";
-
         downloadBtn.addEventListener("click", async (event) => {
           event.stopPropagation();
-
           let filename = extractCommonsFilename(bigImg.src) || "downloaded-image.png";
           filename = filename.replace(/\.[^.]+$/, ".png");
-
           try {
             const response = await fetch(bigImg.src, {mode: 'cors'});
             if (!response.ok) throw new Error("Network response was not ok");
-
             const blob = await response.blob();
-
             const imgBitmap = await createImageBitmap(blob);
             const canvas = document.createElement("canvas");
             canvas.width = imgBitmap.width;
             canvas.height = imgBitmap.height;
             const ctx = canvas.getContext("2d");
             ctx.drawImage(imgBitmap, 0, 0);
-
             canvas.toBlob((pngBlob) => {
               const url = URL.createObjectURL(pngBlob);
               const link = document.createElement("a");
@@ -2882,14 +2625,11 @@ function renderMap() {
                 link.remove();
               }, 100);
             }, "image/png");
-
           } catch (error) {
             alert("Failed to download image: " + error.message);
           }
         });
-
         overlay.appendChild(downloadBtn);
-
         // Create big image
         const bigImg = document.createElement("img");
         bigImg.src = img.src;
@@ -2902,16 +2642,13 @@ function renderMap() {
         bigImg.style.transition = "transform 0.2s ease";
         bigImg.style.transformOrigin = "center center";
         bigImg.style.cursor = "zoom-in";
-
         let zoomedIn = false;
         const zoomScale = 4;
         let isDragging = false;
         let startX = 0, startY = 0, currentX = 0, currentY = 0;
-
         bigImg.addEventListener("click", (e) => {
           e.stopPropagation();
           zoomedIn = !zoomedIn;
-
           if (zoomedIn) {
             bigImg.style.transform = `scale(${zoomScale})`;
             bigImg.style.cursor = "grab";
@@ -2926,7 +2663,6 @@ function renderMap() {
             overlay.style.cursor = "zoom-out";
           }
         });
-
         bigImg.addEventListener("mousedown", (e) => {
           if (!zoomedIn) return;
           isDragging = true;
@@ -2935,50 +2671,41 @@ function renderMap() {
           bigImg.style.cursor = "grabbing";
           e.preventDefault();
         });
-
         document.addEventListener("mousemove", (e) => {
           if (!isDragging) return;
           currentX = e.clientX - startX;
           currentY = e.clientY - startY;
           bigImg.style.transform = `scale(${zoomScale}) translate(${currentX / zoomScale}px, ${currentY / zoomScale}px)`;
         });
-
         document.addEventListener("mouseup", () => {
           if (isDragging) {
             isDragging = false;
             bigImg.style.cursor = "grab";
           }
         });
-
         overlay.addEventListener("click", () => {
           overlay.remove();
         });
-
         document.addEventListener("keydown", function escCloser(e) {
           if (e.key === "Escape") {
             overlay.remove();
             document.removeEventListener("keydown", escCloser);
           }
         });
-
         overlay.appendChild(bigImg);
         imageLightbox.appendChild(overlay);
       });
     });
-
   } catch (e) {
     contentDiv.innerHTML = `
   Error fetching content: ${e.message || e}
   <br>Stack trace: ${e.stack || 'No stack available'}
 `;
-
   }
 }
-
 // ---- QR Lightbox with Styled Canvas (matches your p5js QR style) ----
 function showQrLightboxStyled(articleTitle) {
   document.getElementById("qr-lightbox-overlay")?.remove();
-
   // Create overlay
   const overlay = document.createElement("div");
   overlay.id = "qr-lightbox-overlay";
@@ -2989,7 +2716,6 @@ function showQrLightboxStyled(articleTitle) {
     display: "flex", alignItems: "center", justifyContent: "center",
     zIndex: "999999999"
   });
-
   const box = document.createElement("div");
   Object.assign(box.style, {
     background: "#fff",
@@ -3001,7 +2727,6 @@ function showQrLightboxStyled(articleTitle) {
     alignItems: "center",
     position: "relative"
   });
-
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "×";
   closeBtn.title = "Close QR Code";
@@ -3012,19 +2737,14 @@ function showQrLightboxStyled(articleTitle) {
   });
   closeBtn.onclick = () => overlay.remove();
   box.appendChild(closeBtn);
-
   const canvas = document.createElement("canvas");
   canvas.width = 400;
   canvas.height = 400;
   canvas.style.display = "block";
   box.appendChild(canvas);
-
   const label = document.createElement("div");
-
-
   overlay.appendChild(box);
   document.body.appendChild(overlay);
-
   const param = encodeURIComponent(articleTitle.trim().replace(/ /g, "-"));
   const url = `https://www.compendiumofeverything.org/?wikipedia=${param}`;
   const logoImg = new window.Image();
@@ -3042,7 +2762,6 @@ function showQrLightboxStyled(articleTitle) {
   };
   logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
 }
-
 // --- Canvas QR renderer (matches your p5js code) ---
 function renderStyledQrToCanvas(canvas, url, processedLogo) {
   const ctx = canvas.getContext('2d');
@@ -3060,10 +2779,8 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, size, size);
-
   // Version for alignment pattern lookup
   let version = (qrSize - 21) / 4 + 1;
-
   // Main QR modules (rounded rects, spacing)
   for (let row = 0; row < qrSize; row++) {
     for (let col = 0; col < qrSize; col++) {
@@ -3079,12 +2796,10 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       }
     }
   }
-
   // Position Markers (7x7)
   drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
-
   // Alignment Markers (5x5)
   let alignmentPositions = getAlignmentPatternPositions(version);
   for (let row of alignmentPositions) {
@@ -3097,7 +2812,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
     }
   }
-
   // Logo in center (processed, high-contrast, alpha kept)
   let maxLogoSize = qrRenderSize * 0.25;
   let aspect = processedLogo.width / processedLogo.height;
@@ -3107,7 +2821,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   let logoY = size / 2 - logoH / 2;
   ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
 }
-
 // --- Helper: Draw rounded rectangles ---
 function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
@@ -3123,7 +2836,6 @@ function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
   ctx.fill();
 }
-
 // --- Helper: Position Markers (7x7) ---
 function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#000";
@@ -3151,7 +2863,6 @@ function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize)
     cellSize
   );
 }
-
 // --- Helper: Alignment Markers (5x5) ---
 function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#fff";
@@ -3188,7 +2899,6 @@ function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize
     cellSize * 0.3
   );
 }
-
 function isInPositionMarkerArea(row, col, qrSize) {
   return (
     (row >= 0 && row < 7 && col >= 0 && col < 7) ||
@@ -3196,7 +2906,6 @@ function isInPositionMarkerArea(row, col, qrSize) {
     (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
   );
 }
-
 function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   let positions = getAlignmentPatternPositions(version);
   for (let r of positions) {
@@ -3211,7 +2920,6 @@ function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   }
   return false;
 }
-
 function getAlignmentPatternPositions(version) {
   const table = {
     1: [],
@@ -3230,7 +2938,6 @@ function getAlignmentPatternPositions(version) {
   };
   return table[version] || [];
 }
-
 // --- Logo Preprocessing: high contrast, alpha preserved ---
 function processLogoImage(logoImg) {
   // Create offscreen canvas
@@ -3257,7 +2964,6 @@ function processLogoImage(logoImg) {
   processed.height = logoImg.height;
   return processed;
 }
-
 // Function to setup Table of Contents
 function setupTableOfContents() {
   const contentDiv = document.querySelector(".content");
@@ -3265,12 +2971,10 @@ function setupTableOfContents() {
   if (oldBtn) oldBtn.remove();
   const oldPanel = contentDiv.querySelector("#toc-panel");
   if (oldPanel) oldPanel.remove();
-
   const tocBtn = document.createElement("button");
   tocBtn.id = "toc-toggle-btn";
   tocBtn.title = "Show Table of Contents";
   tocBtn.innerHTML = `<span class="material-symbols-rounded">toc</span>`;
-
   const tocPanel = document.createElement("div");
   tocPanel.id = "toc-panel";
   tocPanel.innerHTML = `
@@ -3284,17 +2988,14 @@ function setupTableOfContents() {
       <div id="toc-list" style="padding:0 18px;"></div>
     </div>
   `;
-
   contentDiv.appendChild(tocBtn);
   contentDiv.appendChild(tocPanel);
-
   tocBtn.onclick = () => {
     tocPanel.style.display = tocPanel.style.display === "block" ? "none" : "block";
   };
   tocPanel.querySelector("#toc-close-btn").onclick = () => {
     tocPanel.style.display = "none";
   };
-
   const tocList = tocPanel.querySelector("#toc-list");
   tocList.innerHTML = "";
   const headings = Array.from(contentDiv.querySelectorAll("h2, h3, h4"));
@@ -3321,11 +3022,7 @@ function setupTableOfContents() {
   } else {
     tocBtn.style.display = "none";
   }
-
 }
-
-
-
 // Main dictionary search function
 async function dicSearch(query) {
   if (!query || !query.trim()) {
@@ -3333,40 +3030,30 @@ async function dicSearch(query) {
     contentDiv.innerHTML = "";
     return;
   }
-
   const cleanQuery = query.trim();
-
   resultsDiv.innerHTML = "Searching...";
   contentDiv.innerHTML = "";
-
   try {
     const res = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanQuery)}`
     );
-
     if (res.status === 404) {
       resultsDiv.innerHTML = "<i>No definitions found.</i>";
       return;
     }
-
     const data = await res.json();
-
     resultsDiv.innerHTML = "";
-
     displayDictionary(data[0]);
-
     if (query && typeof window !== "undefined") {
   const param = encodeURIComponent(query.trim());
   const newUrl = `${window.location.pathname}?dictionary=${param}`;
   window.history.replaceState({}, "", newUrl);
 }
-
   }
     catch (e) {
     resultsDiv.innerHTML = "<i>Error fetching dictionary data.</i>";
   }
 }
-
 // Display dictionary data with play button icons
 function displayDictionary(entry) {
   if (!entry) {
@@ -3374,7 +3061,6 @@ function displayDictionary(entry) {
     return;
   }
   let html = `<h2 style="margin-top:0;">${entry.word}</h2>`;
-
   if (entry.phonetics && entry.phonetics.length) {
     html += `<p><i>Pronunciations:</i></p><ul style="margin-top: 0; margin-bottom: 1em;">`;
     entry.phonetics.forEach((phon) => {
@@ -3386,7 +3072,6 @@ function displayDictionary(entry) {
     });
     html += `</ul>`;
   }
-
   if (entry.meanings && entry.meanings.length) {
     entry.meanings.forEach((meaning) => {
       html += `<h3 style="margin-bottom: 0;">${meaning.partOfSpeech}</h3><ul>`;
@@ -3398,9 +3083,7 @@ function displayDictionary(entry) {
       html += `</ul>`;
     });
   }
-
   contentDiv.innerHTML = html;
-
   // --- Add QR Code Button at the Top ---
   // (QR is for this dictionary entry, using a URL param ?dictionary=word)
   const qrBtn = document.createElement("button");
@@ -3408,20 +3091,15 @@ function displayDictionary(entry) {
   qrBtn.title = "Share this word (QR Code)";
   qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
   qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
-
   qrBtn.addEventListener("click", () => showQrLightboxDictionary(entry.word));
-
   // Insert QR button at the very top
   contentDiv.prepend(qrBtn);
-
   injectPlayButtonStyles();
 }
-
 // ---- QR Lightbox for Dictionary Entries ----
 // Uses the same styling and logic as your main QR renderer
 function showQrLightboxDictionary(word) {
   document.getElementById("qr-lightbox-overlay")?.remove();
-
   const overlay = document.createElement("div");
   overlay.id = "qr-lightbox-overlay";
   Object.assign(overlay.style, {
@@ -3431,7 +3109,6 @@ function showQrLightboxDictionary(word) {
     display: "flex", alignItems: "center", justifyContent: "center",
     zIndex: "999999999"
   });
-
   const box = document.createElement("div");
   Object.assign(box.style, {
     background: "#fff",
@@ -3443,7 +3120,6 @@ function showQrLightboxDictionary(word) {
     alignItems: "center",
     position: "relative"
   });
-
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "×";
   closeBtn.title = "Close QR Code";
@@ -3454,19 +3130,14 @@ function showQrLightboxDictionary(word) {
   });
   closeBtn.onclick = () => overlay.remove();
   box.appendChild(closeBtn);
-
   const canvas = document.createElement("canvas");
   canvas.width = 400;
   canvas.height = 400;
   canvas.style.display = "block";
   box.appendChild(canvas);
-
   const label = document.createElement("div");
-
-
   overlay.appendChild(box);
   document.body.appendChild(overlay);
-
   const param = encodeURIComponent(word.trim().replace(/ /g, "-"));
   const url = `https://www.compendiumofeverything.org/?dictionary=${param}`;
   const logoImg = new window.Image();
@@ -3484,7 +3155,6 @@ function showQrLightboxDictionary(word) {
   };
   logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
 }
-
 // --- Canvas QR renderer and helpers (same as previous answers) ---
 function renderStyledQrToCanvas(canvas, url, processedLogo) {
   const ctx = canvas.getContext('2d');
@@ -3502,10 +3172,8 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, size, size);
-
   // Version for alignment pattern lookup
   let version = (qrSize - 21) / 4 + 1;
-
   // Main QR modules (rounded rects, spacing)
   for (let row = 0; row < qrSize; row++) {
     for (let col = 0; col < qrSize; col++) {
@@ -3521,12 +3189,10 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       }
     }
   }
-
   // Position Markers (7x7)
   drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
-
   // Alignment Markers (5x5)
   let alignmentPositions = getAlignmentPatternPositions(version);
   for (let row of alignmentPositions) {
@@ -3539,7 +3205,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
     }
   }
-
   // Logo in center (processed, high-contrast, alpha kept)
   let maxLogoSize = qrRenderSize * 0.25;
   let aspect = processedLogo.width / processedLogo.height;
@@ -3549,7 +3214,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   let logoY = size / 2 - logoH / 2;
   ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
 }
-
 function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -3564,7 +3228,6 @@ function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
   ctx.fill();
 }
-
 function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#000";
   drawRoundRect(ctx,
@@ -3591,7 +3254,6 @@ function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize)
     cellSize
   );
 }
-
 function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#fff";
   drawRoundRect(ctx,
@@ -3627,7 +3289,6 @@ function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize
     cellSize * 0.3
   );
 }
-
 function isInPositionMarkerArea(row, col, qrSize) {
   return (
     (row >= 0 && row < 7 && col >= 0 && col < 7) ||
@@ -3635,7 +3296,6 @@ function isInPositionMarkerArea(row, col, qrSize) {
     (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
   );
 }
-
 function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   let positions = getAlignmentPatternPositions(version);
   for (let r of positions) {
@@ -3650,7 +3310,6 @@ function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   }
   return false;
 }
-
 function getAlignmentPatternPositions(version) {
   const table = {
     1: [],
@@ -3669,7 +3328,6 @@ function getAlignmentPatternPositions(version) {
   };
   return table[version] || [];
 }
-
 // --- Logo Preprocessing: high contrast, alpha preserved ---
 function processLogoImage(logoImg) {
   const canvas = document.createElement("canvas");
@@ -3694,15 +3352,12 @@ function processLogoImage(logoImg) {
   processed.height = logoImg.height;
   return processed;
 }
-
 function injectPlayButtonStyles() {
   if (document.getElementById('play-btn-styles')) return;
-
   const style = document.createElement('style');
   style.id = 'play-btn-styles';
   document.head.appendChild(style);
 }
-
   // Thesaurus API (Datamuse API)
   async function thesSearch(query) {
     if (!query) {
@@ -3710,10 +3365,8 @@ function injectPlayButtonStyles() {
       contentDiv.innerHTML = "";
       return;
     }
-
     resultsDiv.innerHTML = "Searching...";
     contentDiv.innerHTML = "";
-
     try {
       const [synRes, antRes] = await Promise.all([
         fetch(
@@ -3727,14 +3380,10 @@ function injectPlayButtonStyles() {
           )}&max=20`
         ),
       ]);
-
       const synData = await synRes.json();
       const antData = await antRes.json();
-
       resultsDiv.innerHTML = "";
-
       let html = `<h2>Thesaurus for "${query}"</h2>`;
-
       if (synData.length) {
         html +=
           `<h3>Synonyms</h3><ul>` +
@@ -3743,7 +3392,6 @@ function injectPlayButtonStyles() {
       } else {
         html += `<h3>Synonyms</h3><p><i>No synonyms found.</i></p>`;
       }
-
       if (antData.length) {
         html +=
           `<h3>Antonyms</h3><ul>` +
@@ -3752,9 +3400,7 @@ function injectPlayButtonStyles() {
       } else {
         html += `<h3>Antonyms</h3><p><i>No antonyms found.</i></p>`;
       }
-
       contentDiv.innerHTML = html;
-
     // --- Add QR Code Button at the Top ---
     // (QR is for this thesaurus entry, using a URL param ?thesaurus=word)
     const qrBtn = document.createElement("button");
@@ -3762,27 +3408,21 @@ function injectPlayButtonStyles() {
     qrBtn.title = "Share this word (QR Code)";
     qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
     qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
-
     qrBtn.addEventListener("click", () => showQrLightboxThesaurus(query));
-
     // Insert QR button at the very top
     contentDiv.prepend(qrBtn);
-
     if (query && typeof window !== "undefined") {
       const param = encodeURIComponent(query.trim());
       const newUrl = `${window.location.pathname}?thesaurus=${param}`;
       window.history.replaceState({}, "", newUrl);
     }
-
   } catch (e) {
     resultsDiv.innerHTML = "<i>Error fetching thesaurus data.</i>";
   }
 }
-
 // ---- QR Lightbox for Thesaurus Queries ----
 function showQrLightboxThesaurus(word) {
   document.getElementById("qr-lightbox-overlay")?.remove();
-
   const overlay = document.createElement("div");
   overlay.id = "qr-lightbox-overlay";
   Object.assign(overlay.style, {
@@ -3792,7 +3432,6 @@ function showQrLightboxThesaurus(word) {
     display: "flex", alignItems: "center", justifyContent: "center",
     zIndex: "999999999"
   });
-
   const box = document.createElement("div");
   Object.assign(box.style, {
     background: "#fff",
@@ -3804,7 +3443,6 @@ function showQrLightboxThesaurus(word) {
     alignItems: "center",
     position: "relative"
   });
-
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "×";
   closeBtn.title = "Close QR Code";
@@ -3815,19 +3453,14 @@ function showQrLightboxThesaurus(word) {
   });
   closeBtn.onclick = () => overlay.remove();
   box.appendChild(closeBtn);
-
   const canvas = document.createElement("canvas");
   canvas.width = 400;
   canvas.height = 400;
   canvas.style.display = "block";
   box.appendChild(canvas);
-
   const label = document.createElement("div");
-
-
   overlay.appendChild(box);
   document.body.appendChild(overlay);
-
   const param = encodeURIComponent(word.trim());
   const url = `https://www.compendiumofeverything.org/?thesaurus=${param}`;
   const logoImg = new window.Image();
@@ -3845,7 +3478,6 @@ function showQrLightboxThesaurus(word) {
   };
   logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
 }
-
 // --- Canvas QR renderer and helpers (same as previous answers) ---
 function renderStyledQrToCanvas(canvas, url, processedLogo) {
   const ctx = canvas.getContext('2d');
@@ -3863,10 +3495,8 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, size, size);
-
   // Version for alignment pattern lookup
   let version = (qrSize - 21) / 4 + 1;
-
   // Main QR modules (rounded rects, spacing)
   for (let row = 0; row < qrSize; row++) {
     for (let col = 0; col < qrSize; col++) {
@@ -3882,12 +3512,10 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       }
     }
   }
-
   // Position Markers (7x7)
   drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
-
   // Alignment Markers (5x5)
   let alignmentPositions = getAlignmentPatternPositions(version);
   for (let row of alignmentPositions) {
@@ -3900,7 +3528,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
     }
   }
-
   // Logo in center (processed, high-contrast, alpha kept)
   let maxLogoSize = qrRenderSize * 0.25;
   let aspect = processedLogo.width / processedLogo.height;
@@ -3910,7 +3537,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   let logoY = size / 2 - logoH / 2;
   ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
 }
-
 function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -3925,7 +3551,6 @@ function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
   ctx.fill();
 }
-
 function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#000";
   drawRoundRect(ctx,
@@ -3952,7 +3577,6 @@ function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize)
     cellSize
   );
 }
-
 function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#fff";
   drawRoundRect(ctx,
@@ -3988,7 +3612,6 @@ function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize
     cellSize * 0.3
   );
 }
-
 function isInPositionMarkerArea(row, col, qrSize) {
   return (
     (row >= 0 && row < 7 && col >= 0 && col < 7) ||
@@ -3996,7 +3619,6 @@ function isInPositionMarkerArea(row, col, qrSize) {
     (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
   );
 }
-
 function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   let positions = getAlignmentPatternPositions(version);
   for (let r of positions) {
@@ -4011,7 +3633,6 @@ function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   }
   return false;
 }
-
 function getAlignmentPatternPositions(version) {
   const table = {
     1: [],
@@ -4030,7 +3651,6 @@ function getAlignmentPatternPositions(version) {
   };
   return table[version] || [];
 }
-
 // --- Logo Preprocessing: high contrast, alpha preserved ---
 function processLogoImage(logoImg) {
   const canvas = document.createElement("canvas");
@@ -4055,7 +3675,6 @@ function processLogoImage(logoImg) {
   processed.height = logoImg.height;
   return processed;
 }
-
   function getBookmarks() {
   try {
     return JSON.parse(localStorage.getItem("compendium-bookmarks") || "[]");
@@ -4063,11 +3682,9 @@ function processLogoImage(logoImg) {
     return [];
   }
 }
-
 function saveBookmarks(arr) {
   localStorage.setItem("compendium-bookmarks", JSON.stringify(arr));
 }
-
 function addBookmark(obj) {
   const arr = getBookmarks();
   if (!arr.some(b => b.title === obj.title)) {
@@ -4075,13 +3692,11 @@ function addBookmark(obj) {
     saveBookmarks(arr);
   }
 }
-
 function removeBookmark(title) {
   let arr = getBookmarks();
   arr = arr.filter(b => b.title !== title);
   saveBookmarks(arr);
 }
-
 function renderBookmarks() {
   const arr = getBookmarks();
   if (!arr.length) return `<div style="text-align:center;margin-top:2em;"><span class="material-symbols-rounded" style="font-size:2em;color:var(--accent-color);">bookmarks</span><br><i>No bookmarks yet.</i></div>`;
@@ -4097,7 +3712,6 @@ function renderBookmarks() {
       `).join("")
     }</ul>`;
 }
-
 // Weather tab (Open-Meteo API)
 // ...inside loadWeather()...
 async function loadWeather() {
@@ -4262,7 +3876,6 @@ async function loadWeather() {
         font-weight: bold;
         box-shadow: 0 2px 8px rgba(65,105,225,0.13);
     }
-
       @media (max-width: 768px) {
         .compendium-weather-main { max-width: 99vw; }
       }
@@ -4308,23 +3921,19 @@ async function loadWeather() {
       }
     </style>
   `;
-
   let lastWeatherLocation = "";
   let lastWeatherUnit = false;
   let weatherRefreshTimer = null;
-
   const input = document.getElementById("location-input");
   const button = document.getElementById("get-weather-btn");
   const output = document.getElementById("weather-output");
   const unitToggle = document.getElementById("unit-toggle");
-
   const windDirDegrees = {
     N: 0, NNE: 22.5, NE: 45, ENE: 67.5,
     E: 90, ESE: 112.5, SE: 135, SSE: 157.5,
     S: 180, SSW: 202.5, SW: 225, WSW: 247.5,
     W: 270, WNW: 292.5, NW: 315, NNW: 337.5,
   };
-
   const weatherIcons = {
     Clear: "wb_sunny",
     "Partly cloudy": "partly_cloudy_day",
@@ -4338,7 +3947,6 @@ async function loadWeather() {
     Thunderstorm: "thunderstorm",
     default: "wb_cloudy",
   };
-
   const weatherCodeDescriptions = {
     0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
     45: "Fog", 48: "Depositing rime fog", 51: "Light drizzle",
@@ -4350,11 +3958,9 @@ async function loadWeather() {
     82: "Violent rain showers", 85: "Slight snow showers", 86: "Heavy snow showers",
     95: "Thunderstorm", 96: "Thunderstorm with slight hail", 99: "Thunderstorm with heavy hail"
   };
-
   function describeWeather(code) {
     return weatherCodeDescriptions[code] || `Unknown (${code})`;
   }
-
   function getWindDirection(degrees) {
     const dirs = Object.entries(windDirDegrees);
     let closest = "N";
@@ -4368,7 +3974,6 @@ async function loadWeather() {
     }
     return closest;
   }
-
   function getWeatherIcon(desc) {
     for (const key in weatherIcons) {
       if (desc.toLowerCase().includes(key.toLowerCase()))
@@ -4376,14 +3981,12 @@ async function loadWeather() {
     }
     return weatherIcons["default"];
   }
-
   function formatDate(dateStr) {
     const date = new Date(dateStr);
     const day = date.getDate();
     const month = date.toLocaleString("en-GB", { month: "short" });
     const weekday = date.toLocaleString("en-GB", { weekday: "short" });
     const year = date.getFullYear();
-
     function getOrdinalSuffix(n) {
       if (n >= 11 && n <= 13) return "th";
       switch (n % 10) {
@@ -4395,7 +3998,6 @@ async function loadWeather() {
     }
     return `${weekday}, ${day}${getOrdinalSuffix(day)} ${month}, ${year}`;
   }
-
   function formatTimeNoHangingZero(dateStr) {
     // Remove leading zero from hour, keep 2-digit minute
     const d = new Date(dateStr);
@@ -4410,19 +4012,16 @@ async function loadWeather() {
     }
     return `${h}:${m.toString().padStart(2, "0")}`;
   }
-
   async function fetchWeather(query, silent = false) {
     if (!query) {
       output.innerHTML = `<i>Please enter a location.</i>`;
       return;
     }
-
     if (!silent) {
       output.innerHTML = `
       <span class="material-symbols-rounded loading-spinner">autorenew</span>
       <div>Loading weather...</div>`;
     }
-
     try {
       // 1. Geocode location
       const geoRes = await fetch(
@@ -4432,43 +4031,34 @@ async function loadWeather() {
       const geoData = await geoRes.json();
       if (!geoData.results || geoData.results.length === 0)
         throw new Error("Location not found.");
-
       const loc = geoData.results[0];
       const lat = loc.latitude;
       const lon = loc.longitude;
       const locationName = `${loc.name}${loc.admin1 ? ", " + loc.admin1 : ""}${loc.country ? ", " + loc.country : ""}`;
       const useImperial = unitToggle.checked;
-
       // 2. Get weather data (add hourly fields)
       const weatherRes = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=temperature_2m,apparent_temperature,relative_humidity_2m,pressure_msl,uv_index,visibility,precipitation_probability,weathercode&timezone=auto`
       );
       if (!weatherRes.ok) throw new Error("Weather fetch failed (network error).");
       const weatherData = await weatherRes.json();
-
       if (!weatherData.current_weather) throw new Error("No weather data for this location.");
       if (!weatherData.daily || !Array.isArray(weatherData.daily.time) || weatherData.daily.time.length < 1)
         throw new Error("No forecast data for this location.");
-
       const cw = weatherData.current_weather;
       const desc = describeWeather(cw.weathercode);
       const iconName = getWeatherIcon(desc);
-
       const tempC = cw.temperature;
       const windKmph = cw.windspeed;
       const windDirDeg = cw.winddirection;
       const windDir = getWindDirection(windDirDeg);
-
       const temp = useImperial
         ? `${Math.round((tempC * 9) / 5 + 32)}°F`
         : `${Math.round(tempC)}°C`;
-
       const windSpeed = useImperial
         ? (windKmph * 0.621371).toFixed(1)
         : windKmph.toFixed(1);
-
       const windUnit = useImperial ? "mph" : "km/h";
-
       // --- Extract extra info ---
       // Find the current hour index (use local time, not UTC)
       const now = new Date();
@@ -4494,7 +4084,6 @@ async function loadWeather() {
       const visibility = hourIdx >= 0 ? weatherData.hourly.visibility[hourIdx] : null;
       const sunrise = weatherData.daily?.sunrise?.[0];
       const sunset = weatherData.daily?.sunset?.[0];
-
       // 3-day forecast
       let forecastHTML = `<div class="compendium-weather-forecast"><div class="compendium-weather-forecast-title">3-Day Forecast</div><div class="compendium-weather-forecast-list">`;
       const daily = weatherData.daily;
@@ -4508,14 +4097,12 @@ async function loadWeather() {
         const weatherCode = daily.weathercode[i];
         const weatherDesc = describeWeather(weatherCode);
         const forecastIcon = getWeatherIcon(weatherDesc);
-
         const max = useImperial
           ? `${Math.round((maxC * 9) / 5 + 32)}°F`
           : `${Math.round(maxC)}°C`;
         const min = useImperial
           ? `${Math.round((minC * 9) / 5 + 32)}°F`
           : `${Math.round(minC)}°C`;
-
         forecastHTML += `
           <div class="compendium-weather-forecast-day${isToday ? " current" : ""}">
             <strong>${formattedDate.split(",")[0]}</strong>
@@ -4525,7 +4112,6 @@ async function loadWeather() {
           </div>`;
       }
       forecastHTML += `</div></div>`;
-
       // --- Hourly forecast (next 6 hours) ---
       let hourlyHTML = `<div class="compendium-weather-hourly">`;
       for (let i = 0; i < 6; i++) {
@@ -4559,19 +4145,15 @@ async function loadWeather() {
         `;
       }
       hourlyHTML += `</div>`;
-
       lastWeatherLocation = query;
       lastWeatherUnit = unitToggle.checked;
-
       // --- Add QR Code Button ---
       const qrBtn = document.createElement("button");
       qrBtn.className = "qr-btn";
       qrBtn.title = "Share this weather (QR Code)";
       qrBtn.style = "display:inline-flex;align-items:center;gap:6px;padding:8px 18px;margin-bottom:12px;margin-right:10px;border-radius:18px;background:var(--accent-color,royalblue);color:#fff;border:none;cursor:pointer;font-size:1em;font-family:var(--text-font,'Roboto'),sans-serif;";
       qrBtn.innerHTML = `<span class="material-symbols-rounded" style="font-size:1.3em;">qr_code_2</span>`;
-
       qrBtn.addEventListener("click", () => showQrLightboxWeather(query));
-
       // --- Wind Compass SVG (larger, centered) ---
       function windCompassSVG(deg, label) {
         return `
@@ -4592,7 +4174,6 @@ async function loadWeather() {
           </div>
         `;
       }
-
       // Set the weather HTML (compendium Weather style)
       output.innerHTML = `
         <div class="compendium-weather-main">
@@ -4667,7 +4248,6 @@ async function loadWeather() {
       `;
       // Insert the QR button at the very top
       output.insertBefore(qrBtn, output.firstChild);
-
       // Only update the URL if not running in a blob context (for p5js editor compatibility)
       if (
         typeof window !== "undefined" &&
@@ -4683,18 +4263,15 @@ async function loadWeather() {
       }
     }
   }
-
   button.addEventListener("click", () => fetchWeather(input.value));
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") fetchWeather(input.value);
   });
-
   unitToggle.addEventListener("change", () => {
     if (input.value.trim()) {
       fetchWeather(input.value);
     }
   });
-
   if (weatherRefreshTimer) clearInterval(weatherRefreshTimer);
   weatherRefreshTimer = setInterval(() => {
     if (lastWeatherLocation) {
@@ -4703,11 +4280,9 @@ async function loadWeather() {
     }
   }, 120000);
 }
-
 // ---- QR Lightbox for Weather Location ----
 function showQrLightboxWeather(locationQuery) {
   document.getElementById("qr-lightbox-overlay")?.remove();
-
   const overlay = document.createElement("div");
   overlay.id = "qr-lightbox-overlay";
   Object.assign(overlay.style, {
@@ -4717,7 +4292,6 @@ function showQrLightboxWeather(locationQuery) {
     display: "flex", alignItems: "center", justifyContent: "center",
     zIndex: "999999999"
   });
-
   const box = document.createElement("div");
   Object.assign(box.style, {
     background: "#fff",
@@ -4729,7 +4303,6 @@ function showQrLightboxWeather(locationQuery) {
     alignItems: "center",
     position: "relative"
   });
-
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "×";
   closeBtn.title = "Close QR Code";
@@ -4740,18 +4313,14 @@ function showQrLightboxWeather(locationQuery) {
   });
   closeBtn.onclick = () => overlay.remove();
   box.appendChild(closeBtn);
-
   const canvas = document.createElement("canvas");
   canvas.width = 400;
   canvas.height = 400;
   canvas.style.display = "block";
   box.appendChild(canvas);
-
   const label = document.createElement("div");
-
   overlay.appendChild(box);
   document.body.appendChild(overlay);
-
   const param = encodeURIComponent(locationQuery.trim());
   const url = `https://www.compendiumofeverything.org/?weather=${param}`;
   const logoImg = new window.Image();
@@ -4769,7 +4338,6 @@ function showQrLightboxWeather(locationQuery) {
   };
   logoImg.src = "https://cdn.compendiumofeverything.org/images/QR_Logo.png";
 }
-
 // --- Canvas QR renderer and helpers ---
 function renderStyledQrToCanvas(canvas, url, processedLogo) {
   const ctx = canvas.getContext('2d');
@@ -4787,10 +4355,8 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   ctx.clearRect(0, 0, size, size);
   ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, size, size);
-
   // Version for alignment pattern lookup
   let version = (qrSize - 21) / 4 + 1;
-
   // Main QR modules (rounded rects, spacing)
   for (let row = 0; row < qrSize; row++) {
     for (let col = 0; col < qrSize; col++) {
@@ -4806,12 +4372,10 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       }
     }
   }
-
   // Position Markers (7x7)
   drawPositionMarker(ctx, offsetX, offsetY, 0, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, qrSize - 7, 0, cellSize);
   drawPositionMarker(ctx, offsetX, offsetY, 0, qrSize - 7, cellSize);
-
   // Alignment Markers (5x5)
   let alignmentPositions = getAlignmentPatternPositions(version);
   for (let row of alignmentPositions) {
@@ -4824,7 +4388,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
       drawAlignmentMarker(ctx, offsetX, offsetY, col - 2, row - 2, cellSize);
     }
   }
-
   // Logo in center (processed, high-contrast, alpha kept)
   let maxLogoSize = qrRenderSize * 0.25;
   let aspect = processedLogo.width / processedLogo.height;
@@ -4834,7 +4397,6 @@ function renderStyledQrToCanvas(canvas, url, processedLogo) {
   let logoY = size / 2 - logoH / 2;
   ctx.drawImage(processedLogo, logoX, logoY, logoW, logoH);
 }
-
 function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -4849,7 +4411,6 @@ function drawRoundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
   ctx.fill();
 }
-
 function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#000";
   drawRoundRect(ctx,
@@ -4876,7 +4437,6 @@ function drawPositionMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize)
     cellSize
   );
 }
-
 function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize) {
   ctx.fillStyle = "#fff";
   drawRoundRect(ctx,
@@ -4912,7 +4472,6 @@ function drawAlignmentMarker(ctx, offsetX, offsetY, startCol, startRow, cellSize
     cellSize * 0.3
   );
 }
-
 function isInPositionMarkerArea(row, col, qrSize) {
   return (
     (row >= 0 && row < 7 && col >= 0 && col < 7) ||
@@ -4920,7 +4479,6 @@ function isInPositionMarkerArea(row, col, qrSize) {
     (row >= qrSize - 7 && row < qrSize && col >= 0 && col < 7)
   );
 }
-
 function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   let positions = getAlignmentPatternPositions(version);
   for (let r of positions) {
@@ -4935,7 +4493,6 @@ function isInAnyAlignmentMarkerArea(row, col, version, qrSize) {
   }
   return false;
 }
-
 function getAlignmentPatternPositions(version) {
   const table = {
     1: [],
@@ -4954,7 +4511,6 @@ function getAlignmentPatternPositions(version) {
   };
   return table[version] || [];
 }
-
 // --- Logo Preprocessing: high contrast, alpha preserved ---
 function processLogoImage(logoImg) {
   const canvas = document.createElement("canvas");
@@ -4979,8 +4535,6 @@ function processLogoImage(logoImg) {
   processed.height = logoImg.height;
   return processed;
 }
-
-
 async function compoundSearch(query) {
   if (!query) {
     resultsDiv.innerHTML = "";
@@ -4989,14 +4543,12 @@ async function compoundSearch(query) {
   }
   resultsDiv.innerHTML = "Searching all sources...";
   contentDiv.innerHTML = "";
-
   // Update URL with query parameter
     if (query && typeof window !== "undefined") {
     const param = encodeURIComponent(query.trim());
     const newUrl = `${window.location.pathname}?comp=${param}`;
     window.history.replaceState({}, "", newUrl);
   }
-
   try {
     // Run all three searches in parallel
     const [wiki, dic, thes] = await Promise.all([
@@ -5031,9 +4583,7 @@ async function compoundSearch(query) {
         } catch { return { syn: [], ant: [] }; }
       })()
     ]);
-
     let html = "";
-
     // Wikipedia
     html += `<h2><span class="material-symbols-rounded" style="vertical-align:middle;">language</span> Wikipedia</h2>`;
     if (wiki.length) {
@@ -5052,7 +4602,6 @@ async function compoundSearch(query) {
     } else {
       html += "<i>No Wikipedia results found.</i>";
     }
-
     // Dictionary (full)
     html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">dictionary</span> Dictionary</h2>`;
     if (dic) {
@@ -5082,7 +4631,6 @@ async function compoundSearch(query) {
     } else {
       html += "<i>No dictionary entry found.</i>";
     }
-
     // Thesaurus (full)
     html += `<h2 style="margin-top:1.5em;"><span class="material-symbols-rounded" style="vertical-align:middle;">library_books</span> Thesaurus</h2>`;
     if ((thes.syn && thes.syn.length) || (thes.ant && thes.ant.length)) {
@@ -5103,10 +4651,8 @@ async function compoundSearch(query) {
     } else {
       html += "<i>No synonyms or antonyms found.</i>";
     }
-
     resultsDiv.innerHTML = "";
     contentDiv.innerHTML = html;
-
     // Add event listeners to Wikipedia links
     contentDiv.querySelectorAll('.compound-wiki-link').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -5117,22 +4663,17 @@ async function compoundSearch(query) {
         wikiLoadArticle(title);
       });
     });
-
     injectPlayButtonStyles();
-
   } catch {
     resultsDiv.innerHTML = "<i>Error fetching compound search results.</i>";
     contentDiv.innerHTML = "";
   }
 }
-
-
 function loadSettings() {
   // Get current theme values or defaults
   const accentColor = app.style.getPropertyValue("--accent-color") || "royalblue";
   const textColor = app.style.getPropertyValue("--text-color") || "#000000";
   const bgColor = app.style.getPropertyValue("--bg-color") || "#ffffff";
-
   settingsDiv.innerHTML = `
     <div class="setting-item">
       <label for="dark-mode-toggle">Dark Mode</label>
@@ -5271,17 +4812,13 @@ function loadSettings() {
     <a href="https://www.compendiumofeverything.org/versions/2.3/">2.3</a>
   </div>
 </div>
-
-
 `;
-
   // Theme pickers logic
   const accentPicker = document.getElementById("accent-color-picker");
   const textPicker = document.getElementById("text-color-picker");
   const bgPicker = document.getElementById("bg-color-picker");
   const resetBtn = document.getElementById("reset-theme-btn");
   const darkModeToggle = document.getElementById("dark-mode-toggle");
-
   function setThemeVars(accent, text, bg) {
     app.style.setProperty("--accent-color", accent);
     app.style.setProperty("--text-color", text);
@@ -5292,7 +4829,6 @@ function loadSettings() {
     app.classList.remove("dark");
     app.classList.add("light");
   }
-
 function resetThemeVars() {
   // Remove inline custom theme variables so class-based ones take effect
   app.style.removeProperty("--accent-color");
@@ -5302,7 +4838,6 @@ function resetThemeVars() {
   darkModeToggle.disabled = false;
   darkModeToggle.removeAttribute("disabled");
   darkModeToggle.checked = darkMode; // Sync toggle state with darkMode variable
-
   // Restore dark/light mode
   if (darkMode) {
     app.classList.add("dark");
@@ -5311,7 +4846,6 @@ function resetThemeVars() {
     app.classList.remove("dark");
     app.classList.add("light");
   }
-
   // Force a change event to ensure the UI and logic are in sync
   const event = new Event('change', { bubbles: true });
   darkModeToggle.dispatchEvent(event);
@@ -5331,7 +4865,6 @@ resetBtn.addEventListener("click", () => {
   textPicker.value = "#000000";
   bgPicker.value = "#ffffff";
 });
-
   // On load, apply custom theme if present
   const savedTheme = localStorage.getItem("custom-theme");
   if (savedTheme) {
@@ -5341,7 +4874,6 @@ resetBtn.addEventListener("click", () => {
     textPicker.value = text;
     bgPicker.value = bg;
   }
-
   // Font search filter
   const searchInput = document.getElementById('font-family-search');
   const fontSelect = document.getElementById('font-family-select');
@@ -5354,8 +4886,6 @@ resetBtn.addEventListener("click", () => {
       }
     }
   });
-  
-
   // Dark mode toggle
   settingsDiv
     .querySelector("#dark-mode-toggle")
@@ -5369,7 +4899,6 @@ resetBtn.addEventListener("click", () => {
         app.classList.add("light");
       }
     });
-
   // Font size slider
   settingsDiv
     .querySelector("#font-size-range")
@@ -5378,7 +4907,6 @@ resetBtn.addEventListener("click", () => {
       app.style.setProperty("--font-size", `${fontSize}px`);
       e.target.previousElementSibling.textContent = `Text Size (${fontSize}px)`;
     });
-
   // Font family selector
   settingsDiv
     .querySelector("#font-family-select")
@@ -5386,7 +4914,6 @@ resetBtn.addEventListener("click", () => {
       fontFamily = e.target.value;
       app.style.setProperty("--text-font", fontFamily);
     });
-
   // Set font on load
   app.style.setProperty("--text-font", fontFamily);
 }
@@ -5426,13 +4953,10 @@ searchInput.addEventListener("input", () => {
     }
   }, 400);
 });
-
   switchTab("wiki");
-
 // Handle URL parameters for initial loading
 function handleURLParams() {
   const params = new URLSearchParams(window.location.search);
-
 if (params.has("wikipedia")) {
   let article = params.get("wikipedia");
   if (article && article.trim()) {
@@ -5480,23 +5004,16 @@ if (params.has("wikipedia")) {
     // Default to Wikipedia if no params
     switchTab("wiki");
   }
-
 }
-
-
 handleURLParams();
-
   // Initialise theme
   app.classList.add("light");
   app.style.setProperty("--font-size", `${fontSize}px`);
   app.style.setProperty("--text-font", fontFamily);
-
 })();
-
 document.addEventListener("DOMContentLoaded", () => {
   const versionLabel = document.getElementById("versionLabel");
   const versionDetails = document.getElementById("versionDetails");
-
   const updates = `
     <div style="position: relative;">
       <strong>v.3.1 changes:</strong>
@@ -5520,12 +5037,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <span id="closeUpdates" class="material-symbols-rounded" style="position: absolute; top: 6px; right: 10px; cursor: pointer; font-size: 1.4em; font-family: var(--text-font 'Roboto'), sans-serif;">close</span>
     </div>
   `;
-
   versionLabel.addEventListener("click", () => {
     if (versionDetails.style.display === "none" || !versionDetails.style.display) {
       versionDetails.innerHTML = updates;
       versionDetails.style.display = "block";
-
       const closeBtn = document.getElementById("closeUpdates");
       if (closeBtn) {
         closeBtn.addEventListener("click", () => {
@@ -5537,13 +5052,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
-
 // About panel logic
 const authorTitle = document.querySelector('.author-title');
 const versionDetails = document.getElementById("versionDetails");
-
 // Create about panel
 const aboutPanel = document.createElement('div');
 aboutPanel.id = "aboutPanel";
@@ -5565,10 +5076,8 @@ aboutPanel.innerHTML = `
     <span id="closeAbout" class="material-symbols-rounded about-close">close</span>
   </div>
 `;
-
 const aboutHTML = document.getElementById('compendium-app')
 aboutHTML.appendChild(aboutPanel);
-
 // Show/hide About panel, ensure only one panel is open
 authorTitle.addEventListener("click", () => {
   // Hide version panel if open
@@ -5576,20 +5085,14 @@ authorTitle.addEventListener("click", () => {
   // Toggle about panel
   aboutPanel.style.display = aboutPanel.style.display === "block" ? "none" : "block";
 });
-
 aboutPanel.querySelector("#closeAbout").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
-
 // Hide about panel if version label is clicked
 document.getElementById("versionLabel").addEventListener("click", () => {
   aboutPanel.style.display = "none";
 });
-
 //Copyright 2025 by L. Smalley
     </script>
     </body>
 </html>
-
-
-
